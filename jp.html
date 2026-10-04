@@ -610,6 +610,101 @@
     text-align: center; padding: 32px 16px; color: var(--ink-3); font-size: 13.5px;
   }
   .empty-tip .e { font-size: 38px; display: block; margin-bottom: 10px; }
+
+  /* ---------- 词汇库中枢 ---------- */
+  .vhub-tabs { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+  .vht {
+    flex: 1 1 auto; min-width: 72px; border: 1.5px solid var(--line); background: #fff;
+    color: var(--ink-2); border-radius: 12px; padding: 9px 6px; font-size: 13px;
+    font-weight: 700; cursor: pointer; transition: all .18s; display: flex;
+    align-items: center; justify-content: center; gap: 5px;
+  }
+  .vht:hover { border-color: #C8D6F5; }
+  .vht.active { background: var(--primary); color: #fff; border-color: var(--primary);
+    box-shadow: 0 3px 10px rgba(59,111,245,.28); }
+  .vht-badge {
+    background: var(--red); color: #fff; font-size: 10.5px; font-weight: 800;
+    border-radius: 20px; padding: 1px 6px; min-width: 18px; text-align: center;
+  }
+  .vht.active .vht-badge { background: rgba(255,255,255,.32); }
+  .vstat { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 14px; }
+  .vstat .pill {
+    background: var(--primary-soft); color: var(--primary-dark); font-size: 11.5px;
+    font-weight: 700; border-radius: 20px; padding: 4px 11px;
+  }
+  .vstat .pill.g { background: #E4F7EE; color: #17734A; }
+  .vstat .pill.r { background: #FDECEC; color: #C0392B; }
+
+  /* 分组选择 chips */
+  .vgrid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .vchip {
+    border: 1.5px solid var(--line); background: #fff; color: var(--ink-2);
+    border-radius: 11px; padding: 8px 12px; font-size: 12.5px; font-weight: 700;
+    cursor: pointer; transition: all .15s;
+  }
+  .vchip:hover { border-color: #C8D6F5; }
+  .vchip.sel { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* 背单词闪卡 */
+  .vcard {
+    border-radius: 18px; border: 1.5px solid var(--line); background: #fff;
+    min-height: 200px; padding: 22px 18px; text-align: center; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: transform .25s; position: relative; margin-bottom: 14px;
+  }
+  .vcard.flip { background: var(--primary-soft); border-color: #C8D6F5; }
+  .vcard .jp { font-size: 40px; font-weight: 800; letter-spacing: 1px; }
+  .vcard .rd { font-size: 14px; color: var(--primary); margin-top: 8px; font-weight: 600; }
+  .vcard .cn { font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+  .vcard .hint { font-size: 12px; color: var(--ink-3); margin-top: 14px; }
+  .vcard .spk {
+    position: absolute; top: 12px; right: 12px; width: 40px; height: 40px;
+    border-radius: 12px; background: var(--primary); color: #fff; border: none;
+    font-size: 18px; cursor: pointer; display: grid; place-items: center;
+  }
+  .vcard-ops { display: flex; gap: 10px; }
+  .vcard-ops .btn { flex: 1; padding: 14px; font-size: 15px; }
+  .btn-ok { background: var(--green); color: #fff; }
+  .btn-ok:hover { background: #1AA065; }
+  .btn-no { background: #FDECEC; color: #C0392B; }
+  .btn-no:hover { background: #FAD7D7; }
+  .vlearn-prog { height: 6px; background: #EDF1F8; border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
+  .vlearn-prog > div { height: 100%; background: var(--primary); transition: width .3s; }
+
+  /* 考核选项 */
+  .vopt {
+    border: 1.5px solid var(--line); border-radius: 13px; padding: 14px 15px;
+    margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 11px;
+    font-size: 15px; font-weight: 600; transition: all .15s; background: #fff;
+  }
+  .vopt:hover { border-color: #C8D6F5; }
+  .vopt .vi { width: 26px; height: 26px; border-radius: 8px; background: var(--primary-soft);
+    color: var(--primary-dark); display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: 0 0 auto; }
+  .vopt.right { background: #E4F7EE; border-color: #A8E6C8; }
+  .vopt.right .vi { background: var(--green); color: #fff; }
+  .vopt.wrong { background: #FDECEC; border-color: #F2B5B5; }
+  .vopt.wrong .vi { background: var(--red); color: #fff; }
+  .vopt.disabled { pointer-events: none; }
+  .vquiz-stem { font-size: 22px; font-weight: 800; text-align: center; margin: 6px 0 18px; }
+  .vquiz-stem .rd { font-size: 13px; color: var(--primary); font-weight: 600; }
+  .vquiz-audio {
+    display: inline-block; margin-left: 8px; background: var(--primary); color: #fff;
+    border: none; border-radius: 10px; padding: 6px 12px; font-size: 13px; cursor: pointer;
+  }
+
+  /* 生词本 */
+  .weak-item {
+    display: flex; align-items: center; gap: 11px; background: #fff;
+    border: 1.5px solid #F5D5D5; border-left: 4px solid var(--red); border-radius: 13px;
+    padding: 12px 13px; margin-bottom: 9px;
+  }
+  .weak-item .wj { font-size: 16px; font-weight: 700; flex: 0 0 auto; min-width: 70px; }
+  .weak-item .wc { font-size: 13px; color: var(--ink-2); flex: 1; }
+  .weak-item .wbtn {
+    border: 1.5px solid var(--line); background: #fff; border-radius: 9px; font-size: 12px;
+    padding: 6px 10px; cursor: pointer; color: var(--ink-2); font-weight: 600;
+  }
+  .weak-item .wbtn:hover { border-color: var(--primary); color: var(--primary); }
 </style>
 </head>
 <body>
@@ -761,8 +856,17 @@
       <div id="kv-vocab" style="display:none">
         <div class="card">
           <div class="card-title"><span class="dot"></span>词汇库</div>
-          <p class="card-desc">点词听发音 · 按主题分类</p>
+          <p class="card-desc">已收录 <b id="vocabCount">0</b> 词 · 点词听发音，或用「背单词 / 考核」刷题</p>
+          <div class="vhub-tabs">
+            <button class="vht active" data-vm="browse">📖 浏览</button>
+            <button class="vht" data-vm="learn">📚 背单词</button>
+            <button class="vht" data-vm="quiz">🎯 考核</button>
+            <button class="vht" data-vm="weak">📕 生词本 <span class="vht-badge" id="weakBadge">0</span></button>
+          </div>
           <div id="vocabBox"></div>
+          <div id="vocabLearn" style="display:none"></div>
+          <div id="vocabQuiz" style="display:none"></div>
+          <div id="vocabWeak" style="display:none"></div>
         </div>
       </div>
       <div id="kv-plan" style="display:none">
@@ -2903,6 +3007,120 @@
       ["幸せ", "shiawase", "幸福"],
       ["疲れる", "tsukareru", "累"],
       ["驚く", "odoroku", "惊讶"]
+    ]},
+    { g: "🎨 颜色与形状", items: [
+      ["赤", "aka", "红色"],
+      ["青", "ao", "蓝色 / 绿色"],
+      ["白", "shiro", "白色"],
+      ["黒", "kuro", "黑色"],
+      ["黄色", "kiiro", "黄色"],
+      ["茶色", "chairo", "棕色"],
+      ["ピンク", "pinku", "粉色"],
+      ["灰色", "haiiro", "灰色"],
+      ["丸い", "marui", "圆的"],
+      ["四角", "shikaku", "方形"],
+      ["長い", "nagai", "长的"],
+      ["短い", "mijikai", "短的"]
+    ]},
+    { g: "🧍 身体部位", items: [
+      ["頭", "atama", "头"],
+      ["顔", "kao", "脸"],
+      ["目", "me", "眼睛"],
+      ["耳", "mimi", "耳朵"],
+      ["鼻", "hana", "鼻子"],
+      ["口", "kuchi", "嘴"],
+      ["歯", "ha", "牙齿"],
+      ["髪", "kami", "头发"],
+      ["手", "te", "手"],
+      ["足", "ashi", "脚 / 腿"],
+      ["お腹", "onaka", "肚子"],
+      ["体", "karada", "身体"]
+    ]},
+    { g: "👪 家庭与称呼", items: [
+      ["父", "chichi", "父亲（我方）"],
+      ["母", "haha", "母亲"],
+      ["息子", "musuko", "儿子"],
+      ["娘", "musume", "女儿"],
+      ["兄", "ani", "哥哥"],
+      ["姉", "ane", "姐姐"],
+      ["弟", "otouto", "弟弟"],
+      ["妹", "imouto", "妹妹"],
+      ["祖父", "sofu", "爷爷"],
+      ["祖母", "sobo", "奶奶"],
+      ["家族", "kazoku", "家人"],
+      ["親", "oya", "父母"]
+    ]},
+    { g: "🚗 交通与方位", items: [
+      ["電車", "densha", "电车"],
+      ["バス", "basu", "公交车"],
+      ["車", "kuruma", "汽车"],
+      ["自転車", "jitensha", "自行车"],
+      ["飛行機", "hikouki", "飞机"],
+      ["右", "migi", "右"],
+      ["左", "hidari", "左"],
+      ["前", "mae", "前"],
+      ["後ろ", "ushiro", "后"],
+      ["上", "ue", "上"],
+      ["下", "shita", "下"],
+      ["中", "naka", "中 / 里"],
+      ["近い", "chikai", "近的"],
+      ["遠い", "tooi", "远的"]
+    ]},
+    { g: "🐱 动物与自然", items: [
+      ["犬", "inu", "狗"],
+      ["猫", "neko", "猫"],
+      ["鳥", "tori", "鸟"],
+      ["熊", "kuma", "熊"],
+      ["花", "hana", "花"],
+      ["木", "ki", "树"],
+      ["川", "kawa", "河"],
+      ["空", "sora", "天空"],
+      ["星", "hoshi", "星星"],
+      ["月", "tsuki", "月亮"],
+      ["太陽", "taiyou", "太阳"],
+      ["虫", "mushi", "虫"]
+    ]},
+    { g: "📏 形容词进阶", items: [
+      ["甘い", "amai", "甜的"],
+      ["辛い", "karai", "辣的"],
+      ["酸っぱい", "suppai", "酸的"],
+      ["苦い", "nigai", "苦的"],
+      ["冷たい", "tsumetai", "冰凉的"],
+      ["良い", "ii", "好的"],
+      ["悪い", "warui", "坏的"],
+      ["速い", "hayai", "快的"],
+      ["遅い", "osoi", "慢的 / 晚的"],
+      ["高い", "takai", "高的 / 贵的"],
+      ["低い", "hikui", "低的"],
+      ["安い", "yasui", "便宜的"]
+    ]},
+    { g: "🔁 常用副词", items: [
+      ["とても", "totemo", "非常"],
+      ["あまり", "amari", "不太（后接否定）"],
+      ["全然", "zenzen", "完全（后接否定）"],
+      ["よく", "yoku", "经常 / 好好地"],
+      ["いつも", "itsumo", "总是"],
+      ["ちょうど", "choudo", "正好"],
+      ["ゆっくり", "yukkuri", "慢慢地"],
+      ["早く", "hayaku", "快点"],
+      ["一緒に", "issho ni", "一起"],
+      ["まだ", "mada", "还 / 未"],
+      ["もう", "mou", "已经 / 再"],
+      ["すぐ", "sugu", "马上 / 就在附近"]
+    ]},
+    { g: "🛒 购物与问路", items: [
+      ["スーパー", "suupaa", "超市"],
+      ["値段", "nedan", "价格"],
+      ["買い物", "kaimono", "购物"],
+      ["地図", "chizu", "地图"],
+      ["交差点", "kousaten", "十字路口"],
+      ["どこ", "doko", "哪里"],
+      ["ここ", "koko", "这里"],
+      ["そこ", "soko", "那里"],
+      ["あそこ", "asoko", "那里（远处）"],
+      ["近く", "chikaku", "附近"],
+      ["遠く", "tooku", "远处"],
+      ["欲しい", "hoshii", "想要的"]
     ]}
   ];
 
@@ -3534,6 +3752,424 @@
         speak(el.dataset.speak);
       });
     });
+    updateVocabHubStat();
+  }
+
+  // ================= 词汇：学习 + 考核模块 =================
+  function getVocab() {
+    if (!data.vocab) data.vocab = { mastered: {}, weak: {}, quiz: { times: 0, total: 0, correct: 0 } };
+    if (!data.vocab.mastered) data.vocab.mastered = {};
+    if (!data.vocab.weak) data.vocab.weak = {};
+    if (!data.vocab.quiz) data.vocab.quiz = { times: 0, total: 0, correct: 0 };
+    return data.vocab;
+  }
+
+  function vocabTotal() {
+    var n = 0;
+    VOCAB.forEach(function (g) { n += g.items.length; });
+    return n;
+  }
+
+  function vocabAllWords() {
+    var arr = [];
+    VOCAB.forEach(function (g) {
+      g.items.forEach(function (it) { arr.push({ jp: it[0], rd: it[1], cn: it[2], g: g.g }); });
+    });
+    return arr;
+  }
+
+  function shuffleArr(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function updateVocabHubStat() {
+    var vc = document.getElementById("vocabCount");
+    if (vc) vc.textContent = vocabTotal();
+    var wb = document.getElementById("weakBadge");
+    if (wb) {
+      var n = Object.keys(getVocab().weak).length;
+      wb.textContent = n;
+      wb.style.display = n ? "inline-block" : "none";
+    }
+  }
+
+  function activateVocabPanel(m) {
+    var map = { browse: "vocabBox", learn: "vocabLearn", quiz: "vocabQuiz", weak: "vocabWeak" };
+    Object.keys(map).forEach(function (k) {
+      var el = document.getElementById(map[k]);
+      if (el) el.style.display = (k === m) ? "block" : "none";
+    });
+    document.querySelectorAll(".vht").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.vm === m);
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function showVocabMode(m) {
+    activateVocabPanel(m);
+    if (m === "browse") renderVocab();
+    else if (m === "learn") renderVocabLearnHome();
+    else if (m === "quiz") renderVocabQuizHome();
+    else if (m === "weak") renderVocabWeak();
+    updateVocabHubStat();
+  }
+
+  function initVocabHub() {
+    document.querySelectorAll(".vht").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var m = btn.dataset.vm;
+        showVocabMode(m);
+      });
+    });
+  }
+
+  // ---------- 背单词（闪卡） ----------
+  var vocabLearn = null;
+
+  function renderVocabLearnHome() {
+    var box = document.getElementById("vocabLearn");
+    if (!box) return;
+    var html = '<div class="card-desc">选范围，开始刷单词：点卡片翻面看中文，再选「认识 / 不认识」。</div>';
+    html += '<div class="vgrid">';
+    html += '<div class="vchip sel" data-g="-1">全部（' + vocabTotal() + '）</div>';
+    VOCAB.forEach(function (g, i) {
+      html += '<div class="vchip" data-g="' + i + '">' + g.g + '（' + g.items.length + '）</div>';
+    });
+    html += '</div>';
+    html += '<button class="btn btn-primary" id="btnLearnStart" style="width:100%">📚 开始背单词</button>';
+    box.innerHTML = html;
+
+    var sel = -1;
+    box.querySelectorAll(".vchip").forEach(function (el) {
+      el.addEventListener("click", function () {
+        box.querySelectorAll(".vchip").forEach(function (c) { c.classList.remove("sel"); });
+        el.classList.add("sel");
+        sel = parseInt(el.dataset.g, 10);
+      });
+    });
+    document.getElementById("btnLearnStart").addEventListener("click", function () { startVocabLearn(sel); });
+    updateVocabHubStat();
+  }
+
+  function startVocabLearn(gIdx) {
+    var pool = (gIdx < 0) ? vocabAllWords() : VOCAB[gIdx].items.map(function (it) {
+      return { jp: it[0], rd: it[1], cn: it[2], g: VOCAB[gIdx].g };
+    });
+    vocabLearn = { list: shuffleArr(pool.slice()), i: 0, know: 0, no: 0, flipped: false };
+    activateVocabPanel("learn");
+    renderVocabCard();
+  }
+
+  function renderVocabCard() {
+    var box = document.getElementById("vocabLearn");
+    var st = vocabLearn;
+    if (!box || !st) return;
+    if (st.i >= st.list.length) { renderVocabLearnResult(); return; }
+    var w = st.list[st.i];
+    st.flipped = false;
+    var pct = Math.round(st.i / st.list.length * 100);
+    var html = '<div class="vlearn-prog"><div style="width:' + pct + '%"></div></div>';
+    html += '<div style="text-align:center;font-size:12.5px;color:var(--ink-3);margin-bottom:10px">' +
+      (st.i + 1) + ' / ' + st.list.length + ' · 已掌握 ' + st.know + ' · 生词 ' + st.no + '</div>';
+    html += '<div class="vcard" id="vcard">' +
+      '<button class="spk" id="vspk">🔊</button>' +
+      '<div class="jp">' + w.jp + '</div>' +
+      '<div class="rd">' + w.rd + '</div>' +
+      '<div class="cn" id="vcn" style="display:none">' + w.cn + '</div>' +
+      '<div class="hint" id="vhint">👆 点卡片看中文意思</div></div>';
+    html += '<div class="vcard-ops">' +
+      '<button class="btn btn-no" id="btnNo">✗ 不认识</button>' +
+      '<button class="btn btn-ok" id="btnOk">✓ 认识</button></div>';
+    box.innerHTML = html;
+
+    var card = document.getElementById("vcard");
+    card.addEventListener("click", function (e) {
+      if (e.target.id === "vspk") return;
+      flipVocabCard();
+    });
+    document.getElementById("vspk").addEventListener("click", function (e) {
+      e.stopPropagation(); speak(w.jp);
+    });
+    document.getElementById("btnOk").addEventListener("click", function () { markVocabCard(true); });
+    document.getElementById("btnNo").addEventListener("click", function () { markVocabCard(false); });
+  }
+
+  function flipVocabCard() {
+    var st = vocabLearn; if (!st) return;
+    st.flipped = true;
+    var cn = document.getElementById("vcn");
+    var card = document.getElementById("vcard");
+    var hint = document.getElementById("vhint");
+    if (cn) cn.style.display = "block";
+    if (card) card.classList.add("flip");
+    if (hint) hint.textContent = "记住了吗？下面选「认识 / 不认识」";
+  }
+
+  function markVocabCard(know) {
+    var st = vocabLearn; if (!st) return;
+    var w = st.list[st.i];
+    var v = getVocab();
+    if (know) { st.know++; v.mastered[w.jp] = (v.mastered[w.jp] || 0) + 1; delete v.weak[w.jp]; }
+    else { st.no++; v.weak[w.jp] = { jp: w.jp, rd: w.rd, cn: w.cn }; }
+    save();
+    st.i++;
+    renderVocabCard();
+  }
+
+  function renderVocabLearnResult() {
+    var box = document.getElementById("vocabLearn");
+    var st = vocabLearn;
+    if (!box || !st) return;
+    var html = '<div class="result pass" style="margin-top:4px">' +
+      '<div class="ico">📚</div><div class="ttl">本轮背完啦！</div>' +
+      '<div class="sc">共 ' + st.list.length + ' 词 · 认识 ' + st.know + ' · 不认识 ' + st.no + '</div></div>';
+    html += '<div class="kn-card" style="background:#F0FBF5;border-color:#A8E6C8"><div class="kn-text">' +
+      (st.no === 0 ? '🎉 全部认识，太棒了！' :
+        '「不认识」的 ' + st.no + ' 个词已存入 <b>生词本</b>，去那里再练几次就记住了。') +
+      '</div></div>';
+    html += '<button class="btn btn-primary" id="btnLearnAgain" style="width:100%;margin-top:12px">再来一轮</button>';
+    html += '<button class="btn btn-ghost" id="btnLearnHome" style="width:100%;margin-top:10px">返回选择</button>';
+    box.innerHTML = html;
+    document.getElementById("btnLearnAgain").addEventListener("click", function () { startVocabLearn(-1); });
+    document.getElementById("btnLearnHome").addEventListener("click", renderVocabLearnHome);
+    updateVocabHubStat();
+  }
+
+  // ---------- 词汇考核（选择题） ----------
+  var vocabQuiz = null;
+
+  function renderVocabQuizHome() {
+    var box = document.getElementById("vocabQuiz");
+    if (!box) return;
+    var html = '<div class="card-desc">选范围，开始词汇考核（中日互译选择题，含发音）。</div>';
+    html += '<div class="vgrid">';
+    html += '<div class="vchip sel" data-g="-1">全部（抽 20 题）</div>';
+    VOCAB.forEach(function (g, i) {
+      html += '<div class="vchip" data-g="' + i + '">' + g.g + '（' + g.items.length + ' 题）</div>';
+    });
+    html += '</div>';
+    html += '<button class="btn btn-primary" id="btnQuizStart" style="width:100%">🎯 开始考核</button>';
+    box.innerHTML = html;
+
+    var sel = -1;
+    box.querySelectorAll(".vchip").forEach(function (el) {
+      el.addEventListener("click", function () {
+        box.querySelectorAll(".vchip").forEach(function (c) { c.classList.remove("sel"); });
+        el.classList.add("sel");
+        sel = parseInt(el.dataset.g, 10);
+      });
+    });
+    document.getElementById("btnQuizStart").addEventListener("click", function () { startVocabQuiz(sel); });
+    updateVocabHubStat();
+  }
+
+  function startVocabQuiz(gIdx) {
+    var pool = (gIdx < 0) ? vocabAllWords() : VOCAB[gIdx].items.map(function (it) {
+      return { jp: it[0], rd: it[1], cn: it[2], g: VOCAB[gIdx].g };
+    });
+    var cap = (gIdx < 0) ? 20 : pool.length;
+    runVocabQuiz(pool, cap);
+  }
+
+  function startVocabQuizFromList(list) {
+    runVocabQuiz(list, list.length);
+  }
+
+  function runVocabQuiz(pool, cap) {
+    pool = shuffleArr(pool.slice());
+    if (pool.length > cap) pool = pool.slice(0, cap);
+    var qs = [];
+    pool.forEach(function (w) { qs.push(buildVocabQuestion(w, pool)); });
+    vocabQuiz = { qs: qs, i: 0, correct: 0, wrong: [], answered: false };
+    activateVocabPanel("quiz");
+    renderVocabQuiz();
+  }
+
+  function buildVocabQuestion(target, pool) {
+    var toCn = Math.random() < 0.5;
+    var sameGroup = pool.filter(function (w) { return w.g === target.g && w.jp !== target.jp; });
+    var distractPool = (sameGroup.length >= 3)
+      ? sameGroup
+      : vocabAllWords().filter(function (w) { return w.jp !== target.jp; });
+    distractPool = shuffleArr(distractPool.slice());
+    var opts = [target], used = {}; used[target.jp] = true;
+    for (var k = 0; k < distractPool.length && opts.length < 4; k++) {
+      if (!used[distractPool[k].jp]) { used[distractPool[k].jp] = true; opts.push(distractPool[k]); }
+    }
+    return { target: target, toCn: toCn, opts: shuffleArr(opts.slice()) };
+  }
+
+  function renderVocabQuiz() {
+    var box = document.getElementById("vocabQuiz");
+    var st = vocabQuiz;
+    if (!box || !st) return;
+    if (st.i >= st.qs.length) { renderVocabQuizResult(); return; }
+    var q = st.qs[st.i];
+    st.answered = false;
+    var pct = Math.round(st.i / st.qs.length * 100);
+    var html = '<div class="vlearn-prog"><div style="width:' + pct + '%"></div></div>';
+    html += '<div style="text-align:center;font-size:12.5px;color:var(--ink-3);margin-bottom:4px">' +
+      (st.i + 1) + ' / ' + st.qs.length + '</div>';
+    if (q.toCn) {
+      html += '<div class="vquiz-stem">' + q.target.jp +
+        ' <button class="vquiz-audio" id="qspk">🔊 听</button><div class="rd">' + q.target.rd + '</div></div>';
+      html += '<div class="card-desc" style="text-align:center">选出它的中文意思</div>';
+    } else {
+      html += '<div class="vquiz-stem">' + q.target.cn + '</div>';
+      html += '<div class="card-desc" style="text-align:center">选出对应的日文（可点 🔊 听发音）</div>';
+    }
+    q.opts.forEach(function (o, k) {
+      var label = q.toCn ? o.cn : o.jp;
+      html += '<div class="vopt" data-k="' + k + '"><span class="vi">' + "ABCD"[k] + '</span><span>' + label + '</span>' +
+        (q.toCn ? '' : '<span class="vi" data-spk="' + o.jp + '" style="background:var(--primary-soft);color:var(--primary-dark)">🔊</span>') +
+        '</div>';
+    });
+    html += '<div id="vqAns" class="fill-ans"></div>';
+    html += '<div id="vqNext"></div>';
+    box.innerHTML = html;
+
+    if (q.toCn) {
+      var sp = document.getElementById("qspk");
+      if (sp) {
+        sp.addEventListener("click", function () { speak(q.target.jp); });
+        setTimeout(function () { speak(q.target.jp); }, 350);
+      }
+    }
+    box.querySelectorAll(".vopt").forEach(function (el) {
+      el.addEventListener("click", function () {
+        if (st.answered) return;
+        checkVocabAnswer(parseInt(el.dataset.k, 10));
+      });
+    });
+    box.querySelectorAll("[data-spk]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        speak(el.dataset.spk);
+      });
+    });
+  }
+
+  function checkVocabAnswer(k) {
+    var st = vocabQuiz; if (!st) return;
+    var q = st.qs[st.i];
+    if (st.answered) return;
+    st.answered = true;
+    var chosen = q.opts[k];
+    var ok = (chosen.jp === q.target.jp);
+
+    var box = document.getElementById("vocabQuiz");
+    box.querySelectorAll(".vopt").forEach(function (el) {
+      var kk = parseInt(el.dataset.k, 10);
+      el.classList.add("disabled");
+      if (q.opts[kk].jp === q.target.jp) el.classList.add("right");
+      else if (kk === k) el.classList.add("wrong");
+    });
+
+    if (ok) st.correct++;
+    else {
+      st.wrong.push(q.target);
+      var v = getVocab();
+      v.weak[q.target.jp] = { jp: q.target.jp, rd: q.target.rd, cn: q.target.cn };
+    }
+
+    var ans = document.getElementById("vqAns");
+    if (ans) {
+      ans.classList.add("show");
+      var rightLabel = q.toCn ? (q.target.jp + " ＝ " + q.target.cn) : (q.target.cn + " ＝ " + q.target.jp);
+      ans.innerHTML = ok ? '<span class="ok">✓ 正确！</span>'
+        : '<span class="no">✗ 不对。</span> 正确答案：<b>' + rightLabel + '</b>';
+    }
+    save();
+
+    var nw = document.getElementById("vqNext");
+    var last = (st.i === st.qs.length - 1);
+    if (nw) {
+      nw.innerHTML = '<button class="btn btn-primary" id="vqBtnNext" style="width:100%;margin-top:6px">' +
+        (last ? "查看结果 🏁" : "下一题 →") + '</button>';
+      document.getElementById("vqBtnNext").addEventListener("click", function () {
+        if (last) renderVocabQuizResult();
+        else { st.i++; renderVocabQuiz(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      });
+    }
+  }
+
+  function renderVocabQuizResult() {
+    var box = document.getElementById("vocabQuiz");
+    var st = vocabQuiz;
+    if (!box || !st) return;
+    var total = st.qs.length;
+    var rate = st.correct / total;
+    var v = getVocab();
+    v.quiz.times = (v.quiz.times || 0) + 1;
+    v.quiz.total = (v.quiz.total || 0) + total;
+    v.quiz.correct = (v.quiz.correct || 0) + st.correct;
+    save();
+
+    var html = '<div class="result ' + (rate >= 0.7 ? "pass" : "fail") + '">' +
+      '<div class="ico">' + (rate >= 0.7 ? "🎉" : "💪") + '</div>' +
+      '<div class="ttl">' + (rate >= 0.7 ? "合格！" : "再练练") + '</div>' +
+      '<div class="sc">答对 ' + st.correct + ' / ' + total + ' · 正确率 ' + Math.round(rate * 100) + '%</div>' +
+      '<div class="rs-bar"><div class="rs-in" style="width:' + Math.round(rate * 100) + '%;background:' +
+        (rate >= 0.7 ? "var(--green)" : "var(--orange)") + '"></div></div></div>';
+    if (st.wrong.length) {
+      html += '<div class="kn-card" style="background:#FFF8F0;border-color:#F2C99B"><h4>' +
+        '<span class="bar" style="background:var(--orange)"></span>📕 错词已存入生词本（' + st.wrong.length + '）</h4><div class="kn-list">';
+      st.wrong.forEach(function (w) {
+        html += '<div class="kn-pt"><span class="k" style="color:var(--red)">✗</span><span>' +
+          w.jp + ' <span style="color:var(--ink-3)">(' + w.rd + ')</span> ＝ ' + w.cn + '</span></div>';
+      });
+      html += '</div></div>';
+    }
+    html += '<button class="btn btn-primary" id="btnQuizAgain" style="width:100%">再做一次</button>';
+    html += '<button class="btn btn-ghost" id="btnQuizHome" style="width:100%;margin-top:10px">返回选择</button>';
+    box.innerHTML = html;
+    document.getElementById("btnQuizAgain").addEventListener("click", function () { startVocabQuiz(-1); });
+    document.getElementById("btnQuizHome").addEventListener("click", renderVocabQuizHome);
+    updateVocabHubStat();
+  }
+
+  // ---------- 生词本 ----------
+  function renderVocabWeak() {
+    var box = document.getElementById("vocabWeak");
+    if (!box) return;
+    var v = getVocab();
+    var keys = Object.keys(v.weak);
+    updateVocabHubStat();
+    if (!keys.length) {
+      box.innerHTML = '<div class="empty-tip"><span class="e">📕</span>生词本是空的～<br>' +
+        '背单词或考核时选「不认识」的词会自动收集到这里。</div>';
+      return;
+    }
+    var html = '<div class="vstat"><span class="pill r">生词 ' + keys.length + ' 个</span>' +
+      '<span class="pill g">已掌握累计 ' + Object.keys(v.mastered).length + ' 次</span></div>';
+    html += '<div class="card-desc">点词听发音 · 复习后可在考核里再测</div>';
+    keys.forEach(function (key) {
+      var w = v.weak[key];
+      html += '<div class="weak-item">' +
+        '<div class="wj" data-speak="' + w.jp + '">' + w.jp + '</div>' +
+        '<div class="wc">' + w.rd + ' · ' + w.cn + '</div>' +
+        '<button class="wbtn" data-rm="' + key + '">移除</button></div>';
+    });
+    html += '<button class="btn btn-primary" id="btnWeakQuiz" style="width:100%;margin-top:6px">🎯 只考生词</button>';
+    box.innerHTML = html;
+    box.querySelectorAll(".wj[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () { speak(el.dataset.speak); });
+    });
+    box.querySelectorAll("[data-rm]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        delete v.weak[el.dataset.rm];
+        save(); renderVocabWeak();
+      });
+    });
+    var bq = document.getElementById("btnWeakQuiz");
+    if (bq) bq.addEventListener("click", function () {
+      var wk = keys.map(function (k) { return v.weak[k]; });
+      startVocabQuizFromList(wk);
+    });
   }
 
   // ---------- 句型数据（每个例句可点击发音） ----------
@@ -4027,6 +4663,7 @@
   if (!data.created) { data.created = todayKey(); save(); }
   initTabs();
   initAll();
+  initVocabHub();
   renderAll._day = todayKey();
   renderAll();
 
@@ -4053,7 +4690,15 @@
     currentIdx: currentIdx,
     openLevel: openLevel,
     closeLevel: closeLevel,
-    renderAll: renderAll
+    renderAll: renderAll,
+    vocab: {
+      total: vocabTotal,
+      getVocab: getVocab,
+      showMode: showVocabMode,
+      learn: startVocabLearn,
+      quiz: startVocabQuiz,
+      weak: renderVocabWeak
+    }
   };
 })();
 </script>
