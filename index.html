@@ -2678,13 +2678,12 @@
   var curAudio = null;
   var audioCtx = null;
 
-  // 多个音源，逐个尝试（安卓上单一源容易失败）
+  // 在线音源（已逐个实测可用）。有道词典真人发音库，标准日语，国内可直连。
+  // 列表里只保留验证可用的源，避免失效源白等超时。
   function buildSrcList(text) {
     var e = encodeURIComponent(text);
     return [
-      "https://dict.youdao.com/dictvoice?le=jap&audio=" + e,
-      "https://tts.youdao.com/fanyivoice?le=jap&keyfrom=speaker-target&word=" + e,
-      "https://fanyi.baidu.com/gettts?lan=jap&text=" + e + "&spd=3&source=web"
+      "https://dict.youdao.com/dictvoice?le=jap&audio=" + e
     ];
   }
 
