@@ -4037,6 +4037,11 @@
     var sb = document.getElementById("saveBar");
     if (sb) sb.style.display = "none";
   }
+  // 在永久托管的 github.io 域名下隐藏"保存到本机"条（无需离线搬运，且避免进度分裂）
+  if (location.hostname.indexOf("github.io") >= 0) {
+    var sb2 = document.getElementById("saveBar");
+    if (sb2) sb2.style.display = "none";
+  }
 
   // 调试/自动化句柄（只读）
   window.__JP__ = {
