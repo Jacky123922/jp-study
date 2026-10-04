@@ -1,0 +1,4056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#F2F6FC">
+<title>日语学习打卡 · 90天计划</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --primary: #3B6FF5;
+    --primary-dark: #2A55CC;
+    --primary-soft: #E8F0FE;
+    --green: #22B573;
+    --green-soft: #E4F7EE;
+    --orange: #F2994A;
+    --red: #EB5757;
+    --ink: #1A1F2E;
+    --ink-2: #5A6478;
+    --ink-3: #9AA4B8;
+    --line: #E4E9F2;
+    --bg: #F2F6FC;
+    --card: #FFFFFF;
+    --shadow: 0 4px 18px rgba(40, 70, 140, .07);
+    --radius: 18px;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    padding-bottom: 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- Header ---------- */
+  header {
+    background: linear-gradient(135deg, #3B6FF5 0%, #6C4DF0 100%);
+    color: #fff;
+    padding: 22px 0 46px;
+    border-radius: 0 0 26px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: "";
+    position: absolute; right: -60px; top: -70px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,.09);
+  }
+  .hd-top { display: flex; align-items: center; justify-content: space-between; }
+  .hd-title { font-size: 20px; font-weight: 800; letter-spacing: .5px; }
+  .hd-sub { font-size: 12.5px; opacity: .82; margin-top: 2px; }
+  .hd-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 11px;
+    background: rgba(255,255,255,.16); border: none; color: #fff;
+    font-size: 17px; cursor: pointer; display: grid; place-items: center;
+    transition: background .18s;
+  }
+  .icon-btn:hover { background: rgba(255,255,255,.3); }
+  .hd-stats { display: flex; gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
+  .hd-stat {
+    flex: 1; background: rgba(255,255,255,.15); border-radius: 14px;
+    padding: 11px 12px; backdrop-filter: blur(4px);
+  }
+  .hd-stat .n { font-size: 22px; font-weight: 800; line-height: 1.15; }
+  .hd-stat .l { font-size: 11.5px; opacity: .85; margin-top: 1px; }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 18px; margin-top: 16px;
+  }
+  .pull-up { margin-top: -30px; position: relative; z-index: 3; }
+  .card-title {
+    font-size: 15.5px; font-weight: 800; margin: 0 0 4px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .card-title .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--primary);
+    display: inline-block;
+  }
+  .card-desc { font-size: 12.5px; color: var(--ink-3); margin: 0 0 14px; }
+
+  /* ---------- Task list ---------- */
+  .task {
+    display: flex; align-items: center; gap: 13px;
+    padding: 13px 14px; border-radius: 14px;
+    border: 1.5px solid var(--line); margin-bottom: 10px;
+    cursor: pointer; transition: all .18s; background: #fff;
+    user-select: none;
+  }
+  .task:last-child { margin-bottom: 0; }
+  .task:hover { border-color: #C8D6F5; }
+  .task.done { background: var(--green-soft); border-color: #A8E6C8; }
+  .task .cb {
+    width: 24px; height: 24px; border-radius: 8px; flex: 0 0 auto;
+    border: 2px solid #CBD5E8; display: grid; place-items: center;
+    transition: all .18s; font-size: 14px; color: #fff;
+  }
+  .task.done .cb { background: var(--green); border-color: var(--green); }
+  .task .cb::after { content: ""; }
+  .task.done .cb::after { content: "✓"; font-weight: 800; }
+  .task .info { flex: 1; min-width: 0; }
+  .task .name { font-size: 14.5px; font-weight: 700; }
+  .task.done .name { color: #17734A; }
+  .task .meta { font-size: 12px; color: var(--ink-3); margin-top: 3px; }
+  .task .dur {
+    font-size: 11.5px; font-weight: 700; color: var(--primary);
+    background: var(--primary-soft); padding: 3px 9px; border-radius: 20px;
+    flex: 0 0 auto;
+  }
+  .task.done .dur { color: #17734A; background: #CDEEDC; }
+
+  /* ---------- Progress ring ---------- */
+  .ring-row { display: flex; align-items: center; gap: 18px; }
+  .ring-box { position: relative; width: 108px; height: 108px; flex: 0 0 auto; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-txt {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    text-align: center;
+  }
+  .ring-txt .p { font-size: 23px; font-weight: 800; line-height: 1; }
+  .ring-txt .s { font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+  .ring-side { flex: 1; }
+  .ring-side .big { font-size: 15px; font-weight: 800; margin-bottom: 5px; }
+  .ring-side .txt { font-size: 12.5px; color: var(--ink-2); line-height: 1.7; }
+
+  /* ---------- Calendar grid ---------- */
+  .cal-legend {
+    display: flex; align-items: center; gap: 6px; justify-content: flex-end;
+    font-size: 11px; color: var(--ink-3); margin-bottom: 9px;
+  }
+  .cal-legend i {
+    width: 11px; height: 11px; border-radius: 3.5px; display: inline-block;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(15, 1fr); gap: 4.5px;
+  }
+  .cell {
+    aspect-ratio: 1; border-radius: 5px; background: #EDF1F8;
+    cursor: pointer; transition: transform .12s, box-shadow .12s;
+    position: relative;
+  }
+  .cell:hover { transform: scale(1.22); box-shadow: 0 2px 8px rgba(40,70,140,.2); z-index: 5; }
+  .cell.lv1 { background: #BBD3FA; }
+  .cell.lv2 { background: #7FA8F4; }
+  .cell.lv3 { background: #4F82EE; }
+  .cell.lv4 { background: #2A55CC; }
+  .cell.today { box-shadow: 0 0 0 2px var(--orange); }
+  .cell.future { background: #F5F7FB; cursor: default; }
+  .cell.future:hover { transform: none; box-shadow: none; }
+
+  /* ---------- Tooltip ---------- */
+  #tip {
+    position: fixed; z-index: 99; pointer-events: none;
+    background: #1A1F2E; color: #fff; font-size: 12px;
+    padding: 7px 11px; border-radius: 9px; white-space: nowrap;
+    opacity: 0; transition: opacity .13s; line-height: 1.5;
+  }
+  #tip.show { opacity: 1; }
+
+  /* ---------- Buttons ---------- */
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; }
+  .btn {
+    flex: 1; border: none; border-radius: 13px; padding: 13px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: all .18s; font-family: inherit;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-ghost { background: #EFF3FA; color: var(--ink-2); }
+  .btn-ghost:hover { background: #E2E9F5; }
+
+  /* ---------- Quote ---------- */
+  .quote {
+    margin-top: 16px; background: linear-gradient(135deg,#FFF6E9,#FFEFE0);
+    border-radius: var(--radius); padding: 16px 18px;
+    font-size: 13px; color: #8A5A22; line-height: 1.75;
+    border-left: 4px solid var(--orange);
+  }
+  .quote b { color: #6B4310; }
+
+  /* ---------- Modal ---------- */
+  .mask {
+    position: fixed; inset: 0; background: rgba(20,28,45,.45);
+    display: none; place-items: center; z-index: 100; padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  .mask.show { display: grid; }
+  .modal {
+    background: #fff; border-radius: 20px; padding: 22px;
+    width: 100%; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  }
+  .modal h3 { margin: 0 0 6px; font-size: 17px; }
+  .modal p { margin: 0 0 16px; font-size: 13px; color: var(--ink-2); }
+  .modal textarea {
+    width: 100%; height: 150px; border: 1.5px solid var(--line);
+    border-radius: 12px; padding: 11px; font-size: 11.5px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    resize: vertical; outline: none; color: var(--ink-2);
+  }
+  .modal textarea:focus { border-color: var(--primary); }
+
+  /* ---------- Toast ---------- */
+  #toast {
+    position: fixed; left: 50%; bottom: 34px; transform: translateX(-50%) translateY(20px);
+    background: #1A1F2E; color: #fff; padding: 11px 20px; border-radius: 30px;
+    font-size: 13px; font-weight: 600; opacity: 0; transition: all .28s;
+    z-index: 200; pointer-events: none; white-space: nowrap;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  footer {
+    text-align: center; font-size: 11.5px; color: var(--ink-3);
+    margin-top: 26px; line-height: 1.9;
+  }
+  .streak-fire { font-size: 15px; }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: flex; gap: 6px; background: #E8EEF9; padding: 5px;
+    border-radius: 14px; margin-top: 16px;
+  }
+  .tab {
+    flex: 1; border: none; background: transparent; border-radius: 10px;
+    padding: 10px 4px; font-size: 13.5px; font-weight: 700; cursor: pointer;
+    color: var(--ink-2); font-family: inherit; transition: all .18s;
+  }
+  .tab.active { background: #fff; color: var(--primary); box-shadow: 0 2px 8px rgba(40,70,140,.1); }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ---------- Weekly bar chart ---------- */
+  .bars {
+    display: flex; align-items: flex-end; gap: 7px;
+    height: 150px; padding: 10px 2px 0;
+  }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .bar-wrap {
+    flex: 1; width: 100%; display: flex; align-items: flex-end;
+    justify-content: center; position: relative;
+  }
+  .bar {
+    width: 68%; max-width: 34px; border-radius: 7px 7px 3px 3px;
+    background: linear-gradient(180deg, #7FA8F4, #3B6FF5);
+    transition: height .5s cubic-bezier(.4,0,.2,1); min-height: 3px; position: relative;
+  }
+  .bar.zero { background: #E4EAF5; }
+  .bar-val {
+    position: absolute; top: -17px; left: 50%; transform: translateX(-50%);
+    font-size: 10.5px; font-weight: 800; color: var(--primary); white-space: nowrap;
+  }
+  .bar-lbl { font-size: 11px; color: var(--ink-3); margin-top: 7px; font-weight: 600; }
+  .bar-lbl.on { color: var(--primary); }
+  .wk-summary {
+    display: flex; gap: 10px; margin-top: 14px; padding-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+  .wk-item { flex: 1; text-align: center; }
+  .wk-item .v { font-size: 18px; font-weight: 800; color: var(--ink); }
+  .wk-item .k { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+
+  /* ---------- 90-day milestones ---------- */
+  .ms-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .ms-big { font-size: 26px; font-weight: 800; color: var(--primary); line-height: 1; }
+  .ms-big small { font-size: 13px; color: var(--ink-3); font-weight: 600; margin-left: 3px; }
+  .ms-lv { font-size: 12.5px; font-weight: 700; color: var(--orange); }
+
+  .ms-bar-outer { height: 9px; background: #EDF1F8; border-radius: 6px; overflow: hidden; }
+  .ms-bar-inner {
+    height: 100%; border-radius: 6px; width: 0;
+    background: linear-gradient(90deg, #6C4DF0, #3B6FF5);
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+
+  .ms-list { margin-top: 16px; }
+  .ms {
+    display: flex; align-items: center; gap: 12px; padding: 11px 0;
+    border-bottom: 1px solid #F1F4FA;
+  }
+  .ms:last-child { border-bottom: none; }
+  .ms-badge {
+    width: 40px; height: 40px; border-radius: 12px; flex: 0 0 auto;
+    display: grid; place-items: center; font-size: 19px;
+    background: #F1F4FA; filter: grayscale(1); opacity: .5;
+    transition: all .3s;
+  }
+  .ms.reached .ms-badge { filter: none; opacity: 1; background: var(--primary-soft); }
+  .ms-info { flex: 1; min-width: 0; }
+  .ms-name { font-size: 14px; font-weight: 700; }
+  .ms.reached .ms-name { color: var(--primary); }
+  .ms-desc { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .ms-right { font-size: 12px; font-weight: 700; color: var(--ink-3); white-space: nowrap; }
+  .ms.reached .ms-right { color: var(--green); }
+
+  .cheer {
+    text-align: center; font-size: 13px; color: var(--ink-2);
+    background: var(--primary-soft); border-radius: 12px;
+    padding: 12px; margin-top: 14px; line-height: 1.7;
+  }
+  .cheer b { color: var(--primary); }
+
+  /* ================= 内容页样式 ================= */
+  .sub-tabs {
+    display: flex; gap: 5px; overflow-x: auto; padding: 12px 0 2px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .sub-tabs::-webkit-scrollbar { display: none; }
+  .stab {
+    flex: 0 0 auto; border: none; background: #fff; border-radius: 10px;
+    padding: 8px 15px; font-size: 13px; font-weight: 700; cursor: pointer;
+    color: var(--ink-2); font-family: inherit; transition: all .18s;
+    box-shadow: 0 1px 4px rgba(40,70,140,.06); white-space: nowrap;
+  }
+  .stab.active { background: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(59,111,245,.3); }
+  .cview { display: none; }
+  .cview.active { display: block; }
+
+  /* --- 五十音表 --- */
+  .kana-table { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .kana-cell {
+    background: #fff; border-radius: 11px; padding: 9px 4px 7px;
+    text-align: center; cursor: pointer; transition: all .15s;
+    border: 1.5px solid var(--line);
+  }
+  .kana-cell:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .kana-cell.tap {
+    background: var(--primary); transform: scale(.92);
+    border-color: var(--primary);
+  }
+  .kana-cell.tap .k, .kana-cell.tap .r { color: #fff; }
+  .kana-cell.empty { background: transparent; border: none; cursor: default; }
+  .kana-cell.empty:hover { transform: none; }
+  .kana-cell .k { font-size: 22px; font-weight: 600; line-height: 1.1; color: var(--ink); }
+  .kana-cell .r { font-size: 10.5px; color: var(--ink-3); margin-top: 3px; letter-spacing: .3px; }
+  .kana-title {
+    font-size: 13px; font-weight: 800; color: var(--primary);
+    margin: 18px 0 9px; display: flex; align-items: center; gap: 6px;
+  }
+  .kana-title:first-child { margin-top: 0; }
+  .kana-title small { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+
+  /* --- 词汇卡片 --- */
+  .vocab-group { margin-bottom: 20px; }
+  .vocab-group h4 {
+    margin: 0 0 9px; font-size: 13.5px; font-weight: 800; color: var(--ink);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .vocab-group h4 .bar {
+    width: 3px; height: 14px; border-radius: 2px; background: var(--primary);
+  }
+  .vrow {
+    display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+    background: #fff; border-radius: 11px; margin-bottom: 6px;
+    border: 1.5px solid var(--line); cursor: pointer; transition: all .15s;
+  }
+  .vrow:hover { border-color: var(--primary); background: #FAFCFF; }
+  .vrow.tap { background: var(--primary); border-color: var(--primary); }
+  .vrow.tap .jp, .vrow.tap .rd, .vrow.tap .cn { color: #fff; }
+  .vrow .jp { font-size: 16px; font-weight: 700; flex: 0 0 auto; min-width: 76px; }
+  .vrow .rd { font-size: 11px; color: var(--primary); flex: 0 0 auto; min-width: 62px; }
+  .vrow .cn { font-size: 12.5px; color: var(--ink-2); flex: 1; text-align: right; }
+
+  /* --- 句型 --- */
+  .pat {
+    background: #fff; border-radius: 13px; padding: 14px 15px;
+    margin-bottom: 10px; border: 1.5px solid var(--line);
+  }
+  .pat .pt { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 5px; }
+  .pat-opt { background: #FBFAFF; border-color: #E4DEF7; }
+  .pat-opt .pt { color: #6C4DF0; }
+  .pat-opt .pt::after {
+    content: "选学"; font-size: 10px; font-weight: 700; color: #fff;
+    background: #A794F0; padding: 1px 7px; border-radius: 10px;
+    margin-left: 7px; vertical-align: middle;
+  }
+  .pat .pm { font-size: 12px; color: var(--ink-2); line-height: 1.7; }
+  .pat .pe {
+    margin-top: 8px; padding: 4px 0; background: #F7F9FD;
+    border-radius: 9px; font-size: 12.5px; color: var(--ink-2);
+    border-left: 3px solid var(--primary); line-height: 1.75;
+  }
+  .pat .pe b { color: var(--primary); }
+  .ex-line {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 11px; cursor: pointer; transition: all .15s;
+    border-bottom: 1px solid #EDF1F8;
+  }
+  .ex-line:last-child { border-bottom: none; }
+  .ex-line:hover { background: #EEF4FF; }
+  .ex-line.tap { background: var(--primary); }
+  .ex-line.tap .ex-jp, .ex-line.tap .ex-cn, .ex-line.tap .ex-btn { color: #fff; }
+  .ex-jp { font-size: 13px; color: var(--ink); font-weight: 600; flex: 0 0 auto; }
+  .ex-cn { font-size: 12px; color: var(--ink-3); flex: 1; }
+  .ex-btn { font-size: 12px; opacity: .5; flex: 0 0 auto; }
+  .ex-line:hover .ex-btn { opacity: 1; }
+
+  /* --- 计划表 --- */
+  .plan-wk {
+    background: #fff; border-radius: 13px; padding: 14px 15px; margin-bottom: 11px;
+    border: 1.5px solid var(--line); position: relative; overflow: hidden;
+  }
+  .plan-wk .wk-tag {
+    display: inline-block; font-size: 11px; font-weight: 800; color: #fff;
+    background: var(--primary); padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
+  }
+  .plan-wk.w2 .wk-tag { background: #6C4DF0; }
+  .plan-wk.w3 .wk-tag { background: #22B573; }
+  .plan-wk.w4 .wk-tag { background: #F2994A; }
+  .plan-wk .goal { font-size: 13.5px; font-weight: 800; margin-bottom: 6px; color: var(--ink); }
+  .plan-wk .detail { font-size: 12.5px; color: var(--ink-2); line-height: 1.85; }
+  .plan-wk .detail b { color: var(--primary); }
+
+  /* --- 资源 --- */
+  .res {
+    display: flex; align-items: center; gap: 12px; background: #fff;
+    border-radius: 13px; padding: 13px 14px; margin-bottom: 9px;
+    border: 1.5px solid var(--line); text-decoration: none; color: inherit;
+    transition: all .15s;
+  }
+  .res:hover { border-color: var(--primary); transform: translateX(2px); }
+  .res .ico {
+    width: 38px; height: 38px; border-radius: 11px; flex: 0 0 auto;
+    display: grid; place-items: center; font-size: 18px; background: var(--primary-soft);
+  }
+  .res .ri { flex: 1; min-width: 0; }
+  .res .rn { font-size: 13.5px; font-weight: 700; }
+  .res .rd { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+  .res .rl { font-size: 12px; color: var(--primary); font-weight: 700; flex: 0 0 auto; }
+  .res-note {
+    font-size: 11.5px; color: var(--ink-3); background: #F7F9FD;
+    border-radius: 10px; padding: 11px 13px; line-height: 1.75; margin-top: 4px;
+  }
+  .res-note b { color: var(--ink-2); }
+
+  /* ================= 闯关系统 ================= */
+  /* --- 关卡地图 --- */
+  .lv-map { display: flex; flex-direction: column; gap: 8px; }
+  .lv-unit {
+    font-size: 12px; font-weight: 800; color: var(--ink-3);
+    margin: 12px 0 6px; display: flex; align-items: center; gap: 7px;
+  }
+  .lv-unit:first-child { margin-top: 0; }
+  .lv-unit::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .lv {
+    display: flex; align-items: center; gap: 12px; padding: 12px 13px;
+    background: #fff; border-radius: 13px; border: 1.5px solid var(--line);
+    cursor: pointer; transition: all .16s;
+  }
+  .lv.locked { opacity: .5; cursor: not-allowed; background: #F8FAFD; }
+  .lv.current { border-color: var(--primary); box-shadow: 0 3px 12px rgba(59,111,245,.16); }
+  .lv.passed { border-color: #A8E6C8; background: #F6FEF9; }
+  .lv-icon {
+    width: 38px; height: 38px; border-radius: 11px; flex: 0 0 auto;
+    display: grid; place-items: center; font-size: 17px;
+    background: #F1F4FA; color: var(--ink-3);
+  }
+  .lv.current .lv-icon { background: var(--primary); color: #fff; }
+  .lv.passed .lv-icon { background: var(--green); color: #fff; }
+  .lv-info { flex: 1; min-width: 0; }
+  .lv-name { font-size: 14px; font-weight: 700; }
+  .lv-sub { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+  .lv-badge {
+    font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 20px;
+    flex: 0 0 auto; white-space: nowrap;
+  }
+  .lv-badge.lock { background: #EDF1F8; color: var(--ink-3); }
+  .lv-badge.cur { background: var(--primary-soft); color: var(--primary); }
+  .lv-badge.ok { background: #CDEEDC; color: #17734A; }
+
+  /* --- 关卡详情 --- */
+  .lv-head {
+    background: linear-gradient(135deg,#3B6FF5,#6C4DF0); color: #fff;
+    border-radius: 16px; padding: 18px; margin-bottom: 14px;
+  }
+  .lv-head .k { font-size: 11.5px; opacity: .82; }
+  .lv-head .n { font-size: 18px; font-weight: 800; margin: 4px 0 6px; }
+  .lv-head .d { font-size: 12.5px; opacity: .9; line-height: 1.6; }
+
+  .kn-card {
+    background: #fff; border-radius: 14px; padding: 15px; margin-bottom: 12px;
+    border: 1.5px solid var(--line);
+  }
+  .kn-card h4 {
+    margin: 0 0 8px; font-size: 14px; font-weight: 800;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .kn-card h4 .bar { width: 3px; height: 14px; border-radius: 2px; background: var(--primary); }
+  .kn-text { font-size: 13px; color: var(--ink-2); line-height: 1.85; }
+  .kn-eg {
+    margin-top: 9px; padding: 8px 11px; background: #F7F9FD;
+    border-radius: 9px; border-left: 3px solid var(--primary);
+    font-size: 13px; cursor: pointer; transition: all .15s;
+  }
+  .kn-eg:hover { background: #EEF4FF; }
+  .kn-eg.tap { background: var(--primary); color: #fff; }
+  .kn-eg .cn { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; }
+  .kn-eg.tap .cn, .kn-eg.tap .jp { color: #fff; }
+  .kn-eg .jp { font-weight: 600; }
+
+  /* --- 答题 --- */
+  .quiz-q {
+    background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    border: 1.5px solid var(--line);
+  }
+  .quiz-stem { font-size: 15px; font-weight: 700; margin-bottom: 12px; line-height: 1.65; }
+  .quiz-stem .qn {
+    display: inline-block; background: var(--primary); color: #fff;
+    font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-right: 6px;
+    vertical-align: middle;
+  }
+  .opt {
+    display: flex; align-items: center; gap: 10px; padding: 11px 13px;
+    border: 1.5px solid var(--line); border-radius: 11px; margin-bottom: 8px;
+    cursor: pointer; transition: all .15s; font-size: 14px;
+  }
+  .opt:last-child { margin-bottom: 0; }
+  .opt:hover { border-color: var(--primary); background: #FAFCFF; }
+  .opt .idx {
+    width: 22px; height: 22px; border-radius: 7px; background: #EFF3FA;
+    display: grid; place-items: center; font-size: 11.5px; font-weight: 800;
+    color: var(--ink-2); flex: 0 0 auto;
+  }
+  .opt.right { background: #E4F7EE; border-color: #7BD3A6; }
+  .opt.right .idx { background: var(--green); color: #fff; }
+  .opt.wrong { background: #FDECEC; border-color: #F2A9A9; }
+  .opt.wrong .idx { background: var(--red); color: #fff; }
+  .opt.disabled { pointer-events: none; }
+  .opt-audio { font-size: 12px; color: var(--primary); margin-left: auto; }
+
+  /* --- 结果 --- */
+  .result {
+    text-align: center; padding: 22px 16px; border-radius: 16px;
+    background: #fff; border: 1.5px solid var(--line); margin-bottom: 12px;
+  }
+  .result .ico { font-size: 42px; line-height: 1; }
+  .result .ttl { font-size: 18px; font-weight: 800; margin: 10px 0 5px; }
+  .result .sc { font-size: 13.5px; color: var(--ink-2); }
+  .result.pass .ttl { color: var(--green); }
+  .result.fail .ttl { color: var(--orange); }
+  .result .rs-bar {
+    height: 8px; background: #EDF1F8; border-radius: 5px; overflow: hidden;
+    margin: 14px auto 0; max-width: 240px;
+  }
+  .result .rs-in {
+    height: 100%; border-radius: 5px; transition: width .5s;
+  }
+  .rs-stat { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+  .rs-stat span {
+    font-size: 11.5px; font-weight: 700; padding: 4px 11px; border-radius: 20px;
+    background: #F1F4FA; color: var(--ink-2);
+  }
+
+  /* --- 听写 / 排序 --- */
+  .opt-void { font-size: 13px; color: var(--ink-3); padding: 6px 0; }
+  .fill-ip {
+    width: 100%; box-sizing: border-box; font-family: inherit; font-size: 15px;
+    padding: 12px 13px; border: 1.5px solid var(--line); border-radius: 11px;
+    outline: none; transition: border .15s; background: #fff;
+  }
+  .fill-ip:focus { border-color: var(--primary); background: #FAFCFF; }
+  .order-line {
+    min-height: 46px; background: #F7F9FD; border: 1.5px dashed #C8D5EC;
+    border-radius: 11px; padding: 8px 10px; display: flex; flex-wrap: wrap;
+    gap: 7px; align-items: center; margin-bottom: 11px;
+  }
+  .order-line .ph { font-size: 12px; color: var(--ink-3); }
+  .order-pool { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tk {
+    padding: 8px 13px; border-radius: 10px; background: #EEF4FF;
+    border: 1.5px solid #C8D9F8; font-size: 14.5px; cursor: pointer;
+    transition: all .14s; user-select: none;
+  }
+  .tk:active { transform: scale(.94); }
+  .tk.picked { opacity: .28; pointer-events: none; }
+  .order-line .tk { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .order-line .tk.used { background: #64748B; border-color: #64748B; opacity: .55; }
+  .fill-side { display: flex; gap: 8px; align-items: center; }
+  .fill-side .btn { flex: 0 0 auto; padding: 12px 18px; }
+  .fill-ans {
+    margin-top: 10px; padding: 9px 12px; border-radius: 10px; font-size: 13px;
+    background: #F7F9FD; border-left: 3px solid var(--primary); display: none;
+  }
+  .fill-ans.show { display: block; }
+  .fill-ans .ok { color: var(--green); font-weight: 700; }
+  .fill-ans .no { color: var(--red); font-weight: 700; }
+
+  /* --- 关卡详情内嵌知识点 --- */
+  .kn-list { display: flex; flex-direction: column; gap: 9px; }
+  .kn-pt { display: flex; gap: 9px; font-size: 12.8px; line-height: 1.8; color: var(--ink-2); }
+  .kn-pt .k { flex: 0 0 auto; font-weight: 800; color: var(--primary); }
+
+  /* --- 错题本 --- */
+  .wrong-item {
+    background: #fff; border-radius: 13px; padding: 13px; margin-bottom: 9px;
+    border: 1.5px solid #F5D5D5; border-left: 4px solid var(--red);
+  }
+  .wrong-item .wq { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; }
+  .wrong-item .wa { font-size: 12.5px; color: var(--ink-2); line-height: 1.75; }
+  .wrong-item .wa .miss { color: var(--red); text-decoration: line-through; }
+  .wrong-item .wa .right { color: var(--green); font-weight: 700; }
+  .empty-tip {
+    text-align: center; padding: 32px 16px; color: var(--ink-3); font-size: 13.5px;
+  }
+  .empty-tip .e { font-size: 38px; display: block; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div id="offlineTip" style="display:none;background:#FFF8E6;border-bottom:1px solid #F5DFA8;padding:9px 14px;font-size:12.5px;color:#8A5A22;line-height:1.6;text-align:center">
+📍 已离线加载 · 打卡/闯关数据保存在本机<br>
+<span style="font-size:11.5px;opacity:.85">发音需联网 · 建议菜单里「添加到主屏幕」</span>
+</div>
+
+<div id="saveBar" style="background:#3B6FF5;color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+  <div style="font-size:13px;line-height:1.5">
+    <b>📥 保存到本机</b><br>
+    <span style="font-size:11.5px;opacity:.9">点右边按钮，把整个 app 存进手机 → 之后永久离线使用，不依赖任何网址</span>
+  </div>
+  <button id="btnSaveLocal" style="flex:0 0 auto;background:#fff;color:#3B6FF5;border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;white-space:nowrap">保存到本机</button>
+</div>
+
+<input type="file" id="fileImport" accept="application/json,.json" style="display:none">
+
+
+<header>
+  <div class="wrap">
+    <div class="hd-top">
+      <div>
+        <div class="hd-title">日语学习打卡</div>
+        <div class="hd-sub" id="todayLabel">—</div>
+      </div>
+      <div class="hd-actions">
+        <button class="icon-btn" id="btnExport" title="导出数据备份">⤴</button>
+        <button class="icon-btn" id="btnImport" title="导入数据">⤵</button>
+      </div>
+    </div>
+    <div class="hd-stats">
+      <div class="hd-stat">
+        <div class="n" id="sStreak">0</div>
+        <div class="l">连续打卡（天）</div>
+      </div>
+      <div class="hd-stat">
+        <div class="n" id="sTotal">0</div>
+        <div class="l">累计打卡（天）</div>
+      </div>
+      <div class="hd-stat">
+        <div class="n" id="sMin">0</div>
+        <div class="l">累计学习（分钟）</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Tab 切换 -->
+  <div class="tabs">
+    <button class="tab active" data-view="today">今日</button>
+    <button class="tab" data-view="content">闯关学习</button>
+    <button class="tab" data-view="wrong">错题本</button>
+    <button class="tab" data-view="week">统计</button>
+    <button class="tab" data-view="mile">90天</button>
+  </div>
+
+  <!-- ===== 视图1：今日 ===== -->
+  <div class="view active" id="view-today">
+
+  <!-- 今日任务 -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>今日任务</div>
+    <p class="card-desc">点一下即完成打卡 · 每天 60 分钟，循序渐进</p>
+    <div id="todayBanner"></div>
+    <div id="taskList"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btnAll">一键全部完成</button>
+      <button class="btn btn-ghost" id="btnReset">重置今天</button>
+    </div>
+  </div>
+
+  <!-- 今日进度 -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>今日完成度</div>
+    <p class="card-desc">完成全部任务即算当天打卡成功</p>
+    <div class="ring-row">
+      <div class="ring-box">
+        <svg width="108" height="108" viewBox="0 0 108 108">
+          <circle cx="54" cy="54" r="46" fill="none" stroke="#EDF1F8" stroke-width="11"/>
+          <circle id="ring" cx="54" cy="54" r="46" fill="none" stroke="#22B573" stroke-width="11"
+                  stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="289.03"
+                  style="transition: stroke-dashoffset .5s ease"/>
+        </svg>
+        <div class="ring-txt">
+          <div class="p" id="ringPct">0%</div>
+          <div class="s" id="ringDot">0 / 4 项</div>
+        </div>
+      </div>
+      <div class="ring-side">
+        <div class="big" id="ringTitle">今天还没开始 🐣</div>
+        <div class="txt" id="ringTips">先打开 Anki 刷 15 分钟，热身最容易坚持。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 30天网格 -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>打卡总览 <span id="gridRange" style="font-size:11.5px;color:var(--ink-3);font-weight:600"></span></div>
+    <p class="card-desc">颜色越深 = 当天完成的任务越多 · 点方块看明细</p>
+    <div class="cal-legend">
+      <span>少</span>
+      <i style="background:#EDF1F8"></i>
+      <i style="background:#BBD3FA"></i>
+      <i style="background:#7FA8F4"></i>
+      <i style="background:#4F82EE"></i>
+      <i style="background:#2A55CC"></i>
+      <span>多</span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- 鼓励语 -->
+  <div class="quote" id="quote"></div>
+
+  </div><!-- /view-today -->
+
+  <!-- ===== 视图：学习内容 ===== -->
+  <div class="view" id="view-content">
+
+    <!-- 关卡地图 -->
+    <div id="mapWrap">
+      <div class="sub-tabs" style="padding-top:6px">
+        <button class="stab active" data-lv="map">关卡地图</button>
+        <button class="stab" data-lv="kana">五十音表</button>
+        <button class="stab" data-lv="vocab">词汇库</button>
+        <button class="stab" data-lv="plan">学习计划</button>
+        <button class="stab" data-lv="res">资源</button>
+      </div>
+      <div id="kv-map">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>闯关进度</div>
+          <p class="card-desc" id="lvProgressText">—</p>
+          <div id="lvProgressBar"></div>
+          <div class="lv-map" id="lvMap"></div>
+        </div>
+      </div>
+      <div id="kv-kana" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>五十音表 <span style="font-size:11.5px;color:var(--ink-3);font-weight:600">点一下听发音</span></div>
+          <div class="kana-title">🅰 平假名</div><div class="kana-table" id="kanaHira"></div>
+          <div class="kana-title">🅱 片假名</div><div class="kana-table" id="kanaKata"></div>
+          <div class="kana-title">🔵 浊音 / 半浊音</div><div class="kana-table" id="kanaDaku"></div>
+          <div class="kana-title">🟣 拗音</div><div class="kana-table" id="kanaYou"></div>
+        </div>
+      </div>
+      <div id="kv-vocab" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>词汇库</div>
+          <p class="card-desc">点词听发音 · 按主题分类</p>
+          <div id="vocabBox"></div>
+        </div>
+      </div>
+      <div id="kv-plan" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>90 天学习计划</div>
+          <p class="card-desc">零基础 → N4 水平 · 每天 1 小时</p>
+          <div id="planBox"></div>
+        </div>
+      </div>
+      <div id="kv-res" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>免费学习资源</div>
+          <p class="card-desc">按阶段使用 · 全部免费</p>
+          <div id="resBox"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 关卡详情（点击关卡后显示） -->
+    <div id="quizWrap" style="display:none"></div>
+
+  </div><!-- /view-content -->
+
+  <!-- ===== 错题本 ===== -->
+  <div class="view" id="view-wrong">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>错题本</div>
+      <p class="card-desc">答错的题会自动收录 · 点「重做这关」可直接再练一遍</p>
+      <div id="wrongBox"></div>
+    </div>
+  </div><!-- /view-wrong -->
+
+  <!-- ===== 视图2：每周统计 ===== -->
+  <div class="view" id="view-week">
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>近 7 天学习时长</div>
+      <p class="card-desc">柱高 = 当天学习分钟数 · 灰色表示当天未学习</p>
+      <div class="bars" id="bars"></div>
+      <div class="wk-summary" id="wkSummary"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>近 4 周趋势</div>
+      <p class="card-desc">每周累计学习分钟数 · 观察自己是否在稳定投入</p>
+      <div class="bars" id="bars4w"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>任务分布</div>
+      <p class="card-desc">近 30 天各任务完成次数，看看哪一项最容易漏</p>
+      <div id="taskDist"></div>
+    </div>
+
+  </div><!-- /view-week -->
+
+  <!-- ===== 视图3：90天里程碑 ===== -->
+  <div class="view" id="view-mile">
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>90 天学习计划</div>
+      <p class="card-desc">从零基础到听懂动漫的完整周期</p>
+      <div class="ms-head">
+        <div class="ms-big"><span id="msDays">0</span><small>/ 90 天</small></div>
+        <div class="ms-lv" id="msLevel">初学者 Lv.1</div>
+      </div>
+      <div class="ms-bar-outer"><div class="ms-bar-inner" id="msBar"></div></div>
+      <div class="cheer" id="cheer">开始你的第一天吧 🐣</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>里程碑奖励</div>
+      <p class="card-desc">达成后自动点亮 · 给自己一点小奖励</p>
+      <div class="ms-list" id="msList"></div>
+    </div>
+
+  </div><!-- /view-mile -->
+
+  <footer>
+    数据保存在本机浏览器 · 点右上角 ⤴ 可导出备份<br>
+    日语学习 · 每天进步一点点
+  </footer>
+</div>
+
+<div id="tip"></div>
+<div id="toast"></div>
+
+<!-- 导入弹窗 -->
+<div class="mask" id="mask">
+  <div class="modal">
+    <h3>导入数据</h3>
+    <p>粘贴之前用 ⤴ 导出的备份内容，点确定恢复。</p>
+    <textarea id="importBox" placeholder='{"logs":{ ... }}'></textarea>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btnCancel">取消</button>
+      <button class="btn btn-primary" id="btnConfirm">确定导入</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORE_KEY = "jp_study_checkin_v1";
+
+  // 任务定义：名称 / 说明 / 分钟
+  // ================= 闯关系统：数据层 =================
+  // 90 关对齐《新版中日交流标准日本语》初级上（第1-24课）+ 初级下（第25-48课）
+  // 体系：50 音（10关）→ 初级上 24 课 × 2（48关）→ 初级下 24 课 × 2（32关）... 见下
+  // 题型：c=选出正确用法  m=中文→日文选择  f=填空  o=排序  d=听写
+  // 每关：{ n:关卡编号, unit:所属单元, t:标题, jp:副标题, kp:[知识点], ex:[[日文,中文]], q:[题目] }
+  // 题目：{ ty, q, o:[选项]|a:答案, a:索引|字符串|数组, e2:解析, hint:提示 }
+
+  // ---------- 单元 0：五十音闯关（10 关）----------
+  var KANA_LEVELS = [
+    { n: "0-1", unit: "🎌 单元0 · 五十音入门", t: "平假名 あ〜お", jp: "あ行",
+      kp: ["あいうえお＝a i u e o，日语最基础的五个元音。",
+           "口型比中文小、发音短促，不要拖长。",
+           "书写注意「あ」3画、「お」3画，笔顺从左到右、从上到下。"],
+      ex: [["あい", "爱"], ["いえ", "家"], ["うえ", "上面"], ["えき", "车站"], ["おい", "侄子"]],
+      q: [
+        { ty: "c", q: "「う」的读音是？", o: ["u", "wu", "yu", "o"], a: 0, e2: "う＝u，嘴型不圆，接近「乌」但不撅嘴。" },
+        { ty: "c", q: "「えき」的意思是？", o: ["上面", "车站", "家", "爱"], a: 1, e2: "えき＝駅＝车站。" },
+        { ty: "c", q: "「あ」的罗马字是？", o: ["a", "e", "o", "i"], a: 0, e2: "あ＝a。" },
+        { ty: "c", q: "「いえ」的意思是？", o: ["家", "爱", "上面", "车站"], a: 0, e2: "いえ＝家。" },
+        { ty: "o", q: "排成「爱」这个词（あい）", o: ["い", "あ"], a: ["あ", "い"], e2: "あい＝愛＝爱。" }
+      ]
+    },
+    { n: "0-2", unit: "🎌 单元0 · 五十音入门", t: "平假名 か〜こ", jp: "か行",
+      kp: ["かきくけこ＝ka ki ku ke ko，辅音 k + 元音。",
+           "「く」的嘴型要扁平，不要读成「库」的圆唇。",
+           "「こ」2画，上横短下横长。"],
+      ex: [["かお", "脸"], ["きく", "听"], ["くつ", "鞋"], ["けさ", "今天早上"], ["こえ", "声音"]],
+      q: [
+        { ty: "c", q: "「くつ」的意思是？", o: ["脸", "鞋", "声音", "听"], a: 1, e2: "くつ＝靴＝鞋。" },
+        { ty: "c", q: "「かお」的意思是？", o: ["脸", "声音", "鞋", "早上"], a: 0, e2: "かお＝顔＝脸。" },
+        { ty: "c", q: "「きく」的意思是？", o: ["听/问", "写", "说", "读"], a: 0, e2: "きく＝聞く＝听、问。" },
+        { ty: "c", q: "「こえ」的意思是？", o: ["声音", "脸", "鞋", "车站"], a: 0, e2: "こえ＝声＝声音。" },
+        { ty: "f", q: "填空：「鞋」写作 ___ つ", a: "く", hint: "ku", e2: "くつ＝鞋。" }
+      ]
+    },
+    { n: "0-3", unit: "🎌 单元0 · 五十音入门", t: "平假名 さ〜そ", jp: "さ行",
+      kp: ["さしすせそ＝sa shi su se so。",
+           "「し」读 shi，不是 si；这是最容易读错的假名之一。",
+           "「す」的元音几乎「消失」，听起来接近 s（如 すき→ski）。"],
+      ex: [["さかな", "鱼"], ["しごと", "工作"], ["すし", "寿司"], ["せかい", "世界"], ["そら", "天空"]],
+      q: [
+        { ty: "c", q: "「し」的正确读音是？", o: ["si", "shi", "chi", "ji"], a: 1, e2: "し＝shi。" },
+        { ty: "c", q: "「さかな」的意思是？", o: ["鱼", "工作", "天空", "世界"], a: 0, e2: "さかな＝魚＝鱼。" },
+        { ty: "c", q: "「すし」的意思是？", o: ["寿司", "鱼", "工作", "天空"], a: 0, e2: "すし＝寿司。" },
+        { ty: "c", q: "「そら」的意思是？", o: ["天空", "世界", "工作", "鱼"], a: 0, e2: "そら＝空＝天空。" },
+        { ty: "o", q: "排成「工作」（しごと）", o: ["ご", "し", "と"], a: ["し", "ご", "と"], e2: "しごと＝仕事＝工作。" }
+      ]
+    },
+    { n: "0-4", unit: "🎌 单元0 · 五十音入门", t: "平假名 た〜と", jp: "た行",
+      kp: ["たちつてと＝ta chi tsu te to。",
+           "「ち」读 chi（不是 ti），「つ」读 tsu（不是 tu）。",
+           "这两个是最容易用拼音读错的，务必记牢。"],
+      ex: [["たべる", "吃"], ["ちかい", "近"], ["つくえ", "桌子"], ["てがみ", "信"], ["とり", "鸟"]],
+      q: [
+        { ty: "c", q: "「ち」的正确读音是？", o: ["ti", "chi", "tsu", "ji"], a: 1, e2: "ち＝chi。" },
+        { ty: "c", q: "「つ」的正确读音是？", o: ["tu", "tsu", "chi", "su"], a: 1, e2: "つ＝tsu。" },
+        { ty: "c", q: "「たべる」的意思是？", o: ["吃", "喝", "看", "走"], a: 0, e2: "たべる＝食べる＝吃。" },
+        { ty: "c", q: "「とり」的意思是？", o: ["鸟", "桌子", "信", "近"], a: 0, e2: "とり＝鳥＝鸟。" },
+        { ty: "f", q: "填空：「桌子」写作 ___ くえ", a: "つ", hint: "tsu", e2: "つくえ＝机＝桌子。" }
+      ]
+    },
+    { n: "0-5", unit: "🎌 单元0 · 五十音入门", t: "平假名 な〜の", jp: "な行",
+      kp: ["なにぬねの＝na ni nu ne no。",
+           "「な」和「に」都出现极少见的促音变化（如 あんな）。",
+           "「の」是最高频的助词，表示所属：私の本。"],
+      ex: [["なつ", "夏天"], ["にく", "肉"], ["ぬの", "布"], ["ねこ", "猫"], ["のむ", "喝"]],
+      q: [
+        { ty: "c", q: "「ねこ」的意思是？", o: ["狗", "猫", "鸟", "鱼"], a: 1, e2: "ねこ＝猫。" },
+        { ty: "c", q: "「のむ」的意思是？", o: ["吃", "喝", "看", "听"], a: 1, e2: "のむ＝飲む＝喝。" },
+        { ty: "c", q: "「なつ」的意思是？", o: ["夏天", "冬天", "春天", "秋天"], a: 0, e2: "なつ＝夏＝夏天。" },
+        { ty: "c", q: "助词「の」通常表示？", o: ["所属/修饰", "宾语", "地点", "时间"], a: 0, e2: "私の本＝我的书。" },
+        { ty: "c", q: "「にく」的意思是？", o: ["肉", "布", "夏天", "猫"], a: 0, e2: "にく＝肉。" }
+      ]
+    },
+    { n: "0-6", unit: "🎌 单元0 · 五十音入门", t: "平假名 は〜ほ", jp: "は行",
+      kp: ["はひふへほ＝ha hi fu he ho。",
+           "「ふ」读 fu，双唇不完全闭合，像轻轻吹气。",
+           "「は」作主题助词时读 wa（这是最重要的例外）。"],
+      ex: [["はな", "花"], ["ひと", "人"], ["ふゆ", "冬天"], ["へや", "房间"], ["ほん", "书"]],
+      q: [
+        { ty: "c", q: "「ふ」的正确读音是？", o: ["hu", "fu", "bu", "pu"], a: 1, e2: "ふ＝fu。" },
+        { ty: "c", q: "「は」作为主题助词时读？", o: ["ha", "wa", "ba", "pa"], a: 1, e2: "私は＝watashi wa。" },
+        { ty: "c", q: "「ほん」的意思是？", o: ["书", "花", "人", "冬天"], a: 0, e2: "ほん＝本＝书。" },
+        { ty: "c", q: "「へや」的意思是？", o: ["房间", "书", "冬天", "花"], a: 0, e2: "へや＝部屋＝房间。" },
+        { ty: "f", q: "填空：「人」写作 ___ と", a: "ひ", hint: "hi", e2: "ひと＝人。" }
+      ]
+    },
+    { n: "0-7", unit: "🎌 单元0 · 五十音入门", t: "平假名 ま〜よ + ら〜ろ", jp: "ま行・ら行",
+      kp: ["まみむめも＝ma mi mu me mo，らりるれろ＝ra ri ru re ro。",
+           "日语的「r」是弹舌音，介于中文 l 和 d 之间（舌尖轻弹上颚）。",
+           "别读成卷舌的「日」音，也不要读成英语的 r。"],
+      ex: [["まど", "窗户"], ["みず", "水"], ["むし", "虫子"], ["めがね", "眼镜"], ["やま", "山"]],
+      q: [
+        { ty: "c", q: "日语的「ら行」发音接近？", o: ["卷舌 r", "弹舌（l/d 之间）", "g", "b"], a: 1, e2: "舌尖轻弹一下上颚。" },
+        { ty: "c", q: "「みず」的意思是？", o: ["水", "窗户", "山", "虫子"], a: 0, e2: "みず＝水。" },
+        { ty: "c", q: "「やま」的意思是？", o: ["山", "河", "海", "天空"], a: 0, e2: "やま＝山。" },
+        { ty: "c", q: "「めがね」的意思是？", o: ["眼镜", "窗户", "水", "虫子"], a: 0, e2: "めがね＝眼鏡＝眼镜。" },
+        { ty: "o", q: "排成「窗户」（まど）", o: ["ど", "ま"], a: ["ま", "ど"], e2: "まど＝窓＝窗户。" }
+      ]
+    },
+    { n: "0-8", unit: "🎌 单元0 · 五十音入门", t: "平假名 わ・を・ん", jp: "わ行・撥音",
+      kp: ["わ＝wa、を＝o（只作助词）、ん＝n（唯一单独辅音）。",
+           "「を」标记动作的宾语：ご飯を食べる。",
+           "「ん」的发音随后面音节变化：しんぶん→shimbun。"],
+      ex: [["わたし", "我"], ["わかる", "明白"], ["ごはんを食べる", "吃饭"], ["ほん", "书"], ["でんわ", "电话"]],
+      q: [
+        { ty: "c", q: "「を」的作用是？", o: ["主题", "宾语标记", "地点", "时间"], a: 1, e2: "を 标记动作对象。" },
+        { ty: "c", q: "「わたし」的意思是？", o: ["我", "你", "他", "谁"], a: 0, e2: "わたし＝私＝我。" },
+        { ty: "c", q: "「ん」的发音特点是？", o: ["固定读 n", "随后接音节变化", "不发音", "读 ng"], a: 1, e2: "受后接音影响。" },
+        { ty: "c", q: "「でんわ」的意思是？", o: ["电话", "书", "我", "明白"], a: 0, e2: "でんわ＝電話。" },
+        { ty: "f", q: "填空：「我」写作 ___ たし", a: "わ", hint: "wa", e2: "わたし＝我。" }
+      ]
+    },
+    { n: "0-9", unit: "🎌 单元0 · 五十音入门", t: "片假名 ア〜ノ", jp: "カタカナ①",
+      kp: ["片假名与平假名读音一一对应，字形更方正。",
+           "主要用于外来语、拟声词、强调、动植物名。",
+           "如 コーヒー（咖啡）、テレビ（电视）、パン（面包）。"],
+      ex: [["コーヒー", "咖啡"], ["テレビ", "电视"], ["カメラ", "相机"], ["パン", "面包"], ["アメリカ", "美国"]],
+      q: [
+        { ty: "c", q: "「コーヒー」的意思是？", o: ["咖啡", "面包", "电视", "汽水"], a: 0, e2: "コーヒー ← coffee。" },
+        { ty: "c", q: "「テレビ」的意思是？", o: ["电话", "电视", "相机", "电脑"], a: 1, e2: "テレビ ← television。" },
+        { ty: "c", q: "片假名最常用于？", o: ["动词词尾", "助词", "外来语", "助动词"], a: 2, e2: "外来语几乎全用片假名。" },
+        { ty: "m", q: "「相机」用日语说是？", o: ["カメラ", "テレビ", "ラジオ", "パソコン"], a: 0, e2: "カメラ ← camera。" },
+        { ty: "c", q: "「パン」的意思是？", o: ["盘子", "面包", "笔", "平底锅"], a: 1, e2: "パン ← pão（葡萄牙语）。" }
+      ]
+    },
+    { n: "0-10", unit: "🎌 单元0 · 五十音入门", t: "浊音・半浊音・拗音・长音・促音", jp: "カタカナ②＋特殊音",
+      kp: ["浊音：右上加「゛」k→g、s→z、t→d、h→b；半浊音「゜」只在は行：h→p。",
+           "拗音：い段+小 ゃゅょ，合成一拍。き+ゃ＝きゃ。",
+           "长音读两拍；促音「っ」憋一拍不发音。",
+           "长音不能省：おばあさん（奶奶）≠ おばさん（阿姨）。"],
+      ex: [["がっこう", "学校"], ["きょう", "今天"], ["しゃしん", "照片"], ["おばあさん", "奶奶"], ["きって", "邮票"]],
+      q: [
+        { ty: "c", q: "半浊音「゜」只加在哪一行？", o: ["か行", "さ行", "た行", "は行"], a: 3, e2: "只有は行有半浊音。" },
+        { ty: "c", q: "「きょう」读作几拍？", o: ["1 拍", "2 拍", "3 拍", "4 拍"], a: 1, e2: "きょ(1)+う(2)。" },
+        { ty: "c", q: "促音「っ」应该怎么处理？", o: ["读成 t", "停顿一拍不发音", "省略不读", "读成 k"], a: 1, e2: "憋一拍。" },
+        { ty: "c", q: "「おばあさん」和「おばさん」的区别？", o: ["没区别", "奶奶 vs 阿姨", "阿姨 vs 奶奶", "都是阿姨"], a: 1, e2: "长音不能省。" },
+        { ty: "m", q: "「旅行」用日语说是？", o: ["りょこう", "りょうこう", "りょごう", "ろこう"], a: 0, e2: "りょこう＝旅行。" }
+      ]
+    }
+  ];
+  // ---------- 初级上：第 1-24 课（40 关）----------
+  // 拆分为「课文精讲」+「语法专练」两种关卡，共 40 关
+  var BOOK_UP = [
+    { n: "1a", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第1课 · 名词句入门", jp: "李さんは中国人です",
+      kp: ["「A は B です」＝A 是 B。は 是主题助词，读作 wa。",
+           "否定：A は B では ありません（口语：じゃ ありません）。",
+           "疑问：句尾加「か」，语调上扬；回答用 はい／いいえ。"],
+      ex: [["李さんは中国人です。", "小李是中国人。"], ["私は日本人ではありません。", "我不是日本人。"], ["あなたは学生ですか。", "你是学生吗？"]],
+      q: [
+        { ty: "c", q: "「私は学生です」的意思是？", o: ["我是学生", "你是学生", "我是老师", "我不是学生"], a: 0, e2: "は 提示主题，です 表判断。" },
+        { ty: "c", q: "「は」作主题助词时读作？", o: ["ha", "wa", "ba", "pa"], a: 1, e2: "私は＝watashi wa。" },
+        { ty: "m", q: "「田中さんは日本人ではありません」的中文是？", o: ["田中不是日本人", "田中是日本人", "田中不是中国人", "我不是田中"], a: 0, e2: "ではありません＝不是。" },
+        { ty: "f", q: "填空：我是学生 → 私は学生___。", a: "です", hint: "desu", e2: "名词句肯定判断。" },
+        { ty: "o", q: "排成一句话：你是学生吗？", o: ["学生", "あなた", "は", "ですか"], a: ["あなた", "は", "学生", "ですか"], e2: "あなたは学生ですか。" }
+      ]
+    },
+    { n: "1b", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第1课 · 语法专练", jp: "判断句・否定・疑问",
+      kp: ["「〜さん」接在人名后表敬称，不能用于自己。",
+           "「〜も」表「也」：私も学生です。",
+           "省略主语是日语常态，彼此知道时可不提。"],
+      ex: [["私も学生です。", "我也是学生。"], ["李さんは先生ですか。", "小李是老师吗？"], ["いいえ、学生です。", "不，是学生。"]],
+      q: [
+        { ty: "c", q: "「〜さん」能用于自己吗？", o: ["可以", "不可以", "看场合", "对上级可以"], a: 1, e2: "敬称不能自称。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "私は中国人です。", hint: "watashi wa chuugokujin desu", e2: "我是中国人。" },
+        { ty: "c", q: "「私も学生です」的「も」表示？", o: ["也", "不是", "只有", "大概"], a: 0, e2: "も＝也。" },
+        { ty: "c", q: "「あなた」在日语中的使用特点？", o: ["最常见", "对上级用更礼貌（如 〜さん）", "对朋友必备", "只能对家人"], a: 1, e2: "直接叫 あなた 略生硬，通常用姓氏+さん。" },
+        { ty: "f", q: "填空：不，是学生。→ いいえ、学生___。", a: "です", hint: "desu", e2: "回答简洁，主语可省。" }
+      ]
+    },
+    { n: "2a", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第2课 · 指示词", jp: "これは本です",
+      kp: ["これ＝这个（近自己）、それ＝那个（近对方）、あれ＝那个（远双方）。",
+           "この/その/あの 必须后接名词，不能单独使用。",
+           "「〜の〜」表所属：私の本＝我的书。"],
+      ex: [["これは何ですか。", "这是什么？"], ["それは私の本です。", "那是我的书。"], ["あの人は誰ですか。", "那个人是谁？"]],
+      q: [
+        { ty: "c", q: "离说话人最近的东西用哪个？", o: ["これ", "それ", "あれ", "どれ"], a: 0, e2: "これ＝离自己近的。" },
+        { ty: "c", q: "「この本」和「これ」的区别？", o: ["完全一样", "この后必须接名词", "これ后必须接名词", "没区别"], a: 1, e2: "この 是指示形容词。" },
+        { ty: "m", q: "「那是我的书」用日语说是？", o: ["それは私の本です", "これは私の本です", "あれは私の本です", "その本は私です"], a: 0, e2: "それは私の本です。" },
+        { ty: "f", q: "填空：那是谁？→ あの人は___ですか。", a: "誰", hint: "だれ / dare", e2: "誰＝谁。" },
+        { ty: "c", q: "「何」在「これは何ですか」中读作？", o: ["なに", "なん", "どれ", "いつ"], a: 1, e2: "后接 です 时读 なん。" }
+      ]
+    },
+    { n: "2b", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第2课 · 语法专练", jp: "指示词辨析",
+      kp: ["「どれ/どの」是疑问形式：どれ＝哪个（单独用）、どの+名词。",
+           "「〜は〜の〜」双层所属：私の友達の本＝我朋友的书。",
+           "「そうです」表同意对方的话。"],
+      ex: [["どれがあなたの傘ですか。", "哪个是你的伞？"], ["これは私の友達の本です。", "这是我朋友的书。"], ["はい、そうです。", "是的，没错。"]],
+      q: [
+        { ty: "c", q: "「どれ」和「どの」的区别？", o: ["没区别", "どれ单独用，どの+名词", "どれ+名词，どの单独用", "都是名词"], a: 1, e2: "与 これ/この 对应。" },
+        { ty: "c", q: "「私の友達の本」的意思是？", o: ["我和朋友的书", "我朋友的书", "朋友给我的书", "我的书和朋友"], a: 1, e2: "连续の表层层所属。" },
+        { ty: "c", q: "「そうです」用于？", o: ["否定对方", "同意对方的话", "提问", "命令"], a: 1, e2: "＝是的、没错。" },
+        { ty: "o", q: "排成一句话：哪个是你的伞？", o: ["あなたの", "どれが", "傘", "ですか"], a: ["どれが", "あなたの", "傘", "ですか"], e2: "どれがあなたの傘ですか。" },
+        { ty: "f", q: "填空：这是我朋友的书。→ これは私の友達___本です。", a: "の", hint: "no", e2: "所属助词。" }
+      ]
+    },
+    { n: "3a", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第3课 · 场所指示", jp: "ここはデパートです",
+      kp: ["ここ＝这里、そこ＝那里、あそこ＝那边、どこ＝哪里。",
+           "物 + は + 场所 + です：某物在某处。",
+           "「〜はどこですか」是问路最常用的句型。"],
+      ex: [["ここは教室です。", "这里是教室。"], ["トイレはどこですか。", "洗手间在哪里？"], ["銀行はあそこです。", "银行在那边。"]],
+      q: [
+        { ty: "c", q: "「あそこ」的意思是？", o: ["这里", "那里", "那边", "哪里"], a: 2, e2: "あそこ＝离双方都远。" },
+        { ty: "m", q: "「洗手间在哪里？」用日语说是？", o: ["トイレはどこですか", "ここはトイレですか", "トイレはここです", "どこがトイレます"], a: 0, e2: "トイレはどこですか。" },
+        { ty: "o", q: "排成一句话：银行在那边。", o: ["銀行", "あそこ", "は", "です"], a: ["銀行", "は", "あそこ", "です"], e2: "銀行はあそこです。" },
+        { ty: "f", q: "填空：这里是教室。→ ここは___です。", a: "教室", hint: "きょうしつ / kyoushitsu", e2: "教室＝きょうしつ。" },
+        { ty: "c", q: "「どこも行きません」的意思是？", o: ["去某个地方", "哪儿都不去", "去哪里？", "去那里"], a: 1, e2: "疑问词+も+否定＝全面否定。" }
+      ]
+    },
+    { n: "3b", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第3课 · 语法专练", jp: "场所与国籍",
+      kp: ["「〜は〜です」也可表所在：トイレはあそこです。",
+           "国家名：中国、日本、アメリカ、フランス、ドイツ。",
+           "「〜屋」表店铺：本屋（书店）、花屋（花店）。"],
+      ex: [["お手洗いはどこですか。", "洗手间在哪里？"], ["本屋はあそこです。", "书店在那边。"], ["私は中国から来ました。", "我来自中国。"]],
+      q: [
+        { ty: "c", q: "「本屋」的意思是？", o: ["书本", "书店", "房子", "图书馆"], a: 1, e2: "〜屋＝店铺。" },
+        { ty: "c", q: "「どこも〜ません」表示？", o: ["全都在", "全都不", "只有一处", "大概在哪"], a: 1, e2: "全面否定。" },
+        { ty: "c", q: "「お手洗い」的意思是？", o: ["洗手间", "手", "洗漱台", "手帕"], a: 0, e2: "お手洗い＝洗手间（礼貌说法）。" },
+        { ty: "f", q: "填空：书店在那边。→ 本屋は___です。", a: "あそこ", hint: "asoko", e2: "あそこ＝那边。" },
+        { ty: "c", q: "「〜から来ました」的意思是？", o: ["去〜", "来自〜", "在〜", "到〜"], a: 1, e2: "から＝起点。" }
+      ]
+    },
+    { n: "4a", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第4课 · 存在句", jp: "部屋に机と椅子があります",
+      kp: ["あります＝无生命物存在；います＝有生命物存在。",
+           "场所+に+物+が+あります：某处有某物。",
+           "物+は+场所+に+あります：某物在某处。"],
+      ex: [["部屋に机があります。", "房间里有桌子。"], ["猫は椅子の上にいます。", "猫在椅子上。"], ["机の上に本とペンがあります。", "桌上有书和笔。"]],
+      q: [
+        { ty: "c", q: "表示「有生命物存在」用哪个？", o: ["あります", "います", "です", "なります"], a: 1, e2: "人/动物用 います。" },
+        { ty: "c", q: "「猫がいます」的意思是？", o: ["有猫", "有桌子", "是猫", "没有猫"], a: 0, e2: "猫がいます＝有猫。" },
+        { ty: "m", q: "「桌上有书」用日语说是？", o: ["机の上に本があります", "本の上に机があります", "机は本の上です", "本は机です"], a: 0, e2: "场所+に+物+が+あります。" },
+        { ty: "f", q: "填空：房间里有桌子。→ 部屋に机が___。", a: "あります", hint: "arimasu", e2: "无生命物用 あります。" },
+        { ty: "c", q: "「と」和「や」的区别？", o: ["没区别", "と=全部列举，や=部分列举", "と=部分，や=全部", "と只接人"], a: 1, e2: "や 暗示还有别的。" }
+      ]
+    },
+    { n: "4b", unit: "📘 单元1 · 初めまして（第1-4课）", t: "第4课 · 语法专练", jp: "位置词",
+      kp: ["位置词：上（うえ）、下（した）、前（まえ）、後ろ（うしろ）、中（なか）、外（そと）、隣（となり）、間（あいだ）。",
+           "「〜の上に」＝在〜上面。",
+           "「〜はどこにありますか」＝〜在哪里？"],
+      ex: [["机の下に猫がいます。", "桌子下面有猫。"], ["銀行は駅の前にあります。", "银行在车站前面。"], ["箱の中に何がありますか。", "盒子里有什么？"]],
+      q: [
+        { ty: "c", q: "「〜の後ろ」的意思是？", o: ["前面", "后面", "上面", "里面"], a: 1, e2: "後ろ＝うしろ＝后面。" },
+        { ty: "c", q: "「隣」的意思是？", o: ["旁边", "里面", "中间", "外面"], a: 0, e2: "隣＝となり＝旁边（相邻）。" },
+        { ty: "c", q: "问「〜在哪里」用哪个句型？", o: ["〜は何ですか", "〜はどこにありますか", "〜は誰ですか", "〜はいつですか"], a: 1, e2: "どこにありますか。" },
+        { ty: "o", q: "排成一句话：银行在车站前面。", o: ["前に", "銀行", "駅の", "は", "あります"], a: ["銀行", "は", "駅の", "前に", "あります"], e2: "銀行は駅の前にあります。" },
+        { ty: "f", q: "填空：桌子下面有猫。→ 机の___に猫がいます。", a: "下", hint: "した / shita", e2: "下＝下面。" }
+      ]
+    },
+    { n: "5a", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第5课 · 时间表达", jp: "森さんは七時に起きます",
+      kp: ["具体时间点用「に」：七時に起きます。",
+           "「〜から〜まで」＝从〜到〜。",
+           "「〜ごろ」表大致时间：七時ごろ。",
+           "いつ、今日、明日、毎日 后不加 に。"],
+      ex: [["毎朝六時に起きます。", "每天早上六点起床。"], ["会社は九時から五時までです。", "公司从九点到五点。"], ["昨日、何時に寝ましたか。", "昨天几点睡的？"]],
+      q: [
+        { ty: "c", q: "「七時に起きます」中「に」的作用？", o: ["表示地点", "表示时间点", "表示方向", "表示原因"], a: 1, e2: "具体时间点后接 に。" },
+        { ty: "c", q: "「〜から〜まで」的意思是？", o: ["从〜到〜", "因为〜所以〜", "比〜更〜", "一边〜一边〜"], a: 0, e2: "から＝起点，まで＝终点。" },
+        { ty: "c", q: "「いつ」后面要加「に」吗？", o: ["必须加", "不加", "看情况", "加から"], a: 1, e2: "いつ、今日、明日 后不加 に。" },
+        { ty: "f", q: "填空：早上六点起床 → 毎朝六時___起きます。", a: "に", hint: "ni", e2: "具体时间点+に。" },
+        { ty: "o", q: "排成一句话：公司从九点到五点。", o: ["まで", "会社", "から", "は", "九時", "五時"], a: ["会社", "は", "九時", "から", "五時", "まで"], e2: "会社は九時から五時までです。" }
+      ]
+    },
+    { n: "5b", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第5课 · 语法专练", jp: "时间与频率",
+      kp: ["「〜ごろ」表大致时间，「〜ぐらい」表大致数量。",
+           "星期：月曜日〜日曜日。",
+           "频率：いつも、よく、時々、あまり〜ない、全然〜ない。"],
+      ex: [["七時ごろ起きます。", "七点左右起床。"], ["週に二回、日本語を勉強します。", "每周学两次日语。"], ["あまり映画を見ません。", "不太看电影。"]],
+      q: [
+        { ty: "c", q: "「七時ごろ」的意思是？", o: ["七点整", "七点左右", "七点前", "七点后"], a: 1, e2: "ごろ＝大致时间点。" },
+        { ty: "c", q: "「あまり〜ません」表示？", o: ["非常", "完全", "不太", "总是"], a: 2, e2: "あまり+否定＝不太…" },
+        { ty: "c", q: "「全然〜ません」表示？", o: ["稍有一点", "完全不", "经常", "有时"], a: 1, e2: "全然+否定＝完全不…" },
+        { ty: "f", q: "填空：每周两次。→ 週に___、日本語を勉強します。", a: "二回", hint: "にかい / nikai", e2: "〜回＝次数。" },
+        { ty: "c", q: "「時々」的意思是？", o: ["总是", "经常", "有时", "从不"], a: 2, e2: "時々＝ときどき＝有时。" }
+      ]
+    },
+    { n: "6a", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第6课 · 移动动词", jp: "吉田さんは来月中国へ行きます",
+      kp: ["へ/に 表移动方向：日本へ行きます。",
+           "で 表交通手段：バスで行きます。",
+           "から 表起点：駅から歩きます。",
+           "と 表同行者：友達と行きます。"],
+      ex: [["来月、中国へ行きます。", "下个月去中国。"], ["バスで学校へ行きます。", "坐公交车去学校。"], ["友達と一緒に映画を見ます。", "和朋友一起看电影。"]],
+      q: [
+        { ty: "c", q: "「バスで行きます」的「で」表示？", o: ["地点", "手段/工具", "原因", "时间"], a: 1, e2: "で 表手段。" },
+        { ty: "c", q: "「日本へ行きます」的「へ」表示？", o: ["方向", "起点", "终点站", "方式"], a: 0, e2: "へ 提示移动方向。" },
+        { ty: "m", q: "「和朋友一起去」用日语说是？", o: ["友達と一緒に行きます", "友達へ行きます", "友達で行きます", "友達に行きます"], a: 0, e2: "と＝和（同行者）。" },
+        { ty: "f", q: "填空：下个月去中国。→ 来月、中国___行きます。", a: "へ", hint: "e / 也可用 に", e2: "へ 或 に 都表方向。" },
+        { ty: "c", q: "「国へ帰ります」的意思是？", o: ["回国", "来国", "去公园", "回国了（过去）"], a: 0, e2: "帰ります＝回去。" }
+      ]
+    },
+    { n: "6b", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第6课 · 语法专练", jp: "交通与动词分类",
+      kp: ["「〜から」还可表起点时间/地点。",
+           "三类动词：五段、一段、不规则（する、来る）。",
+           "「歩いて」＝走路去，动词て形+移动动词。"],
+      ex: [["駅から歩いて行きます。", "从车站走路去。"], ["家から学校まで自転車で行きます。", "从家骑自行车到学校。"], ["飛行機で日本へ行きます。", "坐飞机去日本。"]],
+      q: [
+        { ty: "c", q: "「歩いて行きます」的意思是？", o: ["跑着去", "走着去", "开车去", "坐车去"], a: 1, e2: "歩いて＝步行。" },
+        { ty: "c", q: "「する」属于哪类动词？", o: ["五段", "一段", "不规则", "形容词"], a: 2, e2: "する、来る 是不规则动词。" },
+        { ty: "c", q: "「飛行機」的意思是？", o: ["飞机", "火车", "轮船", "汽车"], a: 0, e2: "飛行機＝ひこうき＝飞机。" },
+        { ty: "f", q: "填空：从家到学校。→ 家___学校___。", a: "から / まで", hint: "kara / made", e2: "から…まで…" },
+        { ty: "o", q: "排成一句话：从车站走路去。", o: ["行きます", "駅から", "歩いて"], a: ["駅から", "歩いて", "行きます"], e2: "駅から歩いて行きます。" }
+      ]
+    },
+    { n: "7a", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第7课 · 动作对象", jp: "李さんは毎日コーヒーを飲みます",
+      kp: ["を 标记动作的直接对象：コーヒーを飲みます。",
+           "で 表动作发生的场所：図書館で勉強します。",
+           "名词+を+します：做某事（買い物をします）。"],
+      ex: [["毎朝コーヒーを飲みます。", "每天早上喝咖啡。"], ["図書館で本を読みます。", "在图书馆看书。"], ["週末、買い物をします。", "周末去购物。"]],
+      q: [
+        { ty: "c", q: "「コーヒーを飲みます」中「を」表示？", o: ["地点", "宾语", "方向", "时间"], a: 1, e2: "を 标记动作对象。" },
+        { ty: "c", q: "「図書館で勉強します」中「で」表示？", o: ["工具", "动作场所", "宾语", "起点"], a: 1, e2: "で 表动作发生地点。" },
+        { ty: "m", q: "「在图书馆看书」用日语说是？", o: ["図書館で本を読みます", "図書館に本を読みます", "図書館へ本を読みます", "本で図書館を読みます"], a: 0, e2: "场所+で+宾语+を+动词。" },
+        { ty: "o", q: "排成一句话：每天早上喝咖啡。", o: ["コーヒー", "毎朝", "を", "飲みます"], a: ["毎朝", "コーヒー", "を", "飲みます"], e2: "毎朝コーヒーを飲みます。" },
+        { ty: "f", q: "填空：周末购物。→ 週末、買い物___します。", a: "を", hint: "wo", e2: "名词+を+します。" }
+      ]
+    },
+    { n: "7b", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第7课 · 语法专练", jp: "邀请与动作场所",
+      kp: ["「〜ませんか」＝要不要一起〜？（委婉邀约）",
+           "「〜ましょう」＝我们〜吧。",
+           "「で」还可表材料：木で作ります。"],
+      ex: [["一緒に昼ご飯を食べませんか。", "要不要一起吃午饭？"], ["木で机を作ります。", "用木头做桌子。"], ["どこで昼ご飯を食べますか。", "在哪里吃午饭？"]],
+      q: [
+        { ty: "c", q: "「〜ませんか」表示？", o: ["拒绝", "委婉邀约", "命令", "过去"], a: 1, e2: "ませんか 比 ましょう 更礼貌。" },
+        { ty: "c", q: "「木で机を作ります」中「で」表示？", o: ["材料", "地点", "时间", "方向"], a: 0, e2: "で 可表原材料。" },
+        { ty: "c", q: "问「在哪里做」用哪个疑问词？", o: ["いつ", "どこで", "だれ", "なに"], a: 1, e2: "どこで＝在哪里。" },
+        { ty: "f", q: "填空：要不要一起吃午饭？→ 一緒に昼ご飯を食べ___か。", a: "ません", hint: "masen", e2: "ませんか 表邀约。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "毎日、日本語を勉強します。", hint: "mainichi, nihongo wo benkyou shimasu", e2: "每天学日语。" }
+      ]
+    },
+    { n: "8a", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第8课 · 形容词句", jp: "李さんは日本語が分かります",
+      kp: ["い形容词直接修饰名词，否定：い→くない。",
+           "な形容词加 な 修饰名词，否定：ではありません。",
+           "「が」表能力/喜好的对象：日本語が分かります。"],
+      ex: [["この本は面白いです。", "这本书很有趣。"], ["あの店は静かです。", "那家店很安静。"], ["私は日本語が分かります。", "我懂日语。"]],
+      q: [
+        { ty: "c", q: "「面白い」的否定形式是？", o: ["面白いない", "面白くない", "面白くなかった", "面白じゃない"], a: 1, e2: "い形容词否定：い→くない。" },
+        { ty: "c", q: "「静か」修饰名词时要加？", o: ["直接接", "な", "の", "に"], a: 1, e2: "静かな部屋。" },
+        { ty: "c", q: "「日本語が分かります」中「が」表示？", o: ["主语", "能力的对象", "地点", "并列"], a: 1, e2: "分かる/好き/上手 的对象用 が。" },
+        { ty: "f", q: "填空：这本书很有趣。→ この本は面白い___。", a: "です", hint: "desu", e2: "い形容词+です。" },
+        { ty: "m", q: "「这个房间很安静」用日语说是？", o: ["この部屋は静かです", "この部屋は静かいです", "この部屋が静かです", "この部屋の静かです"], a: 0, e2: "な形容词+です。" }
+      ]
+    },
+    { n: "8b", unit: "📗 单元2 · 会社員です（第5-8课）", t: "第8课 · 语法专练", jp: "形容词辨析",
+      kp: ["い形容词：高い、安い、新しい、古い、忙しい、楽しい。",
+           "な形容词：静か、綺麗、便利、元気、有名、好き、上手。",
+           "例外：「綺麗」虽以い结尾，但是な形容词。"],
+      ex: [["この町は便利です。", "这个城市很方便。"], ["あの人は有名です。", "那个人很有名。"], ["今日はとても忙しいです。", "今天非常忙。"]],
+      q: [
+        { ty: "c", q: "「綺麗」是い形容词还是な形容词？", o: ["い形容词", "な形容词", "两者都是", "都不是"], a: 1, e2: "綺麗（きれい）是な形容词。" },
+        { ty: "c", q: "「便利」是？", o: ["い形容词", "な形容词", "动词", "名词"], a: 1, e2: "便利（べんり）是な形容词。" },
+        { ty: "c", q: "「楽しい」的否定是？", o: ["楽しいない", "楽しくない", "楽しじゃない", "楽しくなかった"], a: 1, e2: "い→くない。" },
+        { ty: "f", q: "填空：这个城市很方便。→ この町は便利___。", a: "です", hint: "desu", e2: "な形容词+です。" },
+        { ty: "c", q: "「元気」是哪种形容词？", o: ["い形容词", "な形容词", "动词", "副词"], a: 1, e2: "元気（げんき）是な形容词。" }
+      ]
+    }
+  ];
+  // ---------- 初级上：第 9-16 课（16 关）----------
+  var BOOK_UP_B = [
+    { n: "9a", unit: "📙 单元3 · 温泉（第9-12课）", t: "第9课 · 形容词活用", jp: "四川料理は辛いです",
+      kp: ["い形容词：高い→高くない→高かった→高くなかった。",
+           "な形容词：静か→静かじゃない→静かだった→静かじゃなかった。",
+           "「あまり〜ない」＝不太〜；「とても/少し」修饰形容词。"],
+      ex: [["四川料理は辛いです。", "四川菜很辣。"], ["この料理はあまり辛くないです。", "这道菜不太辣。"], ["昨日はとても寒かったです。", "昨天非常冷。"]],
+      q: [
+        { ty: "c", q: "「高い」的过去否定是？", o: ["高くない", "高かった", "高くなかった", "高いでした"], a: 2, e2: "い→くなかった。" },
+        { ty: "c", q: "「静か」的过去式是？", o: ["静かかった", "静かだった", "静かでした（错）", "静かのだった"], a: 1, e2: "な形容词过去：+だった（礼貌体 でした）。" },
+        { ty: "c", q: "「あまり美味しくない」的意思是？", o: ["非常好吃", "不太好吃", "很好吃", "完全不好吃"], a: 1, e2: "あまり+否定＝不太…" },
+        { ty: "f", q: "填空：昨天非常冷。→ 昨日はとても___です。", a: "寒かった", hint: "さむかった", e2: "寒い→寒かった。" },
+        { ty: "o", q: "排成一句话：这道菜不太辣。", o: ["辛くない", "この料理", "あまり", "は", "です"], a: ["この料理", "は", "あまり", "辛くない", "です"], e2: "この料理はあまり辛くないです。" }
+      ]
+    },
+    { n: "9b", unit: "📙 单元3 · 温泉（第9-12课）", t: "第9课 · 语法专练", jp: "程度副词",
+      kp: ["程度副词：とても＞たいへん＞少し＞ちょっと。",
+           "「全然〜ない」＝完全不；「少しも〜ない」＝一点也不。",
+           "「〜はどうですか」＝〜怎么样？（征询意见）"],
+      ex: [["この料理はとても辛いです。", "这道菜非常辣。"], ["全然辛くないです。", "完全不辣。"], ["日本料理はどうですか。", "日本料理怎么样？"]],
+      q: [
+        { ty: "c", q: "「全然〜ない」表示？", o: ["稍有一点", "完全不", "经常", "有时"], a: 1, e2: "全然+否定＝完全不…" },
+        { ty: "c", q: "「〜はどうですか」表示？", o: ["怎么样？（征询）", "是什么？", "在哪里？", "为什么？"], a: 0, e2: "どうですか＝怎么样。" },
+        { ty: "c", q: "「少し」的意思是？", o: ["非常", "完全", "稍微", "总是"], a: 2, e2: "少し＝すこし＝一点。" },
+        { ty: "f", q: "填空：完全不辣。→ ___辛くないです。", a: "全然", hint: "ぜんぜん", e2: "全然+否定。" },
+        { ty: "c", q: "「とても」的意思是？", o: ["稍微", "非常", "完全", "有时"], a: 1, e2: "とても＝非常。" }
+      ]
+    },
+    { n: "10a", unit: "📙 单元3 · 温泉（第9-12课）", t: "第10课 · 名词句过去式", jp: "京都の紅葉は有名です",
+      kp: ["名词句过去：でした／ではありませんでした。",
+           "「どんな〜」＝什么样的〜。",
+           "「〜は〜が〜」：大主题＋小主语，日语高频结构。"],
+      ex: [["京都の紅葉は有名です。", "京都的红叶很有名。"], ["昨日は日曜日でした。", "昨天是星期天。"], ["奈良は静かな町です。", "奈良是个安静的城市。"]],
+      q: [
+        { ty: "c", q: "「昨天是星期天」用日语说是？", o: ["昨日は日曜日でした", "昨日は日曜日です", "昨日が日曜日です", "昨日は日曜日かった"], a: 0, e2: "名词句过去式用 でした。" },
+        { ty: "c", q: "「どんな町ですか」的意思是？", o: ["哪个城市？", "什么样的城市？", "城市在哪里？", "多大城市？"], a: 1, e2: "どんな＝什么样的。" },
+        { ty: "c", q: "「静かな町」中「な」能省略吗？", o: ["可以", "不可以", "只能省略な", "视情况"], a: 1, e2: "な形容词修饰名词必须加 な。" },
+        { ty: "m", q: "「奈良是个安静的城市」用日语说是？", o: ["奈良は静かな町です", "奈良は静か町です", "奈良が静かな町です", "奈良の静かな町です"], a: 0, e2: "静かな+名词。" },
+        { ty: "f", q: "填空：昨天不是星期天。→ 昨日は日曜日___。", a: "ではありませんでした", hint: "dewa arimasen deshita", e2: "名词句过去否定。" }
+      ]
+    },
+    { n: "10b", unit: "📙 单元3 · 温泉（第9-12课）", t: "第10课 · 语法专练", jp: "名词句扩展",
+      kp: ["「〜の中/外」等位置词与名词句结合。",
+           "「〜が有名です」＝〜很有名。",
+           "「〜は〜です」的「は」也起对比作用。"],
+      ex: [["この辺りは静かです。", "这一带很安静。"], ["東京は人が多いです。", "东京人很多。"], ["桜はきれいな花です。", "樱花是漂亮的花。"]],
+      q: [
+        { ty: "c", q: "「人が多いです」的意思是？", o: ["人很少", "人很多", "是人", "人多吗"], a: 1, e2: "多い＝多。" },
+        { ty: "c", q: "「桜はきれいな花です」中「な」的作用？", o: ["所属", "な形容词修饰名词", "主题", "宾语"], a: 1, e2: "きれい（な形容词）+な+花。" },
+        { ty: "c", q: "「〜は〜が〜」结构中「は」和「が」分别是？", o: ["都是主语", "大主题 + 小主语", "宾语+主语", "都是宾语"], a: 1, e2: "大象は鼻が長い＝大象鼻子长。" },
+        { ty: "f", q: "填空：东京人很多。→ 東京は人が___です。", a: "多い", hint: "おおい / ooi", e2: "多い＝多。" },
+        { ty: "o", q: "排成一句话：这一带很安静。", o: ["静か", "この辺り", "は", "です"], a: ["この辺り", "は", "静か", "です"], e2: "この辺りは静かです。" }
+      ]
+    },
+    { n: "11a", unit: "📙 单元3 · 温泉（第9-12课）", t: "第11课 · 好き/上手", jp: "小野さんは歌が好きです",
+      kp: ["好き、上手、下手、嫌い 都是な形容词，对象用 が。",
+           "「〜は〜が好きです」：某人喜欢某物。",
+           "「や」列举部分项，暗示还有其他。"],
+      ex: [["小野さんは歌が好きです。", "小野喜欢唱歌。"], ["私は日本語が上手ではありません。", "我日语不好。"], ["スキーやスケートが好きです。", "喜欢滑雪、滑冰等等。"]],
+      q: [
+        { ty: "c", q: "「好き」的对象助词是？", o: ["を", "が", "に", "で"], a: 1, e2: "好き/上手/分かる 的对象用 が。" },
+        { ty: "c", q: "「歌が好きです」的意思是？", o: ["喜欢唱歌", "会唱歌", "讨厌唱歌", "唱歌很好"], a: 0, e2: "歌が好きです＝喜欢歌。" },
+        { ty: "c", q: "「上手」的意思是？", o: ["喜欢", "擅长", "讨厌", "不擅长"], a: 1, e2: "上手＝じょうず＝擅长。" },
+        { ty: "c", q: "「スキーやスケートが好きです」中「や」暗示？", o: ["只有这两样", "还有其他类似项目", "完全列举", "否定"], a: 1, e2: "や 是不完全列举。" },
+        { ty: "f", q: "填空：我擅长料理。→ 私は料理___上手です。", a: "が", hint: "ga", e2: "上手 的对象用 が。" }
+      ]
+    },
+    { n: "11b", unit: "📙 单元3 · 温泉（第9-12课）", t: "第11课 · 语法专练", jp: "好恶表达",
+      kp: ["「大好き／大嫌い」＝非常喜欢／非常讨厌。",
+           "「〜が分かります」＝懂〜。",
+           "「〜はどうですか」用于询问对方喜好。"],
+      ex: [["アニメが大好きです。", "超级喜欢动漫。"], ["日本語がよく分かります。", "很懂日语。"], ["スポーツはどうですか。", "运动怎么样？"]],
+      q: [
+        { ty: "c", q: "「大好き」的意思是？", o: ["讨厌", "非常喜欢", "一般喜欢", "不擅长"], a: 1, e2: "大+好き＝超喜欢。" },
+        { ty: "c", q: "「〜が分かります」的意思是？", o: ["懂〜", "喜欢〜", "讨厌〜", "擅长〜"], a: 0, e2: "分かる＝明白、懂。" },
+        { ty: "c", q: "「下手」的意思是？", o: ["擅长", "不擅长", "喜欢", "讨厌"], a: 1, e2: "下手＝へた＝不擅长。" },
+        { ty: "f", q: "填空：超级喜欢动漫。→ アニメが___好きです。", a: "大", hint: "dai", e2: "大好き。" },
+        { ty: "c", q: "「〜が嫌いです」的意思是？", o: ["喜欢", "讨厌", "擅长", "懂"], a: 1, e2: "嫌い＝きらい＝讨厌。" }
+      ]
+    },
+    { n: "12a", unit: "📙 单元3 · 温泉（第9-12课）", t: "第12课 · 比较句", jp: "李さんは森さんより若いです",
+      kp: ["A は B より〜：A 比 B 更〜。",
+           "A より B のほうが〜：比起 A，B 更〜。",
+           "A と B と どちらが〜か：A 和 B 哪个更〜？",
+           "〜で一番〜：在〜范围里最〜。"],
+      ex: [["李さんは森さんより若いです。", "小李比森先生年轻。"], ["日本より中国のほうが広いです。", "比起日本，中国更大。"], ["一年で夏が一番暑いです。", "一年中夏天最热。"]],
+      q: [
+        { ty: "c", q: "「A は B より〜」的意思是？", o: ["A 比 B 更〜", "B 比 A 更〜", "A 和 B 一样", "A 不如 B"], a: 0, e2: "より 前面是被比较对象。" },
+        { ty: "c", q: "「どちらが」用来问？", o: ["哪里", "哪个（二者）", "多少", "为什么"], a: 1, e2: "どちら 用于二选一。" },
+        { ty: "c", q: "「一年で夏が一番暑いです」中「で」表示？", o: ["范围", "手段", "地点", "原因"], a: 0, e2: "〜で一番〜：范围内最…" },
+        { ty: "f", q: "填空：小李比森先生年轻。→ 李さんは森さん___若いです。", a: "より", hint: "yori", e2: "より＝比。" },
+        { ty: "m", q: "「比起日本，中国更大」用日语说是？", o: ["日本より中国のほうが広いです", "中国より日本のほうが広いです", "中国は日本です", "日本は中国より広いです"], a: 0, e2: "B のほうが＝B 更…" }
+      ]
+    },
+    { n: "12b", unit: "📙 单元3 · 温泉（第9-12课）", t: "第12课 · 语法专练", jp: "比较与最高级",
+      kp: ["「〜ほど〜ない」：没有比〜更…（否定比较）。",
+           "「〜と同じ」：和〜一样。",
+           "「〜の中で一番〜」：在〜之中最〜。"],
+      ex: [["日本語は英語ほど難しくないです。", "日语没有英语那么难。"], ["私もあなたと同じです。", "我也和你一样。"], ["果物の中でりんごが一番好きです。", "水果里最喜欢苹果。"]],
+      q: [
+        { ty: "c", q: "「A は B ほど〜ない」的意思是？", o: ["A 比 B 更…", "A 没有 B 那么…", "A 和 B 一样", "B 不如 A"], a: 1, e2: "ほど〜ない＝不如…" },
+        { ty: "c", q: "「〜と同じ」的意思是？", o: ["和〜不同", "和〜一样", "比〜更好", "不如〜"], a: 1, e2: "同じ＝一样。" },
+        { ty: "c", q: "「の中で一番」的意思是？", o: ["在…之中最…", "比…更", "和…一样", "不如…"], a: 0, e2: "〜の中で一番〜。" },
+        { ty: "f", q: "填空：日语没有英语那么难。→ 日本語は英語___難しくないです。", a: "ほど", hint: "hodo", e2: "ほど+否定。" },
+        { ty: "o", q: "排成一句话：水果中最喜欢苹果。", o: ["一番", "果物の中で", "りんごが", "好きです"], a: ["果物の中で", "りんごが", "一番", "好きです"], e2: "果物の中でりんごが一番好きです。" }
+      ]
+    },
+    { n: "13a", unit: "📕 单元4 · 東京（第13-16课）", t: "第13课 · 数量词", jp: "机の上に本が三冊あります",
+      kp: ["量词：〜冊（书）、〜枚（薄物）、〜台（机器）、〜本（细长物）、〜人（人）、〜匹（小动物）。",
+           "数量词位置灵活：本が三冊あります。",
+           "「〜ぐらい」＝大约。"],
+      ex: [["机の上に本が三冊あります。", "桌上有三本书。"], ["切符を二枚買いました。", "买了两张票。"], ["教室に学生が十人います。", "教室里有十个学生。"]],
+      q: [
+        { ty: "c", q: "数「书」用哪个量词？", o: ["枚", "冊", "台", "本"], a: 1, e2: "书＝〜冊（さつ）。" },
+        { ty: "c", q: "数「车/机器」用哪个量词？", o: ["枚", "冊", "台", "匹"], a: 2, e2: "台＝だい。" },
+        { ty: "c", q: "数「票/纸」用哪个量词？", o: ["枚", "冊", "本", "人"], a: 0, e2: "枚＝まい。" },
+        { ty: "c", q: "数「猫」用哪个量词？", o: ["人", "匹", "台", "冊"], a: 1, e2: "匹＝ひき。" },
+        { ty: "f", q: "填空：桌上有三本书。→ 机の上に本が三___あります。", a: "冊", hint: "さつ", e2: "本 的量词是 冊。" }
+      ]
+    },
+    { n: "13b", unit: "📕 单元4 · 東京（第13-16课）", t: "第13课 · 语法专练", jp: "数量与时间量",
+      kp: ["时间量词：〜時間、〜日、〜週間、〜ヶ月、〜年。",
+           "「〜回」＝次数；「〜度」＝次数/温度。",
+           "数量词后一般不加 の（除个别）。"],
+      ex: [["毎日二時間勉強します。", "每天学两小时。"], ["一年に一回、日本へ行きます。", "一年去一次日本。"], ["三日間休みました。", "休息了三天。"]],
+      q: [
+        { ty: "c", q: "「二時間」的意思是？", o: ["两点", "两个小时", "两天", "两次"], a: 1, e2: "〜時間＝小时数。" },
+        { ty: "c", q: "「一日」的正确读法是？", o: ["いちにち", "ついたち", "いちじつ", "ひといち"], a: 1, e2: "一日＝ついたち（每月1号）；「一天」读 いちにち。" },
+        { ty: "c", q: "「〜ヶ月」的意思是？", o: ["〜个月", "〜月亮", "〜年前", "〜天"], a: 0, e2: "ヶ月＝かげつ。" },
+        { ty: "f", q: "填空：每天学两个小时。→ 毎日二___勉強します。", a: "時間", hint: "じかん", e2: "〜時間＝小时。" },
+        { ty: "c", q: "「三回」的意思是？", o: ["三次", "三天", "三小时", "三个"], a: 0, e2: "〜回＝次数。" }
+      ]
+    },
+    { n: "14a", unit: "📕 单元4 · 東京（第13-16课）", t: "第14课 · て形①", jp: "昨日デパートへ行って、買い物しました",
+      kp: ["て形形成：① う/つ/る→って；② む/ぬ/ぶ→んで；③ く→いて、ぐ→いで；④ す→して。",
+           "「〜て、〜」：表动作先后或并列。",
+           "「〜てから」：做完 A 之后做 B。"],
+      ex: [["昨日デパートへ行って、買い物しました。", "昨天去了百货店，买了东西。"], ["朝ご飯を食べてから、学校へ行きます。", "吃完早饭后去学校。"], ["宿題をして、テレビを見ました。", "做完作业看了电视。"]],
+      q: [
+        { ty: "c", q: "「行く」的て形是？", o: ["行いて", "行って", "行んで", "行して"], a: 1, e2: "行く 是例外→行って。" },
+        { ty: "c", q: "「書く」的て形是？", o: ["書いて", "書って", "書んで", "書いてる"], a: 0, e2: "く→いて。" },
+        { ty: "c", q: "「食べる」的て形是？", o: ["食べて", "食べって", "食べんで", "食べいて"], a: 0, e2: "一段动词去る+て。" },
+        { ty: "c", q: "「読む」的て形是？", o: ["読んで", "読って", "読いて", "読むて"], a: 0, e2: "む→んで。" },
+        { ty: "f", q: "填空：吃完早饭后去学校。→ 朝ご飯を食べ___から、学校へ行きます。", a: "て", hint: "te", e2: "てから。" }
+      ]
+    },
+    { n: "14b", unit: "📕 单元4 · 東京（第13-16课）", t: "第14课 · 语法专练", jp: "て形全表",
+      kp: ["五段て形口诀：うつる→って、むぬぶ→んで、く→いて、ぐ→いで、す→して。",
+           "「する→して」「来る→来て」是特殊。",
+           "「〜てください」＝请做〜。"],
+      ex: [["ちょっと待ってください。", "请稍等。"], ["ここに名前を書いてください。", "请在这里写名字。"], ["宿題をして、それから遊びます。", "做作业，然后玩。"]],
+      q: [
+        { ty: "c", q: "「する」的て形是？", o: ["すて", "して", "しって", "するて"], a: 1, e2: "する→して。" },
+        { ty: "c", q: "「来る」的て形是？", o: ["来て", "来って", "来んで", "来たて"], a: 0, e2: "来る→来て。" },
+        { ty: "c", q: "「〜てください」的意思是？", o: ["请做〜", "请不要做〜", "可以做〜", "想去做〜"], a: 0, e2: "＝请…" },
+        { ty: "f", q: "填空：请稍等。→ ちょっと待っ___ください。", a: "て", hint: "te", e2: "待つ→待って。" },
+        { ty: "c", q: "「買う」的て形是？", o: ["買いて", "買って", "買んで", "買して"], a: 1, e2: "う→って。" }
+      ]
+    },
+    { n: "15a", unit: "📕 单元4 · 東京（第13-16课）", t: "第15课 · て形②", jp: "小野さんは今新聞を読んでいます",
+      kp: ["「〜ています」：① 正在进行；② 状态持续。",
+           "「〜てもいいです」：可以〜（许可）。",
+           "「〜てはいけません」：不可以〜（禁止）。"],
+      ex: [["小野さんは今新聞を読んでいます。", "小野正在看报纸。"], ["ここに座ってもいいですか。", "可以坐这里吗？"], ["ここで写真を撮ってはいけません。", "这里不能拍照。"]],
+      q: [
+        { ty: "c", q: "「読んでいます」表示？", o: ["读过了", "正在读", "要读", "不读"], a: 1, e2: "〜ています 表进行。" },
+        { ty: "c", q: "「〜てもいいですか」表示？", o: ["禁止", "请求许可", "义务", "推测"], a: 1, e2: "可以…吗？" },
+        { ty: "c", q: "「〜てはいけません」表示？", o: ["可以", "禁止", "建议", "可能"], a: 1, e2: "不可以…" },
+        { ty: "m", q: "「这里不能拍照」用日语说是？", o: ["ここで写真を撮ってはいけません", "ここで写真を撮ってもいいです", "ここに写真を撮ります", "写真はここです"], a: 0, e2: "〜てはいけません＝禁止。" },
+        { ty: "f", q: "填空：正在看报纸。→ 新聞を読ん___います。", a: "で", hint: "de", e2: "読む→読んで+います。" }
+      ]
+    },
+    { n: "15b", unit: "📕 单元4 · 東京（第13-16课）", t: "第15课 · 语法专练", jp: "许可与禁止",
+      kp: ["「〜てもいいです」＝可以做；否定是「〜なくてもいいです」＝不做也行。",
+           "「〜てはいけません」比「〜ないでください」更强硬。",
+           "「〜ています」还可表职业、习惯。"],
+      ex: [["明日来なくてもいいです。", "明天不来也行。"], ["ここで写真を撮らないでください。", "请不要在这里拍照。"], ["彼は銀行で働いています。", "他在银行工作（职业）。"]],
+      q: [
+        { ty: "c", q: "「〜なくてもいいです」的意思是？", o: ["必须做", "不做也行", "不能做", "想做"], a: 1, e2: "なくてもいい＝不…也可以。" },
+        { ty: "c", q: "「働いています」在这里表示？", o: ["正在工作（此刻）", "职业/长期状态", "将要工作", "不工作"], a: 1, e2: "〜ています 也可表职业。" },
+        { ty: "c", q: "「〜てはいけません」和「〜ないでください」哪个更强硬？", o: ["前者", "后者", "一样", "都不强硬"], a: 0, e2: "てはいけません 语气更硬。" },
+        { ty: "f", q: "填空：明天不来也行。→ 明日来___てもいいです。", a: "なく", hint: "naku", e2: "ない→なくてもいい。" },
+        { ty: "o", q: "排成一句话：可以坐这里吗？", o: ["座って", "ここに", "も", "いいですか"], a: ["ここに", "座って", "も", "いいですか"], e2: "ここに座ってもいいですか。" }
+      ]
+    },
+    { n: "16a", unit: "📕 单元4 · 東京（第13-16课）", t: "第16课 · 形容词て形", jp: "ホテルの部屋は広くて明るいです",
+      kp: ["い形容词て形：い→くて。広い→広くて。",
+           "な形容词て形：+で。静か→静かで。",
+           "名词て形：+で。学生→学生で。",
+           "「〜て」连接两个形容词＝又…又…"],
+      ex: [["ホテルの部屋は広くて明るいです。", "酒店房间又宽敞又明亮。"], ["この町は静かで綺麗です。", "这个城市又安静又漂亮。"], ["彼は学生で、二十歳です。", "他是学生，二十岁。"]],
+      q: [
+        { ty: "c", q: "「広い」的て形是？", o: ["広いで", "広くて", "広で", "広くって"], a: 1, e2: "い形容词→くて。" },
+        { ty: "c", q: "「静か」的て形是？", o: ["静かくて", "静かで", "静かて", "静かいで"], a: 1, e2: "な形容词→+で。" },
+        { ty: "c", q: "「この町は静かで綺麗です」的意思是？", o: ["安静但不好看", "又安静又漂亮", "比那个好看", "很安静吗"], a: 1, e2: "〜て 并列两个性质。" },
+        { ty: "f", q: "填空：房间又宽敞又明亮。→ 部屋は広___明るいです。", a: "くて", hint: "kute", e2: "広い→広くて。" },
+        { ty: "o", q: "排成一句话：他是学生，二十岁。", o: ["二十歳", "彼", "学生", "で", "は", "です"], a: ["彼", "は", "学生", "で", "二十歳", "です"], e2: "彼は学生で、二十歳です。" }
+      ]
+    },
+    { n: "16b", unit: "📕 单元4 · 東京（第13-16课）", t: "第16课 · 语法专练", jp: "并列与对比",
+      kp: ["「〜くて」也可表原因：安くて、買いました。",
+           "「〜が」可表转折：安いですが、買いません。",
+           "「〜し」列举理由：安いし、便利だし。"],
+      ex: [["安くて、たくさん買いました。", "因为便宜，买了很多。"], ["安いですが、買いません。", "虽然便宜，但不买。"], ["この店は安いし、便利です。", "这家店又便宜又方便。"]],
+      q: [
+        { ty: "c", q: "「安くて、買いました」中「くて」表示？", o: ["并列", "原因", "转折", "假定"], a: 1, e2: "くて 也可表原因。" },
+        { ty: "c", q: "「〜が」表转折时相当于？", o: ["而且", "但是", "因为", "如果"], a: 1, e2: "が＝但是。" },
+        { ty: "c", q: "「〜し」表示？", o: ["列举理由", "命令", "禁止", "假定"], a: 0, e2: "〜し、〜し 列举多个理由。" },
+        { ty: "f", q: "填空：虽然便宜，但不买。→ 安いです___、買いません。", a: "が", hint: "ga", e2: "が 表转折。" },
+        { ty: "c", q: "「この店は安いし、便利です」的意思是？", o: ["这家店又便宜又方便", "这家店便宜但不方便", "这家店贵", "这家店远"], a: 0, e2: "し 列举优点。" }
+      ]
+    }
+  ];
+  // ---------- 初级上：第 17-24 课（8 关）----------
+  var BOOK_UP_C = [
+    { n: "17", unit: "📔 单元5 · 交流（第17-20课）", t: "第17课 · 愿望表达", jp: "私は新しい洋服が欲しいです",
+      kp: ["「〜が欲しいです」：想要某物（第一人称）。",
+           "「〜たいです」：想做某事（ます形去ます+たい）。",
+           "「〜ませんか」的愿望版：「〜たいんですが」。"],
+      ex: [["私は新しい洋服が欲しいです。", "我想要新衣服。"], ["日本へ行きたいです。", "想去日本。"], ["何が欲しいですか。", "你想要什么？"]],
+      q: [
+        { ty: "c", q: "「欲しい」的对象助词是？", o: ["を", "が", "に", "で"], a: 1, e2: "〜が欲しいです。" },
+        { ty: "c", q: "「行きます」变成「想去」是？", o: ["行きたいです", "行くたいです", "行きほしいです", "行くです"], a: 0, e2: "ます形去ます+たい。" },
+        { ty: "c", q: "「食べたいです」的对象助词可以是？", o: ["只能を", "只能が", "を 或 が都可以", "只能用に"], a: 2, e2: "〜たい 的对象 を/が 均可。" },
+        { ty: "f", q: "填空：想看动漫。→ アニメが見___です。", a: "たい", hint: "tai", e2: "見ます→見たいです。" },
+        { ty: "m", q: "「我想要新衣服」用日语说是？", o: ["新しい洋服が欲しいです", "新しい洋服を欲しいです", "新しい洋服がたいです", "洋服は新しいです"], a: 0, e2: "欲しい 前用 が。" }
+      ]
+    },
+    { n: "18", unit: "📔 单元5 · 交流（第17-20课）", t: "第18课 · 变化表达", jp: "携帯電話はとても小さくなりました",
+      kp: ["い形容词+なる：〜くなる（变冷）。",
+           "な形容词/名词+なる：〜になる（变安静）。",
+           "「〜くする／〜にする」：使…变成（人为改变）。"],
+      ex: [["携帯電話はとても小さくなりました。", "手机变得非常小了。"], ["部屋は綺麗になりました。", "房间变干净了。"], ["音量を大きくしてください。", "请把音量调大。"]],
+      q: [
+        { ty: "c", q: "「寒い」变成「变冷了」是？", o: ["寒いなりました", "寒くなりました", "寒になりました", "寒くしました"], a: 1, e2: "い形容词+なる→くなる。" },
+        { ty: "c", q: "「静か」变成「变安静了」是？", o: ["静かくなりました", "静かになりました", "静かでなりました", "静かのなりました"], a: 1, e2: "な形容词+に+なる。" },
+        { ty: "c", q: "「〜くする」和「〜くなる」的区别？", o: ["没区别", "する=人为改变，なる=自然变化", "する=自然，なる=人为", "两者都表自然"], a: 1, e2: "する 主动施加，なる 自然演变。" },
+        { ty: "f", q: "填空：房间变干净了。→ 部屋は綺麗___なりました。", a: "に", hint: "ni", e2: "な形容词+に+なる。" },
+        { ty: "m", q: "「手机变小了」用日语说是？", o: ["携帯電話は小さくなりました", "携帯電話は小さくしました", "携帯電話が小さいです", "携帯電話は小さくなりますた"], a: 0, e2: "小さくなりました。" }
+      ]
+    },
+    { n: "19", unit: "📔 单元5 · 交流（第17-20课）", t: "第19课 · ない形与请求", jp: "部屋の鍵を忘れないでください",
+      kp: ["ない形：① う段→あ段+ない；② る→ない；③ する→しない；④ 来る→来ない。",
+           "「〜ないでください」：请不要〜。",
+           "「〜なければなりません」：必须〜。",
+           "「〜なくてもいいです」：不〜也可以。"],
+      ex: [["部屋の鍵を忘れないでください。", "请不要忘记房间的钥匙。"], ["明日、来なければなりません。", "明天必须来。"], ["急がなくてもいいです。", "不用着急。"]],
+      q: [
+        { ty: "c", q: "「行く」的ない形是？", o: ["行ない", "行かない", "行くない", "行きない"], a: 1, e2: "五段：う段→あ段+ない。" },
+        { ty: "c", q: "「食べる」的ない形是？", o: ["食べない", "食べらない", "食べくない", "食べるない"], a: 0, e2: "一段：去る+ない。" },
+        { ty: "c", q: "「〜ないでください」的意思是？", o: ["请做〜", "请不要〜", "必须做〜", "可以不做"], a: 1, e2: "否定请求。" },
+        { ty: "c", q: "「〜なければなりません」的意思是？", o: ["可以不", "必须", "禁止", "想要"], a: 1, e2: "双重否定表义务。" },
+        { ty: "f", q: "填空：请不要忘记钥匙。→ 鍵を忘れ___でください。", a: "ない", hint: "nai", e2: "忘れる→忘れない。" }
+      ]
+    },
+    { n: "20", unit: "📔 单元5 · 交流（第17-20课）", t: "第20课 · 可能与爱好", jp: "スミスさんはピアノを弾くことができます",
+      kp: ["「动词原形+ことができます」：能做〜。",
+           "「趣味は〜ことです」：爱好是〜。",
+           "「〜前に」：做〜之前。"],
+      ex: [["スミスさんはピアノを弾くことができます。", "史密斯先生会弹钢琴。"], ["私の趣味は写真を撮ることです。", "我的爱好是拍照。"], ["寝る前に、少し本を読みます。", "睡前看会儿书。"]],
+      q: [
+        { ty: "c", q: "「弾く」接「ことができます」的正确形式？", o: ["弾きことができます", "弾くことができます", "弾いてことができます", "弾いたことができます"], a: 1, e2: "动词原形+ことができます。" },
+        { ty: "c", q: "「趣味は写真を撮ることです」的意思是？", o: ["喜欢拍照片", "爱好是拍照", "会拍照", "拍了照"], a: 1, e2: "动词原形+こと 名词化。" },
+        { ty: "c", q: "「寝る前に」的意思是？", o: ["睡觉时", "睡觉前", "睡完后", "快要睡"], a: 1, e2: "动词原形+前に。" },
+        { ty: "f", q: "填空：会弹钢琴。→ ピアノを弾く___ができます。", a: "こと", hint: "koto", e2: "〜ことができます。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "私の趣味は写真を撮ることです。", hint: "watashi no shumi wa shashin wo toru koto desu", e2: "我的爱好是拍照。" }
+      ]
+    },
+    { n: "21", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第21课 · 经验表达", jp: "私はすき焼きを食べたことがあります",
+      kp: ["「〜たことがあります」：曾经做过〜（经验）。",
+           "「〜たあとで」：做完〜之后。",
+           "「〜ましょうか」：要不要我帮你〜？"],
+      ex: [["私はすき焼きを食べたことがあります。", "我吃过寿喜烧。"], ["仕事が終わったあとで、飲みに行きます。", "工作结束后去喝酒。"], ["荷物を持ちましょうか。", "要我帮你拿行李吗？"]],
+      q: [
+        { ty: "c", q: "「〜たことがあります」表示？", o: ["正在做", "曾经做过", "打算做", "不能做"], a: 1, e2: "表经验。" },
+        { ty: "c", q: "「食べたことがあります」的意思是？", o: ["正在吃", "吃过", "要吃", "不吃"], a: 1, e2: "た形+ことがあります。" },
+        { ty: "c", q: "「〜たあとで」的意思是？", o: ["在〜之前", "在〜之后", "正在〜", "直到〜"], a: 1, e2: "あとで＝之后。" },
+        { ty: "f", q: "填空：我吃过寿喜烧。→ すき焼きを食べた___があります。", a: "こと", hint: "koto", e2: "た形+ことがあります。" },
+        { ty: "m", q: "「要我帮你拿行李吗？」用日语说是？", o: ["荷物を持ちましょうか", "荷物を持ちますか", "荷物を持ってください", "荷物はどこですか"], a: 0, e2: "〜ましょうか 表主动提议。" }
+      ]
+    },
+    { n: "22", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第22课 · 简体句", jp: "森さんは毎晩テレビを見る",
+      kp: ["简体：动词原形/ない形、い形容词直接结句、名词/な形容词+だ。",
+           "简体用于：家人朋友间、日记、报纸、从句内部。",
+           "礼貌体 vs 简体：です/ます ↔ だ/原形。"],
+      ex: [["森さんは毎晩テレビを見る。", "森先生每晚看电视。"], ["明日は雨だ。", "明天有雨。"], ["これはとても美味しい。", "这个非常好吃。"]],
+      q: [
+        { ty: "c", q: "「見ます」的简体是？", o: ["見る", "見た", "見ない", "見だ"], a: 0, e2: "ます形→辞书形。" },
+        { ty: "c", q: "「学生です」的简体是？", o: ["学生だ", "学生の", "学生である だけ", "学生ます"], a: 0, e2: "名词句简体用 だ。" },
+        { ty: "c", q: "「美味しいです」的简体是？", o: ["美味しいだ", "美味しい", "美味しいです", "美味しだ"], a: 1, e2: "い形容词简体直接结句。" },
+        { ty: "f", q: "填空：明天有雨（简体）。→ 明日は雨___。", a: "だ", hint: "da", e2: "名词句简体+だ。" },
+        { ty: "c", q: "简体句常用于？", o: ["正式演讲", "朋友间对话和日记", "商务邮件", "敬语场合"], a: 1, e2: "简体用于亲近关系。" }
+      ]
+    },
+    { n: "23", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第23课 · 列举与条件", jp: "休みの日、散歩したり買い物に行ったりします",
+      kp: ["「〜たり〜たりします」：又做 A 又做 B（列举代表性动作）。",
+           "「〜か」：或者。",
+           "「〜によって」：根据〜不同而不同。"],
+      ex: [["休みの日、散歩したり買い物に行ったりします。", "休息日散散步、去买买东西。"], ["人によって考えが違います。", "因人而异，想法不同。"], ["コーヒーかお茶を飲みます。", "喝咖啡或茶。"]],
+      q: [
+        { ty: "c", q: "「〜たり〜たりします」表示？", o: ["只做一件事", "列举若干动作", "全都不做", "顺序动作"], a: 1, e2: "列举代表性动作。" },
+        { ty: "c", q: "「たり」前接什么形式？", o: ["ます形", "た形", "ない形", "辞书形"], a: 1, e2: "た形+り。" },
+        { ty: "c", q: "「人によって違います」的意思是？", o: ["所有人都一样", "因人而异", "某人的意见", "和别人不同"], a: 1, e2: "〜によって＝根据…不同。" },
+        { ty: "f", q: "填空：做做运动、看看书。→ 運動し___本を読ん___します。", a: "たり / たり", hint: "tari / tari", e2: "たり…たりします。" },
+        { ty: "m", q: "「喝咖啡或茶」用日语说是？", o: ["コーヒーかお茶を飲みます", "コーヒーとお茶を飲みます", "コーヒーやお茶です", "コーヒーもお茶も飲みます"], a: 0, e2: "か＝或者。" }
+      ]
+    },
+    { n: "24", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第24课 · 推测与引用", jp: "李さんはもうすぐ来ると思います",
+      kp: ["「〜と思います」：我认为〜（从句用简体）。",
+           "「〜と言いました」：说了〜。",
+           "「〜でしょう」：大概〜吧（推测）。"],
+      ex: [["李さんはもうすぐ来ると思います。", "我想小李马上就来了。"], ["彼は「行きます」と言いました。", "他说「我去」。"], ["明日は雨が降るでしょう。", "明天大概会下雨吧。"]],
+      q: [
+        { ty: "c", q: "「〜と思います」前面用简体还是敬体？", o: ["敬体", "简体", "都可以", "都不能"], a: 1, e2: "从句内部用简体。" },
+        { ty: "c", q: "「〜でしょう」表示？", o: ["确定", "推测", "命令", "禁止"], a: 1, e2: "表推测。" },
+        { ty: "c", q: "「李さんはもうすぐ来ると思います」的意思是？", o: ["小李马上就来了（事实）", "我认为小李马上就来", "小李已经来了", "让小李马上来"], a: 1, e2: "〜と思います＝我认为。" },
+        { ty: "f", q: "填空：我认为他会来。→ 彼は来る___思います。", a: "と", hint: "to", e2: "引用助词 と。" },
+        { ty: "o", q: "排成一句话：明天大概会下雨吧。", o: ["でしょう", "明日", "雨が", "は", "降る"], a: ["明日", "は", "雨が", "降る", "でしょう"], e2: "明日は雨が降るでしょう。" }
+      ]
+    }
+  ];
+
+  var BOOK_UP_ALL = BOOK_UP.concat(BOOK_UP_B, BOOK_UP_C);
+  // ---------- 初级下：第 25-40 课（16 关）----------
+  var BOOK_DOWN_A = [
+    { n: "25", unit: "🔷 单元7 · 迎接（第25-28课）", t: "第25课 · 定语从句", jp: "これは明日会議で使う資料です",
+      kp: ["动词小句可直接修饰名词，语序与中文相反：日本語を勉強する人＝学日语的人。",
+           "修饰句内部的主语用「が」（也可用「の」）。",
+           "「〜は〜が〜」：大主题＋小主语，日语定语典型结构。"],
+      ex: [["これは明日会議で使う資料です。", "这是明天开会要用的资料。"], ["あそこに立っている人は誰ですか。", "站在那边的人是谁？"], ["これは私が書いた本です。", "这是我写的书。"]],
+      q: [
+        { ty: "c", q: "「使う」为什么用原形修饰名词？", o: ["表过去", "修饰句用简体，原形表非过去", "表敬语", "表命令"], a: 1, e2: "修饰名词的小句用简体。" },
+        { ty: "c", q: "「立っている人」的意思是？", o: ["站过的人", "正在站着的人", "要站的人", "站不住的人"], a: 1, e2: "〜ている 修饰＝正在…的。" },
+        { ty: "c", q: "「私が書いた本」的意思是？", o: ["我读的书", "我写的书", "给我的书", "关于我的书"], a: 1, e2: "定语从句修饰「本」。" },
+        { ty: "m", q: "「学日语的人」用日语说是？", o: ["日本語を勉強する人", "日本語を勉強した人", "日本語が勉強する人", "日本語の勉強人"], a: 0, e2: "动词原形+名词。" },
+        { ty: "f", q: "填空：这是明天要用的资料。→ これは明日使___資料です。", a: "う", hint: "使う", e2: "原形修饰 資料。" }
+      ]
+    },
+    { n: "26", unit: "🔷 单元7 · 迎接（第25-28课）", t: "第26课 · 动词名词化", jp: "自転車に二人で乗るのは危ないです",
+      kp: ["动词+の/こと可名词化，作主语或宾语。",
+           "「〜のは〜です」：做〜是…的。",
+           "「〜のを忘れました」：忘了做〜。"],
+      ex: [["自転車に二人で乗るのは危ないです。", "两个人骑一辆自行车很危险。"], ["日本語を勉強するのは楽しいです。", "学日语很开心。"], ["窓を閉めるのを忘れました。", "忘了关窗户。"]],
+      q: [
+        { ty: "c", q: "「〜の」和「〜こと」名词化后区别？", o: ["完全一样", "の 更口语，こと 更正式", "の 更正式", "こと 不能作主语"], a: 1, e2: "正式场合多用 こと。" },
+        { ty: "c", q: "「〜のは〜です」结构表示？", o: ["原因", "做某事是怎么样的", "目的", "比较"], a: 1, e2: "把动作当主题来评价。" },
+        { ty: "c", q: "「閉めるのを忘れました」的意思是？", o: ["忘了关（窗）", "关了窗", "想关窗", "不要关窗"], a: 0, e2: "〜のを忘れる＝忘了做…" },
+        { ty: "f", q: "填空：学日语很开心。→ 日本語を勉強する___は楽しいです。", a: "の", hint: "no / こと", e2: "动词+のは 作主语。" },
+        { ty: "o", q: "排成一句话：两个人骑车很危险。", o: ["危ない", "自転車に", "乗るのは", "二人で", "です"], a: ["自転車に", "二人で", "乗るのは", "危ない", "です"], e2: "自転車に二人で乗るのは危ないです。" }
+      ]
+    },
+    { n: "27", unit: "🔷 单元7 · 迎接（第25-28课）", t: "第27课 · 时间从句", jp: "子供の時、大きな地震がありました",
+      kp: ["「〜時」：在〜的时候。名词+の時、动词简体+時。",
+           "「〜ながら」：一边〜一边〜（ます形去ます+ながら）。",
+           "「〜ています」还可表示职业、习惯。"],
+      ex: [["子供の時、大きな地震がありました。", "小时候发生过大地震。"], ["音楽を聞きながら、勉強します。", "一边听音乐一边学习。"], ["彼は銀行で働いています。", "他在银行工作。"]],
+      q: [
+        { ty: "c", q: "「子供の時」中「の」的作用？", o: ["所属", "名词修饰 時", "主题", "宾语"], a: 1, e2: "名词+の+時。" },
+        { ty: "c", q: "「〜ながら」的接续方式是？", o: ["ます形去ます+ながら", "辞书形+ながら", "た形+ながら", "ない形+ながら"], a: 0, e2: "ます形去ます+ながら。" },
+        { ty: "c", q: "「働いています」在这里表示？", o: ["正在工作（此刻）", "职业/长期状态", "将要工作", "不工作"], a: 1, e2: "〜ています 也可表职业。" },
+        { ty: "f", q: "填空：一边听音乐一边学习。→ 音楽を聞き___、勉強します。", a: "ながら", hint: "nagara", e2: "聞きます→聞きながら。" },
+        { ty: "c", q: "「小さい時」的正确说法是？", o: ["小さいの時", "小さい時", "小さく時", "小さいな時"], a: 1, e2: "い形容词直接+時。" }
+      ]
+    },
+    { n: "28", unit: "🔷 单元7 · 迎接（第25-28课）", t: "第28课 · 授受①", jp: "馬さんは私に地図をくれました",
+      kp: ["あげる：我（或我方）给别人。",
+           "もらう：我从别人那里得到。",
+           "くれる：别人给我（我方）。",
+           "「に」和「から」：从某人处得到用 に/から。"],
+      ex: [["馬さんは私に地図をくれました。", "小马给了我地图。"], ["私は友達に本をあげました。", "我给了朋友一本书。"], ["先生に辞書をもらいました。", "从老师那里得到了词典。"]],
+      q: [
+        { ty: "c", q: "「别人给我」用哪个动词？", o: ["あげる", "もらう", "くれる", "やる"], a: 2, e2: "くれる＝别人给我方。" },
+        { ty: "c", q: "「我给朋友」用哪个动词？", o: ["あげる", "くれる", "もらう", "もたせる"], a: 0, e2: "あげる＝我方给出去。" },
+        { ty: "c", q: "「我从老师那里得到」用哪个动词？", o: ["あげる", "くれる", "もらう", "させる"], a: 2, e2: "もらう＝我接受。" },
+        { ty: "c", q: "「馬さんは私に地図をくれました」的意思是？", o: ["小马给了我一本书", "小马给了我地图", "我给了小马地图", "我从小马那拿了地图"], a: 1, e2: "くれる 的方向是「给我」。" },
+        { ty: "f", q: "填空：我给了朋友书。→ 私は友達に本を___。", a: "あげました", hint: "agemashita", e2: "あげる 的过去式。" }
+      ]
+    },
+    { n: "29", unit: "🔶 单元8 · 初次见面（第29-32课）", t: "第29课 · 命令形", jp: "電気を消せ",
+      kp: ["命令形：五段→え段；一段→ろ；する→しろ；来る→来い。",
+           "「动词原形+な」：禁止形。",
+           "命令形语气强硬，只用于紧急场合、男性对下级、口号、引用。"],
+      ex: [["電気を消せ。", "关灯！"], ["ここに来い。", "到这儿来！"], ["動くな。", "别动！"]],
+      q: [
+        { ty: "c", q: "「消す」的命令形是？", o: ["消しろ", "消せ", "消する", "消しな"], a: 1, e2: "五段：う段→え段。" },
+        { ty: "c", q: "「食べる」的命令形是？", o: ["食べれ", "食べろ", "食べしろ", "食べない"], a: 1, e2: "一段：去る+ろ。" },
+        { ty: "c", q: "「動くな」的意思是？", o: ["动一下", "别动", "动了吗", "要动"], a: 1, e2: "原形+な＝禁止。" },
+        { ty: "c", q: "命令形适合什么场合？", o: ["正式商务", "紧急/上级对下级", "朋友闲聊", "写邮件"], a: 1, e2: "语气强硬，慎用。" },
+        { ty: "f", q: "填空：别动！→ 動___。", a: "くな", hint: "动くな", e2: "原形+な 表禁止。" }
+      ]
+    },
+    { n: "30", unit: "🔶 单元8 · 初次见面（第29-32课）", t: "第30课 · なさい与と", jp: "もう十一時だから、寝なさい",
+      kp: ["「〜なさい」：比命令形温和，父母对孩子、老师对学生用。",
+           "接续：ます形去ます+なさい。",
+           "「〜と」：表示恒常条件或自然结果。"],
+      ex: [["もう十一時だから、寝なさい。", "都十一点了，快睡吧。"], ["このボタンを押すと、電気がつきます。", "按这个按钮灯就亮。"], ["早く起きなさい。", "快点起床。"]],
+      q: [
+        { ty: "c", q: "「寝る」的「なさい」形是？", o: ["寝なさい", "寝るなさい", "寝たなさい", "寝らないさい"], a: 0, e2: "ます形去ます+なさい。" },
+        { ty: "c", q: "「なさい」比命令形？", o: ["更强硬", "更温和", "一样", "更书面"], a: 1, e2: "语气稍缓，仍属上对下。" },
+        { ty: "c", q: "「押すと、つきます」中「と」表示？", o: ["引用", "恒常条件/必然结果", "并列", "一次性假设"], a: 1, e2: "と＝一…就…（必然）。" },
+        { ty: "f", q: "填空：快点起床！→ 早く起き___。", a: "なさい", hint: "nasai", e2: "起きます→起きなさい。" },
+        { ty: "m", q: "「按这个按钮灯就亮」用日语说是？", o: ["このボタンを押すと、電気がつきます", "このボタンを押して、電気がつきます", "このボタンで電気がつきます", "ボタンは電気です"], a: 0, e2: "〜と＝一…就…" }
+      ]
+    },
+    { n: "31", unit: "🔶 单元8 · 初次见面（第29-32课）", t: "第31课 · 条件句と", jp: "このボタンを押すと、電気がつきます",
+      kp: ["「〜と」的用法：① 恒常条件（自然规律）；② 一…就…（发现）。",
+           "「〜と」后不能接意志、命令、请求。",
+           "「〜ことがあります」：有时会…（表频率）。"],
+      ex: [["このボタンを押すと、電気がつきます。", "按这个按钮灯就亮。"], ["窓を開けると、富士山が見えます。", "一开窗就能看见富士山。"], ["時々、映画を見ることがあります。", "有时会看电影。"]],
+      q: [
+        { ty: "c", q: "「〜と」后不能接以下哪种表达？", o: ["自然结果", "发现", "命令/请求", "恒常状态"], a: 2, e2: "と 后不接意志、命令、劝诱。" },
+        { ty: "c", q: "「開けると、見えます」的「と」表示？", o: ["引用", "一…就…（发现）", "并列", "原因"], a: 1, e2: "表发现或自然结果。" },
+        { ty: "c", q: "「〜ことがあります」在这里表示？", o: ["经验", "有时会", "绝对不能", "必须"], a: 1, e2: "表频率，与 たことがある 不同。" },
+        { ty: "f", q: "填空：按这个按钮灯就亮。→ このボタンを押す___、電気がつきます。", a: "と", hint: "to", e2: "恒常条件用 と。" },
+        { ty: "c", q: "「春になると、桜が咲きます」的意思是？", o: ["春天到了（过去）", "一到春天樱花就开", "如果春天来了", "春天会来"], a: 1, e2: "自然规律用 と。" }
+      ]
+    },
+    { n: "32", unit: "🔶 单元8 · 初次见面（第29-32课）", t: "第32课 · 建议与劝诱", jp: "今度の日曜日に会いましょう",
+      kp: ["「〜ましょう」：我们〜吧（主动提议）。",
+           "「〜ませんか」：要不要〜？（更委婉）。",
+           "「〜ましょうか」：我来帮你〜吧？",
+           "「〜たらどうですか」：〜怎么样？（建议）。"],
+      ex: [["今度の日曜日に会いましょう。", "下次周日见吧。"], ["一緒に映画を見ませんか。", "要不要一起看电影？"], ["少し休んだらどうですか。", "休息一会儿怎么样？"]],
+      q: [
+        { ty: "c", q: "邀约时最委婉的说法是？", o: ["〜ましょう", "〜ませんか", "〜なさい", "〜ください"], a: 1, e2: "ませんか 把选择权交给对方。" },
+        { ty: "c", q: "「〜ましょうか」表示？", o: ["命令", "提议帮忙", "禁止", "过去"], a: 1, e2: "主动提出为对方做什么。" },
+        { ty: "c", q: "「〜たらどうですか」表示？", o: ["假定", "建议", "命令", "过去"], a: 1, e2: "建议对方做某事。" },
+        { ty: "f", q: "填空：要不要一起看电影？→ 一緒に映画を見___か。", a: "ません", hint: "masen", e2: "ませんか 表邀约。" },
+        { ty: "m", q: "「下次周日见吧」用日语说是？", o: ["今度の日曜日に会いましょう", "今度の日曜日に会いますか", "今度の日曜日に会ってください", "日曜日に会いません"], a: 0, e2: "ましょう 表提议。" }
+      ]
+    },
+    { n: "33", unit: "🔸 单元9 · 饺子（第33-36课）", t: "第33课 · 自动词与他动词", jp: "電車が急に止まりました",
+      kp: ["自动词：主语自身变化，不带宾语。止まる（停）。",
+           "他动词：主语作用于对象，带宾语。止める（使…停）。",
+           "「〜が〜ている」：自动词表状态结果。"],
+      ex: [["電車が急に止まりました。", "电车突然停了。"], ["ドアが閉まっています。", "门关着。"], ["窓が開けてあります。", "窗户（被特意）开着。"]],
+      q: [
+        { ty: "c", q: "「止まる」是自动词还是他动词？", o: ["自动词", "他动词", "两者都是", "都不是"], a: 0, e2: "止まる＝自己停。" },
+        { ty: "c", q: "「ドアが閉まっています」翻译为？", o: ["门正在关", "门关着（状态）", "门要关", "门被关上了"], a: 1, e2: "自动词+ている 表状态。" },
+        { ty: "c", q: "「〜てあります」表示？", o: ["正在做", "有意做好的状态", "被别人做", "做了后悔"], a: 1, e2: "他动词てある＝有意保留的状态。" },
+        { ty: "c", q: "「閉める」是自动词还是他动词？", o: ["自动词", "他动词", "两者", "都不是"], a: 1, e2: "閉める 需要宾语。" },
+        { ty: "f", q: "填空：窗户（特意）开着。→ 窓が開け___あります。", a: "て", hint: "te", e2: "開ける→開けてあります。" }
+      ]
+    },
+    { n: "34", unit: "🔸 单元9 · 饺子（第33-36课）", t: "第34课 · てある/ておく/てしまう", jp: "壁にカレンダーが掛けてあります",
+      kp: ["「〜てあります」：有意为之的结果状态。",
+           "「〜ておきます」：预先做好〜（为将来准备）。",
+           "「〜てしまいます」：不小心…了／完全…了。"],
+      ex: [["壁にカレンダーが掛けてあります。", "墙上挂着日历。"], ["先に予約しておきます。", "先预约好。"], ["財布を忘れてしまいました。", "把钱包忘了。"]],
+      q: [
+        { ty: "c", q: "「〜てあります」强调？", o: ["自然结果", "有意为之的结果状态", "正在进行", "将来打算"], a: 1, e2: "含「有人特意做了」的语感。" },
+        { ty: "c", q: "「〜ておきます」的意思是？", o: ["预先做好", "不小心做了", "正在做", "不做"], a: 0, e2: "为将来做准备。" },
+        { ty: "c", q: "「〜てしまいます」的意思是？", o: ["预备好了", "不小心…了/完全…了", "正在做", "必须做"], a: 1, e2: "表遗憾或彻底完成。" },
+        { ty: "f", q: "填空：墙上挂着日历。→ 壁にカレンダーが掛け___あります。", a: "て", hint: "te", e2: "掛ける→掛けてあります。" },
+        { ty: "m", q: "「把钱包忘了」用日语说是？", o: ["財布を忘れてしまいました", "財布を忘れておきました", "財布が忘れてあります", "財布が忘れます"], a: 0, e2: "〜てしまいました 表遗憾。" }
+      ]
+    },
+    { n: "35", unit: "🔸 单元9 · 饺子（第33-36课）", t: "第35课 · 样态与传闻", jp: "明日、雨が降るそうです",
+      kp: ["「〜そうです（样态）」：看起来〜（接词干）。",
+           "「〜そうです（传闻）」：听说〜（接简体句）。",
+           "「〜ようです」：好像〜（基于观察的推测）。"],
+      ex: [["明日、雨が降るそうです。", "听说明天会下雨。"], ["このケーキは美味しそうです。", "这个蛋糕看起来很好吃。"], ["彼は来ないようです。", "他好像不会来。"]],
+      q: [
+        { ty: "c", q: "「降るそうです」中的「そう」表示？", o: ["样态", "传闻", "假定", "比喻"], a: 1, e2: "接简体句＝传闻。" },
+        { ty: "c", q: "「美味しそうです」中的「そう」表示？", o: ["样态（看起来）", "传闻", "命令", "过去"], a: 0, e2: "接词干＝样态。" },
+        { ty: "c", q: "「〜ようです」表示？", o: ["确定", "基于观察的推测", "命令", "禁止"], a: 1, e2: "ようです＝好像。" },
+        { ty: "f", q: "填空：这个蛋糕看起来很好吃。→ このケーキは美味し___です。", a: "そう", hint: "sou", e2: "い形容词去い+そう。" },
+        { ty: "c", q: "「美味しいそうです」和「美味しそうです」的区别？", o: ["没区别", "前者＝听说好吃，后者＝看起来好吃", "前者＝看起来，后者＝听说", "两种说法完全一样"], a: 1, e2: "原形+そう＝传闻；词干+そう＝样态。" }
+      ]
+    },
+    { n: "36", unit: "🔸 单元9 · 饺子（第33-36课）", t: "第36课 · 原因与道歉", jp: "遅くなって、すみません",
+      kp: ["「〜て、すみません」：因为〜，对不起。",
+           "「〜なくて」：否定て形。",
+           "「〜ので」：因为〜（比 から 客观、礼貌）。"],
+      ex: [["遅くなって、すみません。", "来晚了，对不起。"], ["雨が降らなくて、よかったです。", "没下雨，太好了。"], ["忙しいので、行きません。", "因为忙，所以不去。"]],
+      q: [
+        { ty: "c", q: "「〜て、すみません」表示？", o: ["并列", "原因+道歉", "命令", "假定"], a: 1, e2: "用て形表原因。" },
+        { ty: "c", q: "「雨が降らなくて」的意思是？", o: ["下雨了", "没下雨", "要下雨", "下着雨"], a: 1, e2: "ない→なくて 表否定原因。" },
+        { ty: "c", q: "「ので」和「から」的区别？", o: ["完全一样", "ので 更客观礼貌", "から 更客观", "ので 只能接名词"], a: 1, e2: "ので 语气更柔和。" },
+        { ty: "f", q: "填空：因为忙，所以不去。→ 忙しい___、行きません。", a: "ので", hint: "node / から", e2: "ので＝因为。" },
+        { ty: "o", q: "排成一句话：来晚了，对不起。", o: ["すみません", "遅く", "なって", "、"], a: ["遅く", "なって", "、", "すみません"], e2: "遅くなって、すみません。" }
+      ]
+    },
+    { n: "37", unit: "🔹 单元10 · 新年（第37-40课）", t: "第37课 · ば形", jp: "優勝すれば、オリンピックに出場できます",
+      kp: ["ば形：① 五段 う段→え段+ば；② 一段 去る+れば；③ する→すれば；④ 来る→来れば。",
+           "「〜ば」：如果〜的话（假定条件）。",
+           "「〜なければなりません」由此而来。"],
+      ex: [["優勝すれば、オリンピックに出場できます。", "如果夺冠，就能参加奥运会。"], ["安ければ、買います。", "便宜的话就买。"], ["行かなければなりません。", "必须去。"]],
+      q: [
+        { ty: "c", q: "「行く」的ば形是？", o: ["行けば", "行くば", "行きば", "行かば"], a: 0, e2: "五段：う段→え段+ば。" },
+        { ty: "c", q: "「食べる」的ば形是？", o: ["食べれば", "食べるば", "食べば", "食べらば"], a: 0, e2: "一段：去る+れば。" },
+        { ty: "c", q: "「安ければ、買います」的意思是？", o: ["虽然便宜但不买", "便宜的话就买", "买了很便宜", "太便宜了"], a: 1, e2: "ば＝如果…就…" },
+        { ty: "f", q: "填空：便宜的话就买。→ 安けれ___、買います。", a: "ば", hint: "ba", e2: "い形容词：い→ければ。" },
+        { ty: "m", q: "「必须去」用日语说是？", o: ["行かなければなりません", "行けばいいです", "行ってもいいです", "行かなくてもいいです"], a: 0, e2: "なければなりません＝必须。" }
+      ]
+    },
+    { n: "38", unit: "🔹 单元10 · 新年（第37-40课）", t: "第38课 · 可能形", jp: "戴さんは英語が話せます",
+      kp: ["可能形：① 五段 う段→え段+る；② 一段 去る+られる；③ する→できる；④ 来る→来られる。",
+           "可能形动词的对象可用 を 或 が。",
+           "「〜ように」：为了能〜（表目标）。"],
+      ex: [["戴さんは英語が話せます。", "小戴会说英语。"], ["ここで写真が撮れます。", "这里能拍照。"], ["早く泳げるように、練習しています。", "为了能游得快，在练习。"]],
+      q: [
+        { ty: "c", q: "「話す」的可能形是？", o: ["話せる", "話される", "話できる", "話しれる"], a: 0, e2: "五段：う段→え段+る。" },
+        { ty: "c", q: "「食べる」的可能形标准形式是？", o: ["食べれる", "食べられる", "食べさせる", "食べできる"], a: 1, e2: "标准是 食べられる，口语用 食べれる（ら抜き）。" },
+        { ty: "c", q: "「する」的可能形是？", o: ["される", "できる", "するられる", "しれる"], a: 1, e2: "する→できる。" },
+        { ty: "c", q: "「写真が撮れます」的意思是？", o: ["拍了照", "能拍照", "要拍照", "不能拍照"], a: 1, e2: "撮る→撮れる。" },
+        { ty: "f", q: "填空：小戴会说英语。→ 戴さんは英語が話___ます。", a: "せ", hint: "話せます", e2: "話す→話せる。" }
+      ]
+    },
+    { n: "39", unit: "🔹 单元10 · 新年（第37-40课）", t: "第39课 · 目的表达", jp: "眼鏡をかけて本を読みます",
+      kp: ["「〜ように」：为了〜（接非意志动词、可能形）。",
+           "「〜ために」：为了〜（接意志动词），也表原因。",
+           "「〜て」表附带状态：眼鏡をかけて本を読む。"],
+      ex: [["眼鏡をかけて本を読みます。", "戴着眼镜看书。"], ["日本の文化を学ぶために、留学します。", "为了学习日本文化去留学。"], ["忘れないように、メモします。", "为了不忘记，记笔记。"]],
+      q: [
+        { ty: "c", q: "「ために」前面常接？", o: ["非意志动词", "意志动词", "名词", "形容词"], a: 1, e2: "ために 接意志性动作。" },
+        { ty: "c", q: "「ように」前面常接？", o: ["意志动词", "非意志动词/可能形", "名词", "副词"], a: 1, e2: "ように 接 できる/分かる/見える 等。" },
+        { ty: "c", q: "「眼鏡をかけて本を読みます」中「て」表示？", o: ["顺序", "附带状态", "原因", "并列"], a: 1, e2: "表做动作时的附带状态。" },
+        { ty: "f", q: "填空：为了不忘记，记笔记。→ 忘れない___、メモします。", a: "ように", hint: "youni", e2: "ない形+ように。" },
+        { ty: "m", q: "「为了学习日本文化去留学」用日语说是？", o: ["日本の文化を学ぶために、留学します", "日本の文化を学ぶように、留学します", "日本の文化のために、留学です", "日本文化は留学です"], a: 0, e2: "意志性动作用 ために。" }
+      ]
+    },
+    { n: "40", unit: "🔹 单元10 · 新年（第37-40课）", t: "第40课 · ところ・正在进行", jp: "今、何をしていますか",
+      kp: ["「〜ところです」：正要／正在／刚。",
+           "辞书形+ところ＝正要；ている+ところ＝正在；た形+ところ＝刚…",
+           "「〜ています」与「〜てあります」的区别。"],
+      ex: [["今、何をしていますか。", "你现在在做什么？"], ["今から出かけるところです。", "正要出门。"], ["今、食べているところです。", "正在吃。"]],
+      q: [
+        { ty: "c", q: "「〜ところです」中「ところ」表示？", o: ["地点", "时间阶段", "数量", "方式"], a: 1, e2: "表示动作所处阶段。" },
+        { ty: "c", q: "「出かけるところです」的意思是？", o: ["正要出门", "正在出门", "刚出门", "不出门"], a: 0, e2: "辞书形+ところ＝正要。" },
+        { ty: "c", q: "「食べているところです」的意思是？", o: ["正要吃", "正在吃", "刚吃完", "要吃"], a: 1, e2: "ている+ところ＝正在。" },
+        { ty: "c", q: "「食べたところです」的意思是？", o: ["正要吃", "正在吃", "刚吃完", "不吃"], a: 2, e2: "た形+ところ＝刚…" },
+        { ty: "f", q: "填空：正要出门。→ 今から出かける___です。", a: "ところ", hint: "tokoro", e2: "辞书形+ところ。" }
+      ]
+    }
+  ];
+  // ---------- 初级下：第 41-48 课（8 关）----------
+  var BOOK_DOWN_B = [
+    { n: "41", unit: "🔺 单元11 · 工作（第41-44课）", t: "第41课 · 被动句", jp: "李さんは部長にほめられました",
+      kp: ["被动形：① 五段 う段→あ段+れる；② 一段 去る+られる；③ する→される。",
+           "被动句结构：A は B に 〜（ら）れる。",
+           "「〜に」标记动作发出者，书面用「〜によって」。"],
+      ex: [["李さんは部長にほめられました。", "小李被部长表扬了。"], ["財布を盗まれました。", "钱包被偷了。"], ["この本は多くの人に読まれています。", "这本书被很多人阅读。"]],
+      q: [
+        { ty: "c", q: "「褒める」的被动形是？", o: ["褒めれる", "褒められる", "褒めされる", "褒めさせる"], a: 1, e2: "一段：去る+られる。" },
+        { ty: "c", q: "「読む」的被动形是？", o: ["読まれる", "読める", "読まされる", "読みれる"], a: 0, e2: "五段：う段→あ段+れる。" },
+        { ty: "c", q: "被动句中动作发出者用什么助词？", o: ["を", "が", "に", "で"], a: 2, e2: "〜に 表「被谁」。" },
+        { ty: "c", q: "「財布を盗まれました」的意思是？", o: ["钱包被偷了", "偷了钱包", "钱包还在", "要偷钱包"], a: 0, e2: "被动句，主语承受不利影响。" },
+        { ty: "f", q: "填空：小李被部长表扬了。→ 李さんは部長に___ました。", a: "ほめられ", hint: "homerare", e2: "褒める→褒められる。" }
+      ]
+    },
+    { n: "42", unit: "🔺 单元11 · 工作（第41-44课）", t: "第42课 · 使役句", jp: "母は私に買い物に行かせました",
+      kp: ["使役形：① 五段 う段→あ段+せる；② 一段 去る+させる；③ する→させる。",
+           "使役＝让/使某人做某事。他动词用「を」，自动词用「に」。",
+           "「〜させてください」：请让我做〜。"],
+      ex: [["母は私に買い物に行かせました。", "妈妈让我去买东西。"], ["子供に野菜を食べさせます。", "让孩子吃蔬菜。"], ["私にやらせてください。", "请让我来做。"]],
+      q: [
+        { ty: "c", q: "「行く」的使役形是？", o: ["行かせる", "行かれる", "行きせる", "行くせる"], a: 0, e2: "五段：う段→あ段+せる。" },
+        { ty: "c", q: "「食べる」的使役形是？", o: ["食べせる", "食べさせる", "食べられる", "食べるさせる"], a: 1, e2: "一段：去る+させる。" },
+        { ty: "c", q: "自动词的使役对象用哪个助词？", o: ["に", "を", "が", "で"], a: 0, e2: "自动词使役对象用 に。" },
+        { ty: "c", q: "「やらせてください」的意思是？", o: ["请让我做", "请别人做", "我不做", "必须做"], a: 0, e2: "させてください＝请让我…" },
+        { ty: "f", q: "填空：让孩子吃蔬菜。→ 子供に野菜を食べ___ます。", a: "させ", hint: "sase", e2: "食べる→食べさせる。" }
+      ]
+    },
+    { n: "43", unit: "🔺 单元11 · 工作（第41-44课）", t: "第43课 · 可能/被动辨析", jp: "今、忙しいので、来られません",
+      kp: ["一段动词的「られる」既有被动也有可能的意思，靠语境区分。",
+           "口语常用「ら抜き」：見れる、食べれる、来れる。",
+           "「〜ません」礼貌否定，简体是「〜ない」。"],
+      ex: [["今、忙しいので、来られません。", "因为现在很忙，来不了。"], ["この映画は見られますか。", "这部电影能看吗？"], ["明日は行けない。", "明天去不了。"]],
+      q: [
+        { ty: "c", q: "「食べられる」可以表示？", o: ["只能表被动", "只能表可能", "被动和可能都可以", "表使役"], a: 2, e2: "一段动词有歧义，看语境。" },
+        { ty: "c", q: "口语中「食べられる（可能）」常缩成？", o: ["食べれる", "食べるれる", "无法缩写", "食べさせれる"], a: 0, e2: "「ら抜き言葉」：食べれる。" },
+        { ty: "c", q: "「来られません」最常见的意思是？", o: ["被来了", "来不了", "让来", "来过"], a: 1, e2: "来る 的被动不常用，一般理解为可能。" },
+        { ty: "f", q: "填空：因为忙，来不了。→ 忙しいので、来___ません。", a: "られ", hint: "rareru", e2: "来る→来られる。" },
+        { ty: "m", q: "「这部电影能看吗？」用日语说是？", o: ["この映画は見られますか", "この映画が見ますか", "この映画は見ますか", "映画を見たいですか"], a: 0, e2: "可能形+ますか。" }
+      ]
+    },
+    { n: "44", unit: "🔺 单元11 · 工作（第41-44课）", t: "第44课 · 推测与敬语入门", jp: "お客様が来るようです",
+      kp: ["「〜ようです」：好像〜（基于观察判断）。",
+           "「〜らしい」：好像〜（基于传闻）。",
+           "敬语入门：お〜になります、いらっしゃいます。"],
+      ex: [["お客様が来るようです。", "客人好像来了。"], ["明日は雨らしいです。", "听说明天有雨。"], ["社長はもうお帰りになりました。", "社长已经回去了。"]],
+      q: [
+        { ty: "c", q: "「〜ようです」和「〜らしい」的区别？", o: ["没区别", "ようだ=观察判断，らしい=传闻", "ようだ=传闻，らしい=观察", "都表命令"], a: 1, e2: "ようです 靠感觉；らしい 靠听来的信息。" },
+        { ty: "c", q: "「お〜になります」是什么表达？", o: ["谦让语", "尊敬语", "郑重语", "普通体"], a: 1, e2: "尊敬语，用于对方的动作。" },
+        { ty: "c", q: "「社長はお帰りになりました」的意思是？", o: ["社长回去了（尊敬）", "我回去了", "社长让我回去", "社长要回去"], a: 0, e2: "お+ます形+になります。" },
+        { ty: "f", q: "填空：客人好像来了。→ お客様が来る___です。", a: "よう", hint: "you", e2: "ようです＝好像。" },
+        { ty: "c", q: "「雨らしいです」的意思是？", o: ["好像要下雨了（亲眼看到）", "听说明天有雨", "一定下雨", "不会下雨"], a: 1, e2: "らしい 基于外部信息。" }
+      ]
+    },
+    { n: "45", unit: "🔻 单元12 · 庆祝（第45-48课）", t: "第45课 · 持续变化", jp: "少子化が進んでいます",
+      kp: ["「〜ています」表示持续变化。",
+           "「〜てきました」：逐渐…起来。",
+           "「〜ようになりました」：变得…了。"],
+      ex: [["少子化が進んでいます。", "少子化正在加剧。"], ["だんだん寒くなってきました。", "天渐渐冷起来了。"], ["日本語が話せるようになりました。", "变得会说日语了。"]],
+      q: [
+        { ty: "c", q: "「進んでいます」在这里表示？", o: ["进行中的动作", "持续的变化", "完成了", "将要"], a: 1, e2: "〜ています 也可表持续变化。" },
+        { ty: "c", q: "「〜てきました」表示？", o: ["逐渐…起来", "做完了", "被别人做", "使役"], a: 0, e2: "てくる 表由远及近的变化。" },
+        { ty: "c", q: "「話せるようになりました」的意思是？", o: ["变得会说了", "说了话", "被别人说", "不能说"], a: 0, e2: "可能形+ようになる。" },
+        { ty: "f", q: "填空：天渐渐冷起来了。→ だんだん寒くなっ___きました。", a: "て", hint: "te", e2: "なる→なって+きました。" },
+        { ty: "c", q: "「〜ようになりました」和「〜ことにしました」的区别？", o: ["没区别", "前者=变化，后者=决定", "前者=决定，后者=变化", "都表决定"], a: 1, e2: "ようになる 强调变化。" }
+      ]
+    },
+    { n: "46", unit: "🔻 单元12 · 庆祝（第45-48课）", t: "第46课 · 授受②", jp: "これは部長に貸してもらった本です",
+      kp: ["「〜てもらう」：我请别人为我做〜。",
+           "「〜てくれる」：别人为我做〜。",
+           "「〜てあげる」：我为别人做〜（对长辈应用 さしあげる）。"],
+      ex: [["これは部長に貸してもらった本です。", "这是部长借给我的书。"], ["友達が手伝ってくれました。", "朋友帮了我。"], ["妹に教えてあげました。", "我教了妹妹。"]],
+      q: [
+        { ty: "c", q: "「〜てもらう」表示？", o: ["我为别人做", "我请别人为我做", "别人给物", "使役"], a: 1, e2: "＝得到别人为自己做的行为。" },
+        { ty: "c", q: "「〜てくれる」表示？", o: ["我为别人做", "别人为我做", "我请别人做", "不做"], a: 1, e2: "＝（别人）主动为我做。" },
+        { ty: "c", q: "对长辈用哪个动词会失礼？", o: ["さしあげる", "あげる", "いただく", "くださる"], a: 1, e2: "あげる 显得居高临下。" },
+        { ty: "f", q: "填空：朋友帮了我。→ 友達が手伝っ___くれました。", a: "て", hint: "te", e2: "手伝う→手伝って+くれる。" },
+        { ty: "m", q: "「这是部长借给我的书」用日语说是？", o: ["これは部長に貸してもらった本です", "これは部長が貸した本です", "これは部長に貸した本です", "これは部長の本です"], a: 0, e2: "てもらう 强调「我请部长借给我」。" }
+      ]
+    },
+    { n: "47", unit: "🔻 单元12 · 庆祝（第45-48课）", t: "第47课 · 愿望与祈愿", jp: "今度の日曜日は晴れるといいですね",
+      kp: ["「〜といいですね」：要是〜就好了。",
+           "「〜ばいいですね」：若〜的话就好了。",
+           "「〜ように」表祈愿：合格しますように。"],
+      ex: [["今度の日曜日は晴れるといいですね。", "这周日要是晴天就好了。"], ["早く治るといいですね。", "要是早点好起来就好了。"], ["試験に合格しますように。", "希望能通过考试。"]],
+      q: [
+        { ty: "c", q: "「〜といいですね」表示？", o: ["命令", "愿望（要是…就好了）", "推测", "禁止"], a: 1, e2: "对对方或事情的祈愿。" },
+        { ty: "c", q: "「合格しますように」表示？", o: ["断定", "祈愿", "过去", "使役"], a: 1, e2: "ように 结尾表祈愿。" },
+        { ty: "c", q: "「晴れるといいですね」的意思是？", o: ["一定会晴", "要是晴天就好了", "下雨了", "不会晴"], a: 1, e2: "〜といいですね＝要是…就好。" },
+        { ty: "f", q: "填空：这周日要是晴天就好了。→ 日曜日は晴れる___いいですね。", a: "と", hint: "to", e2: "〜といいですね。" },
+        { ty: "o", q: "排成一句话：希望能通过考试。", o: ["ように", "試験に", "合格", "します"], a: ["試験に", "合格", "します", "ように"], e2: "試験に合格しますように。" }
+      ]
+    },
+    { n: "48", unit: "🔻 单元12 · 庆祝（第45-48课）", t: "第48课 · N4 总复习", jp: "総復習・综合运用",
+      kp: ["N4 语法体系：判断句→存在句→形容词→动词变形→て形→た形→ない形→条件→授受→被动使役。",
+           "N4 词汇量约 1500，汉字约 300。",
+           "考前重点：听力反复听、错题重做三遍。"],
+      ex: [["日本語を勉強して、日本人と話せるようになりました。", "学了日语，变得能和日本人交流了。"], ["先生に教えてもらって、合格しました。", "请老师教我，然后合格了。"], ["これからも頑張りましょう。", "今后也一起加油吧。"]],
+      q: [
+        { ty: "c", q: "「〜て、〜」在句中一般表示？", o: ["动作先后或并列", "假定", "命令", "禁止"], a: 0, e2: "顺序/并列。" },
+        { ty: "c", q: "「〜てもらう」的核心含义？", o: ["我请别人为我做", "别人讨厌我", "我为别人做", "被动"], a: 0, e2: "受益方向：向自己。" },
+        { ty: "c", q: "「〜ようになりました」表示？", o: ["决定了", "能力或习惯的变化", "被动了", "使役了"], a: 1, e2: "变得…了。" },
+        { ty: "f", q: "填空：请老师教我，然后合格了。→ 先生に教え___、合格しました。", a: "てもらって", hint: "te moratte", e2: "てもらう+て形。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "これからも頑張りましょう。", hint: "korekara mo ganbarimashou", e2: "今后也一起加油吧。" }
+      ]
+    }
+  ];
+
+  var BOOK_DOWN_ALL = BOOK_DOWN_A.concat(BOOK_DOWN_B);
+
+  // ---------- 补充关：第 17-32 课「词汇・听力专练」----------
+  var BOOK_EXTRA = [
+    { n: "17x", unit: "📔 单元5 · 交流（第17-20课）", t: "第17课 · 词汇听力专练", jp: "欲しい・たい 巩固",
+      kp: ["服饰类词汇：洋服（衣服）、靴（鞋）、帽子（帽子）、鞄（包）。",
+           "「〜が欲しい」只能用于第一人称，问别人用「欲しいですか」。",
+           "「〜たい」的否定是「〜たくないです」。"],
+      ex: [["新しい靴が欲しいです。", "想要新鞋。"], ["今日は何も食べたくないです。", "今天什么都不想吃。"], ["何が欲しいですか。", "你想要什么？"]],
+      q: [
+        { ty: "c", q: "「靴」的意思是？", o: ["帽子", "鞋", "包", "衣服"], a: 1, e2: "靴＝くつ＝鞋。" },
+        { ty: "c", q: "「〜たくないです」的意思是？", o: ["想做", "不想做", "必须做", "可以做"], a: 1, e2: "たい→たくない。" },
+        { ty: "c", q: "「〜が欲しい」能用于第三人称吗？", o: ["可以", "一般不行，要用 欲しがっている", "随便用", "只能用于长辈"], a: 1, e2: "欲しい 限于第一人称。" },
+        { ty: "f", q: "填空：想要新鞋。→ 新しい靴___欲しいです。", a: "が", hint: "ga", e2: "欲しい 的对象用 が。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "日本へ行きたいです。", hint: "nihon e ikitai desu", e2: "想去日本。" }
+      ]
+    },
+    { n: "18x", unit: "📔 单元5 · 交流（第17-20课）", t: "第18课 · 词汇听力专练", jp: "なる・する 巩固",
+      kp: ["「〜になる」＝自然变成；「〜にする」＝人为决定/使成为。",
+           "「〜くする」用于い形容词，「〜にする」用于な形容词/名词。",
+           "「もう少し」＝再一点；「だんだん」＝渐渐。"],
+      ex: [["部屋を綺麗にしてください。", "请把房间弄干净。"], ["だんだん暖かくなりました。", "天渐渐变暖了。"], ["もう少し安くしてください。", "请再便宜一点。"]],
+      q: [
+        { ty: "c", q: "「〜くする」和「〜にする」的区别？", o: ["没区别", "い形容词用くする，な形容词用にする", "相反", "都用于名词"], a: 1, e2: "い形容词→くする；な形容词/名词→にする。" },
+        { ty: "c", q: "「だんだん」的意思是？", o: ["突然", "渐渐", "完全", "稍微"], a: 1, e2: "だんだん＝逐渐。" },
+        { ty: "c", q: "「〜にする」也可表示？", o: ["决定选择", "过去", "被动", "使役"], a: 0, e2: "コーヒーにします＝我要咖啡。" },
+        { ty: "f", q: "填空：请把房间弄干净。→ 部屋を綺麗に___ください。", a: "して", hint: "shite", e2: "にする→にして+ください。" },
+        { ty: "c", q: "「もう少し」的意思是？", o: ["已经很多", "再一点", "完全", "不要了"], a: 1, e2: "もう少し＝再来一点。" }
+      ]
+    },
+    { n: "19x", unit: "📔 单元5 · 交流（第17-20课）", t: "第19课 · 词汇听力专练", jp: "义务与许可 巩固",
+      kp: ["「〜なければなりません」＝必须；口语用「〜ないと」。",
+           "「〜なくてもいいです」＝不做也行。",
+           "「〜ないでください」＝请不要。"],
+      ex: [["規則を守らなければなりません。", "必须遵守规则。"], ["明日は来なくてもいいです。", "明天不来也行。"], ["心配しないでください。", "请不要担心。"]],
+      q: [
+        { ty: "c", q: "「〜なければなりません」的口语简略说法是？", o: ["〜ないと", "〜なくて", "〜ないで", "〜ないか"], a: 0, e2: "口语常用 〜ないと。" },
+        { ty: "c", q: "「心配しないでください」的意思是？", o: ["请担心", "请不要担心", "必须担心", "担心了"], a: 1, e2: "心配する→しないでください。" },
+        { ty: "c", q: "「規則」的意思是？", o: ["规则", "规定书", "纪律员", "计划"], a: 0, e2: "規則＝きそく＝规则。" },
+        { ty: "f", q: "填空：必须遵守规则。→ 規則を守ら___なりません。", a: "なければ", hint: "nakereba", e2: "なければなりません。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "心配しないでください。", hint: "shinpai shinaide kudasai", e2: "请不要担心。" }
+      ]
+    },
+    { n: "20x", unit: "📔 单元5 · 交流（第17-20课）", t: "第20课 · 词汇听力专练", jp: "趣味与可能 巩固",
+      kp: ["爱好表达：趣味、特技、夢。",
+           "「〜ことができます」与可能形的区别：前者更正式。",
+           "「弾く」＝弹（乐器）、「弾ける」＝会弹。"],
+      ex: [["特技は料理を作ることです。", "特长是做菜。"], ["夢は日本で働くことです。", "梦想是在日本工作。"], ["ギターが弾けます。", "会弹吉他。"]],
+      q: [
+        { ty: "c", q: "「特技」的意思是？", o: ["特长", "兴趣", "梦想", "工作"], a: 0, e2: "特技＝とくぎ＝特长。" },
+        { ty: "c", q: "「夢」的意思是？", o: ["梦/理想", "兴趣", "特长", "目标"], a: 0, e2: "夢＝ゆめ。" },
+        { ty: "c", q: "「弾く」用于什么？", o: ["弹奏乐器", "弹跳", "打字", "打球"], a: 0, e2: "ピアノを弾く。" },
+        { ty: "f", q: "填空：会弹吉他。→ ギターが___ます。", a: "弾け", hint: "ひけます", e2: "弾く→弾ける。" },
+        { ty: "c", q: "「ことができます」和可能形的区别？", o: ["完全一样", "ことができます 更正式", "可能形 更正式", "前者只用于过去"], a: 1, e2: "书面/正式场合用 ことができます。" }
+      ]
+    },
+    { n: "21x", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第21课 · 词汇听力专练", jp: "经验表达 巩固",
+      kp: ["「〜たことがあります」的否定：「〜たことがありません」。",
+           "「〜たことがありますか」用于问经验。",
+           "「一度も〜たことがありません」＝一次也没有过。"],
+      ex: [["一度も日本へ行ったことがありません。", "一次也没去过日本。"], ["日本料理を食べたことがありますか。", "吃过日本料理吗？"], ["すき焼きは食べたことがあります。", "寿喜烧吃过。"]],
+      q: [
+        { ty: "c", q: "「〜たことがありません」的意思是？", o: ["做过", "没做过", "正在做", "要做"], a: 1, e2: "否定经验。" },
+        { ty: "c", q: "「一度も〜たことがありません」的意思是？", o: ["经常做", "一次也没有过", "做过一次", "偶尔做"], a: 1, e2: "一度も+否定＝一次也没。" },
+        { ty: "c", q: "问经验用哪个句型？", o: ["〜たことがありますか", "〜ていますか", "〜たいですか", "〜ますか"], a: 0, e2: "たことがありますか。" },
+        { ty: "f", q: "填空：吃过日本料理吗？→ 日本料理を食べたこと___ありますか。", a: "が", hint: "ga", e2: "たことがあります。" },
+        { ty: "c", q: "「すき焼き」的意思是？", o: ["寿喜烧", "天妇罗", "寿司", "拉面"], a: 0, e2: "すき焼き＝寿喜烧。" }
+      ]
+    },
+    { n: "22x", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第22课 · 词汇听力专练", jp: "简体句 巩固",
+      kp: ["简体否定：动词→ない、い形容词→くない、名词/な形容词→じゃない。",
+           "简体过去：动词→た、い形容词→かった、名词/な形容词→だった。",
+           "「〜んだ」＝〜的（口语说明）。"],
+      ex: [["明日、行かない。", "明天不去。"], ["昨日は寒かった。", "昨天很冷。"], ["彼は学生じゃない。", "他不是学生。"]],
+      q: [
+        { ty: "c", q: "「行く」的简体否定是？", o: ["行かない", "行くない", "行きない", "行ない"], a: 0, e2: "ない形即简体否定。" },
+        { ty: "c", q: "「寒い」的简体过去是？", o: ["寒かった", "寒いだった", "寒くた", "寒でした"], a: 0, e2: "い形容词过去：い→かった。" },
+        { ty: "c", q: "「学生だ」的简体否定是？", o: ["学生じゃない", "学生ない", "学生くない", "学生だった"], a: 0, e2: "名词简体否定：じゃない。" },
+        { ty: "f", q: "填空：昨天很冷（简体）。→ 昨日は___。", a: "寒かった", hint: "samukatta", e2: "寒い→寒かった。" },
+        { ty: "c", q: "「〜んだ」的作用是？", o: ["口语说明、强调", "命令", "禁止", "过去"], a: 0, e2: "用于解释说明。" }
+      ]
+    },
+    { n: "23x", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第23课 · 词汇听力专练", jp: "たり・か 巩固",
+      kp: ["「〜たり〜たり」还可只用一个「たり」暗示还有其他。",
+           "「〜か」表选择，「〜かどうか」表是否。",
+           "「〜によって」还可表手段、原因。"],
+      ex: [["映画を見たりしています。", "看看电影什么的。"], ["行くかどうか、まだ分かりません。", "去不去还不知道。"], ["事故によって、電車が遅れました。", "因为事故电车晚点了。"]],
+      q: [
+        { ty: "c", q: "「〜かどうか」的意思是？", o: ["是否", "或者", "因为", "根据"], a: 0, e2: "かどうか＝是否。" },
+        { ty: "c", q: "「〜によって」不能表示？", o: ["根据", "手段", "原因", "命令"], a: 3, e2: "によって 表根据/手段/原因。" },
+        { ty: "c", q: "「事故によって」的意思是？", o: ["因为事故", "关于事故", "代替事故", "事故中"], a: 0, e2: "によって 表原因。" },
+        { ty: "f", q: "填空：去不去还不知道。→ 行く___、まだ分かりません。", a: "かどうか", hint: "kadouka", e2: "かどうか 表是否。" },
+        { ty: "c", q: "「遅れました」的意思是？", o: ["迟到了", "提前了", "缺席了", "早到了"], a: 0, e2: "遅れる＝迟到。" }
+      ]
+    },
+    { n: "24x", unit: "📒 单元6 · 欢送会（第21-24课）", t: "第24课 · 词汇听力专练", jp: "と思う 巩固",
+      kp: ["「〜と思います」的否定：「〜と思いません」或「〜とは思いません」。",
+           "「〜と言いました」转述时，敬体可保留。",
+           "「〜でしょう」比「〜かもしれません」更确信。"],
+      ex: [["それはいいと思います。", "我觉得那不错。"], ["彼は来るかもしれません。", "他也许会来。"], ["明日は晴れるでしょう。", "明天大概会晴吧。"]],
+      q: [
+        { ty: "c", q: "「〜でしょう」和「〜かもしれません」哪个更确信？", o: ["でしょう", "かもしれません", "一样", "都不确信"], a: 0, e2: "でしょう 确信度更高。" },
+        { ty: "c", q: "「〜と言いました」用于？", o: ["转述别人的话", "自己说话", "命令", "疑问"], a: 0, e2: "引用转述。" },
+        { ty: "c", q: "「それはいいと思います」的意思是？", o: ["我觉得那不错", "那不好", "那是我的", "我在想那"], a: 0, e2: "と思います＝我认为。" },
+        { ty: "f", q: "填空：他也许会来。→ 彼は来る___しれません。", a: "かも", hint: "kamo", e2: "かもしれません。" },
+        { ty: "d", q: "听写（点🔊听）：", a: "それはいいと思います。", hint: "sore wa ii to omoimasu", e2: "我觉得那不错。" }
+      ]
+    }
+  ];
+  var BOOK_MID_ALL = BOOK_UP_C.slice(0, 8).concat(BOOK_EXTRA, BOOK_UP_C.slice(8), BOOK_DOWN_ALL);
+
+  // ---------- 汇总 ----------
+  var LEVELS = KANA_LEVELS.concat(BOOK_UP_ALL, BOOK_UP_C, BOOK_EXTRA, BOOK_DOWN_ALL);
+  var TOTAL_LV = LEVELS.length;
+  var PASS_RATE = 0.7;
+  var UNIT_COUNT = { "五十音": 10, "初级上": 32, "初级下": 24 };
+
+  var TASKS = [
+    { id: "anki",  name: "Anki 记忆复习", meta: "刷五十音 / 高频词牌组", dur: 15 },
+    { id: "app",   name: "多邻国 or NHK", meta: "主线课程 1 课 / 冲关刷题",  dur: 20 },
+    { id: "anime", name: "动漫精听",      meta: "同一集三遍法：双字幕→日字幕→无字幕", dur: 25 },
+    { id: "speak", name: "跟读开口",      meta: "朗读今天的句子，出声 5 分钟", dur: 5 }
+  ];
+  var TOTAL_TASKS = TASKS.length;
+
+  // ---------- 数据层 ----------
+  // data = { logs: { "2026-10-03": { anki:true, app:true, ... } }, start: "2026-10-03" }
+  var data = load();
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var d = JSON.parse(raw);
+        if (d && typeof d === "object" && d.logs) return d;
+      }
+    } catch (e) { /* 忽略损坏数据 */ }
+    return { logs: {}, start: todayKey(), created: todayKey() };
+  }
+
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+    catch (e) { toast("保存失败，可能是隐私模式"); }
+  }
+
+  // ---------- 日期工具 ----------
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function key(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function todayKey() { return key(new Date()); }
+  function parseKey(k) {
+    var p = k.split("-");
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+  function addDays(k, n) {
+    var d = parseKey(k); d.setDate(d.getDate() + n); return key(d);
+  }
+  var WEEK = ["日", "一", "二", "三", "四", "五", "六"];
+
+  function dayStat(k) {
+    var rec = data.logs[k] || {};
+    var done = 0, min = 0;
+    for (var i = 0; i < TOTAL_TASKS; i++) {
+      if (rec[TASKS[i].id]) { done++; min += TASKS[i].dur; }
+    }
+    return { done: done, min: min, full: done === TOTAL_TASKS };
+  }
+
+  // 完成全部任务才算「打卡日」
+  function isChecked(k) { return dayStat(k).full; }
+
+  function currentStreak() {
+    var t = todayKey();
+    var cursor = isChecked(t) ? t : addDays(t, -1); // 今天没完成不算断，从昨天数
+    var n = 0;
+    while (isChecked(cursor) && n < 4000) { n++; cursor = addDays(cursor, -1); }
+    return n;
+  }
+
+  function totalDays() {
+    var n = 0;
+    for (var k in data.logs) { if (data.logs.hasOwnProperty(k) && isChecked(k)) n++; }
+    return n;
+  }
+
+  function totalMinutes() {
+    var n = 0;
+    for (var k in data.logs) { if (data.logs.hasOwnProperty(k)) n += dayStat(k).min; }
+    return n;
+  }
+
+  // ---------- 渲染：头部 ----------
+  function renderHeader() {
+    var d = new Date();
+    document.getElementById("todayLabel").textContent =
+      (d.getMonth() + 1) + "月" + d.getDate() + "日 星期" + WEEK[d.getDay()] + " · 第 " + dayIndex() + " 天";
+
+    document.getElementById("sStreak").textContent = currentStreak();
+    document.getElementById("sTotal").textContent = totalDays();
+    document.getElementById("sMin").textContent = totalMinutes();
+  }
+
+  function dayIndex() {
+    // 从首次使用算起的天数
+    var start = data.created || todayKey();
+    var ms = parseKey(todayKey()) - parseKey(start);
+    return Math.floor(ms / 86400000) + 1;
+  }
+
+  // ---------- 渲染：任务 ----------
+  function renderTasks() {
+    var t = todayKey();
+    var rec = data.logs[t] || {};
+    var box = document.getElementById("taskList");
+    box.innerHTML = "";
+
+    TASKS.forEach(function (task) {
+      var el = document.createElement("div");
+      el.className = "task" + (rec[task.id] ? " done" : "");
+      el.innerHTML =
+        '<div class="cb"></div>' +
+        '<div class="info">' +
+          '<div class="name">' + task.name + '</div>' +
+          '<div class="meta">' + task.meta + '</div>' +
+        '</div>' +
+        '<div class="dur">' + task.dur + '′</div>';
+
+      el.addEventListener("click", function () { toggleTask(task.id); });
+      box.appendChild(el);
+    });
+  }
+
+  // ---------- 渲染：今日闯关横幅 ----------
+  function renderTodayBanner() {
+    var box = document.getElementById("todayBanner");
+    if (!box) return;
+    var idx = currentIdx();
+    var lv = LEVELS[idx];
+    var done = passedCount();
+    var allDone = (done === LEVELS.length);
+
+    box.innerHTML = '<div class="kn-card" style="margin-bottom:14px;background:linear-gradient(135deg,#EEF4FF,#F6F0FF);' +
+      'border-color:#C9D9F8;cursor:pointer" id="bannerCard">' +
+      '<h4><span class="bar"></span>' + (allDone ? "🏆 全部通关" : "⚔️ 今日关卡") + '</h4>' +
+      '<div class="kn-text">' +
+        (allDone
+          ? '你已通关全部 <b>' + LEVELS.length + '</b> 关！改做 JLPT N4 真题巩固吧。'
+          : '<b>第 ' + (idx + 1) + ' 关 · ' + lv.t + '</b><br>' +
+            (lv.jp || "") + ' · ' + lv.q.length + ' 题<br>' +
+            '<span style="color:var(--ink-3);font-size:12px">已通关 ' + done + ' / ' + LEVELS.length +
+            ' 关 · 点这里直接挑战 →</span>') +
+      '</div></div>';
+
+    var card = document.getElementById("bannerCard");
+    if (card) card.addEventListener("click", function () {
+      // 切到闯关 tab
+      document.querySelectorAll(".tab").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.view === "content");
+      });
+      document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
+      document.getElementById("view-content").classList.add("active");
+      // 切到地图子 tab
+      document.querySelectorAll(".stab").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.lv === "map");
+      });
+      ["map", "kana", "vocab", "plan", "res"].forEach(function (k) {
+        var el = document.getElementById("kv-" + k);
+        if (el) el.style.display = (k === "map") ? "block" : "none";
+      });
+      if (!allDone) openLevel(idx);
+      else renderLvMap();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  function toggleTask(id) {
+    var t = todayKey();
+    if (!data.logs[t]) data.logs[t] = {};
+    data.logs[t][id] = !data.logs[t][id];
+    save();
+
+    var st = dayStat(t);
+    if (st.full) {
+      toast("🎉 今日全部完成，打卡成功！");
+      data.lastFull = t;
+    } else {
+      toast("完成 " + st.done + " / " + TOTAL_TASKS + " 项");
+    }
+    renderAll();
+  }
+
+  function setAll(v) {
+    var t = todayKey();
+    if (!data.logs[t]) data.logs[t] = {};
+    TASKS.forEach(function (task) { data.logs[t][task.id] = v; });
+    save();
+    renderAll();
+    toast(v ? "🎉 今日全部完成，打卡成功！" : "已重置今天的记录");
+  }
+
+  // ---------- 渲染：进度环 ----------
+  function renderRing() {
+    var st = dayStat(todayKey());
+    var pct = Math.round(st.done / TOTAL_TASKS * 100);
+    var CIRC = 2 * Math.PI * 46; // 289.03
+    document.getElementById("ring").setAttribute("stroke-dashoffset", CIRC * (1 - st.done / TOTAL_TASKS));
+    document.getElementById("ringPct").textContent = pct + "%";
+    document.getElementById("ringDot").textContent = st.done + " / " + TOTAL_TASKS + " 项";
+
+    var title, tips, color;
+    if (st.done === 0) {
+      title = "今天还没开始 🐣"; tips = "先打开 Anki 刷 15 分钟，热身最容易坚持。"; color = "#22B573";
+    } else if (st.done < TOTAL_TASKS) {
+      title = "进行中，别停 ⚡"; tips = "还剩 " + (TOTAL_TASKS - st.done) + " 项，完成后今天就圆满了。"; color = "#F2994A";
+    } else {
+      title = "今日达成，太棒了 ✨"; tips = "已完成 " + st.min + " 分钟。明天见，保持这份节奏！"; color = "#22B573";
+    }
+    document.getElementById("ringTitle").textContent = title;
+    document.getElementById("ringTips").textContent = tips;
+    document.getElementById("ring").setAttribute("stroke", color);
+
+    var rp = document.getElementById("ringPct");
+    rp.style.color = st.done === TOTAL_TASKS ? "#17734A" : "#1A1F2E";
+  }
+
+  // ---------- 渲染：网格 ----------
+  var GRID_DAYS = 30;
+
+  function renderGrid() {
+    var box = document.getElementById("grid");
+    box.innerHTML = "";
+    var end = todayKey();
+    var start = addDays(end, -(GRID_DAYS - 1));
+    document.getElementById("gridRange").textContent =
+      "近 " + GRID_DAYS + " 天（" + start.slice(5) + " ~ " + end.slice(5) + "）";
+
+    for (var i = 0; i < GRID_DAYS; i++) {
+      var k = addDays(start, i);
+      var cell = document.createElement("div");
+      cell.className = "cell";
+      var st = dayStat(k);
+      if (st.done > 0) cell.classList.add("lv" + st.done);
+      if (k === end) cell.classList.add("today");
+      bindTip(cell, k);
+      box.appendChild(cell);
+    }
+  }
+
+  function bindTip(cell, k) {
+    var d = parseKey(k);
+    cell.addEventListener("mouseenter", function (e) {
+      var st = dayStat(k);
+      var txt = (d.getMonth() + 1) + "月" + d.getDate() + "日 · ";
+      txt += st.done === 0 ? "未学习" : (st.done === TOTAL_TASKS ? "✓ 已打卡" : st.done + "/" + TOTAL_TASKS + " 项") + " · " + st.min + "分钟";
+      var tip = document.getElementById("tip");
+      tip.textContent = txt;
+      tip.classList.add("show");
+      moveTip(e);
+    });
+    cell.addEventListener("mousemove", moveTip);
+    cell.addEventListener("mouseleave", function () {
+      document.getElementById("tip").classList.remove("show");
+    });
+    // 移动端：点按显示
+    cell.addEventListener("click", function () {
+      var st = dayStat(k);
+      if (k > todayKey()) return;
+      toast((d.getMonth() + 1) + "月" + d.getDate() + "日：" +
+        (st.done === 0 ? "未学习" : st.done + "/" + TOTAL_TASKS + " 项，" + st.min + " 分钟"));
+    });
+  }
+
+  function moveTip(e) {
+    var tip = document.getElementById("tip");
+    var x = (e.clientX || 0) + 14, y = (e.clientY || 0) - 34;
+    tip.style.left = Math.min(x, window.innerWidth - tip.offsetWidth - 10) + "px";
+    tip.style.top = Math.max(y, 8) + "px";
+  }
+
+  // ---------- 渲染：鼓励语 ----------
+  var QUOTES = [
+    "<b>五十音不要恋战。</b> 2 周过关就行，后面用着用着自然就熟了。",
+    "<b>每天有声音进耳朵</b>，比一次背 100 个单词更重要。",
+    "<b>重复优于贪多。</b> 同一集动漫听 3 遍，胜过看 10 集新的。",
+    "<b>宁可每天少学一点，也不要断。</b> 连续性才是自学最大的敌人和武器。",
+    "<b>背单词要连发音一起记。</b> 只听不看、只看不听，都容易白费。",
+    "<b>别装一堆 App。</b> 先把多邻国 + Anki 用透，比什么都强。",
+    "<b>听不懂很正常。</b> 精听一集，比泛听十集进步快。",
+    "<b>第 30 天回头看，</b> 你会感谢今天没有放弃的自己。"
+  ];
+
+  function renderQuote() {
+    var idx = new Date().getDate() % QUOTES.length;
+    document.getElementById("quote").innerHTML = "💡 " + QUOTES[idx];
+  }
+
+  // ---------- 渲染全部 ----------
+  function renderAll() {
+    renderHeader();
+    renderTasks();
+    renderRing();
+    renderGrid();
+    renderQuote();
+    renderWeek();
+    renderMile();
+    renderLvMap();
+    renderWrongBook();
+    renderTodayBanner();
+  }
+
+  function initAll() {
+    renderContent();
+    initContentTabs();
+  }
+
+  // ---------- 渲染：每周统计 ----------
+  function lastNDays(n) {
+    var arr = [], end = todayKey();
+    for (var i = n - 1; i >= 0; i--) arr.push(addDays(end, -i));
+    return arr;
+  }
+
+  function renderWeek() {
+    // --- 近7天柱状图 ---
+    var days = lastNDays(7);
+    var vals = days.map(function (k) { return dayStat(k).min; });
+    var max = Math.max.apply(null, vals.concat([60])); // 至少按60分钟刻度
+    var box = document.getElementById("bars");
+    box.innerHTML = "";
+    days.forEach(function (k, i) {
+      var d = parseKey(k), v = vals[i], isToday = (k === todayKey());
+      var h = Math.max(v / max * 100, v > 0 ? 4 : 1.5);
+      var col = document.createElement("div");
+      col.className = "bar-col";
+      col.innerHTML =
+        '<div class="bar-wrap">' +
+          '<div class="bar' + (v === 0 ? " zero" : "") + '" style="height:' + h + '%">' +
+            (v > 0 ? '<span class="bar-val">' + v + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="bar-lbl' + (isToday ? " on" : "") + '">' + (isToday ? "今天" : WEEK[d.getDay()]) + '</div>';
+      box.appendChild(col);
+    });
+
+    // --- 汇总 ---
+    var sumMin = vals.reduce(function (a, b) { return a + b; }, 0);
+    var sumDays = vals.filter(function (v) { return v > 0; }).length;
+    var avg = sumDays ? Math.round(sumMin / sumDays) : 0;
+    document.getElementById("wkSummary").innerHTML =
+      '<div class="wk-item"><div class="v">' + sumMin + '</div><div class="k">总分钟</div></div>' +
+      '<div class="wk-item"><div class="v">' + sumDays + '</div><div class="k">学习天数</div></div>' +
+      '<div class="wk-item"><div class="v">' + avg + '</div><div class="k">日均分钟</div></div>' +
+      '<div class="wk-item"><div class="v">' + currentStreak() + '</div><div class="k">连续天数</div></div>';
+
+    // --- 近4周趋势 ---
+    var weeks = [];
+    for (var w = 3; w >= 0; w--) {
+      var mm = 0;
+      for (var j = 0; j < 7; j++) {
+        mm += dayStat(addDays(todayKey(), -(w * 7 + j))).min;
+      }
+      weeks.push({ label: w === 0 ? "本周" : "前" + w + "周", min: mm });
+    }
+    var wmax = Math.max.apply(null, weeks.map(function (x) { return x.min; }).concat([60]));
+    var wbox = document.getElementById("bars4w");
+    wbox.innerHTML = "";
+    weeks.forEach(function (wk) {
+      var h = Math.max(wk.min / wmax * 100, wk.min > 0 ? 4 : 1.5);
+      var col = document.createElement("div");
+      col.className = "bar-col";
+      col.innerHTML =
+        '<div class="bar-wrap">' +
+          '<div class="bar' + (wk.min === 0 ? " zero" : "") + '" style="height:' + h + '%">' +
+            (wk.min > 0 ? '<span class="bar-val">' + wk.min + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="bar-lbl' + (wk.label === "本周" ? " on" : "") + '">' + wk.label + '</div>';
+      wbox.appendChild(col);
+    });
+
+    // --- 任务分布（近30天） ---
+    var d30 = lastNDays(30);
+    var counts = {};
+    TASKS.forEach(function (t) { counts[t.id] = 0; });
+    d30.forEach(function (k) {
+      var rec = data.logs[k];
+      if (!rec) return;
+      TASKS.forEach(function (t) { if (rec[t.id]) counts[t.id]++; });
+    });
+    var dist = document.getElementById("taskDist");
+    dist.innerHTML = "";
+    TASKS.forEach(function (t) {
+      var c = counts[t.id];
+      var pct = Math.round(c / 30 * 100);
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;align-items:center;gap:11px;padding:9px 0;";
+      row.innerHTML =
+        '<div style="flex:0 0 92px;font-size:12.5px;font-weight:700;">' + t.name + '</div>' +
+        '<div style="flex:1;height:8px;background:#EDF1F8;border-radius:5px;overflow:hidden;">' +
+          '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#7FA8F4,#3B6FF5);border-radius:5px;"></div>' +
+        '</div>' +
+        '<div style="flex:0 0 58px;text-align:right;font-size:12px;font-weight:700;color:var(--ink-2);">' + c + ' / 30天</div>';
+      dist.appendChild(row);
+    });
+  }
+
+  // ---------- 渲染：90天里程碑 ----------
+  var MILESTONES = [
+    { d: 1,  icon: "🌱", name: "启程", desc: "迈出第一步，你已经领先 90% 的人了" },
+    { d: 7,  icon: "📖", name: "五十音通关", desc: "一周搞定假名，地基打牢了" },
+    { d: 14, icon: "🔥", name: "两周不断", desc: "浊音拗音到手，习惯开始成形" },
+    { d: 30, icon: "⭐", name: "满月 · N5语法入门", desc: "助词、存在句、形容词句已掌握" },
+    { d: 45, icon: "🎧", name: "动词变形通关", desc: "ます形/て形/た形/ない形全通" },
+    { d: 60, icon: "💪", name: "N4 语法过半", desc: "条件句、授受动词、敬语入门" },
+    { d: 75, icon: "🏆", name: "N4 真题模考", desc: "词汇 1000+，开始摸真题手感了" },
+    { d: 90, icon: "👑", name: "90天达成 · N4 水平", desc: "词汇 1200+，N4 语法体系完整！" }
+  ];
+
+  function milestoneReached(days, m) {
+    // 用累计打卡天数判断（更真实反映坚持程度）
+    return days >= m.d;
+  }
+
+  function renderMile() {
+    var done = totalDays();
+    var pct = Math.min(done / 90 * 100, 100);
+    document.getElementById("msDays").textContent = done;
+    document.getElementById("msBar").style.width = pct + "%";
+
+    // 等级
+    var lv, lvName;
+    if (done === 0) { lv = 1; lvName = "初学者"; }
+    else if (done < 7) { lv = 1; lvName = "初学者"; }
+    else if (done < 30) { lv = 2; lvName = "入门者"; }
+    else if (done < 60) { lv = 3; lvName = "进阶者"; }
+    else if (done < 90) { lv = 4; lvName = "熟练者"; }
+    else { lv = 5; lvName = "动漫自由"; }
+    document.getElementById("msLevel").textContent = lvName + " Lv." + lv;
+
+    // 列表
+    var list = document.getElementById("msList");
+    list.innerHTML = "";
+    MILESTONES.forEach(function (m) {
+      var ok = milestoneReached(done, m);
+      var el = document.createElement("div");
+      el.className = "ms" + (ok ? " reached" : "");
+      el.innerHTML =
+        '<div class="ms-badge">' + m.icon + '</div>' +
+        '<div class="ms-info">' +
+          '<div class="ms-name">' + m.name + '</div>' +
+          '<div class="ms-desc">' + m.desc + '</div>' +
+        '</div>' +
+        '<div class="ms-right">' + (ok ? "✓ 已达成" : "第 " + m.d + " 天") + '</div>';
+      list.appendChild(el);
+    });
+
+    // 鼓励语
+    var cheer = document.getElementById("cheer");
+    var next = null;
+    for (var i = 0; i < MILESTONES.length; i++) {
+      if (done < MILESTONES[i].d) { next = MILESTONES[i]; break; }
+    }
+    if (done === 0) {
+      cheer.innerHTML = "开始你的第一天吧 🐣 今天完成 4 项任务即算打卡成功。";
+    } else if (!next) {
+      cheer.innerHTML = "👑 <b>90 天全部达成！</b> 你已经能无字幕看日常番了，接下来挑战更难的题材吧。";
+    } else {
+      var gap = next.d - done;
+      cheer.innerHTML = "再坚持 <b>" + gap + "</b> 天，就能解锁 <b>" + next.icon + " " + next.name + "</b>！当前已累计打卡 <b>" + done + "</b> 天。";
+    }
+  }
+
+  // ---------- 渲染：学习内容 ----------
+  // 五十音数据：罗马音 -> [平假名, 片假名]
+  var KANA_BASE = [
+    [["a","あ","ア"],["i","い","イ"],["u","う","ウ"],["e","え","エ"],["o","お","オ"]],
+    [["ka","か","カ"],["ki","き","キ"],["ku","く","ク"],["ke","け","ケ"],["ko","こ","コ"]],
+    [["sa","さ","サ"],["shi","し","シ"],["su","す","ス"],["se","せ","セ"],["so","そ","ソ"]],
+    [["ta","た","タ"],["chi","ち","チ"],["tsu","つ","ツ"],["te","て","テ"],["to","と","ト"]],
+    [["na","な","ナ"],["ni","に","ニ"],["nu","ぬ","ヌ"],["ne","ね","ネ"],["no","の","ノ"]],
+    [["ha","は","ハ"],["hi","ひ","ヒ"],["fu","ふ","フ"],["he","へ","ヘ"],["ho","ほ","ホ"]],
+    [["ma","ま","マ"],["mi","み","ミ"],["mu","む","ム"],["me","め","メ"],["mo","も","モ"]],
+    [["ya","や","ヤ"],["","",""],["yu","ゆ","ユ"],["","",""],["yo","よ","ヨ"]],
+    [["ra","ら","ラ"],["ri","り","リ"],["ru","る","ル"],["re","れ","レ"],["ro","ろ","ロ"]],
+    [["wa","わ","ワ"],["","",""],["","",""],["","",""],["wo","を","ヲ"]],
+    [["n","ん","ン"],["","",""],["","",""],["","",""],["","",""]]
+  ];
+  var KANA_DAKU = [
+    [["ga","が","ガ"],["gi","ぎ","ギ"],["gu","ぐ","グ"],["ge","げ","ゲ"],["go","ご","ゴ"]],
+    [["za","ざ","ザ"],["ji","じ","ジ"],["zu","ず","ズ"],["ze","ぜ","ゼ"],["zo","ぞ","ゾ"]],
+    [["da","だ","ダ"],["ji","ぢ","ヂ"],["zu","づ","ヅ"],["de","で","デ"],["do","ど","ド"]],
+    [["ba","ば","バ"],["bi","び","ビ"],["bu","ぶ","ブ"],["be","べ","ベ"],["bo","ぼ","ボ"]],
+    [["pa","ぱ","パ"],["pi","ぴ","ピ"],["pu","ぷ","プ"],["pe","ぺ","ペ"],["po","ぽ","ポ"]]
+  ];
+  var KANA_YOU = [
+    [["kya","きゃ","キャ"],["kyu","きゅ","キュ"],["kyo","きょ","キョ"],["sha","しゃ","シャ"],["shu","しゅ","シュ"],["sho","しょ","ショ"]],
+    [["cha","ちゃ","チャ"],["chu","ちゅ","チュ"],["cho","ちょ","チョ"],["nya","にゃ","ニャ"],["nyu","にゅ","ニュ"],["nyo","にょ","ニョ"]],
+    [["hya","ひゃ","ヒャ"],["hyu","ひゅ","ヒュ"],["hyo","ひょ","ヒョ"],["mya","みゃ","ミャ"],["myu","みゅ","ミュ"],["myo","みょ","ミョ"]],
+    [["rya","りゃ","リャ"],["ryu","りゅ","リュ"],["ryo","りょ","リョ"],["gya","ぎゃ","ギャ"],["gyu","ぎゅ","ギュ"],["gyo","ぎょ","ギョ"]],
+    [["ja","じゃ","ジャ"],["ju","じゅ","ジュ"],["jo","じょ","ジョ"],["bya","びゃ","ビャ"],["byu","びゅ","ビュ"],["byo","びょ","ビョ"]],
+    [["pya","ぴゃ","ピャ"],["pyu","ぴゅ","ピュ"],["pyo","ぴょ","ピョ"],["","",""],["","",""],["","",""]]
+  ];
+
+  function kanaCell(romaji, hira, kata, idx) {
+    if (!hira) return '<div class="kana-cell empty"></div>';
+    var script = idx === 1 ? kata : hira;
+    return '<div class="kana-cell" data-speak="' + hira + '" data-roma="' + romaji + '">' +
+      '<div class="k">' + script + '</div>' +
+      '<div class="r">' + romaji + '</div></div>';
+  }
+
+  function renderKanaTable(elId, data, useKatakana) {
+    var box = document.getElementById(elId);
+    if (!box) return;
+    var html = "";
+    data.forEach(function (row) {
+      var count = 0;
+      row.forEach(function (c) {
+        if (!c[1]) { html += '<div class="kana-cell empty"></div>'; return; }
+        var script = useKatakana ? c[2] : c[1];
+        html += '<div class="kana-cell" data-speak="' + c[1] + '" data-roma="' + c[0] + '">' +
+          '<div class="k">' + script + '</div><div class="r">' + c[0] + '</div></div>';
+      });
+    });
+    box.innerHTML = html;
+    // 绑定点击发音
+    box.querySelectorAll(".kana-cell[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap");
+        setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+  }
+
+  function renderKana() {
+    renderKanaTable("kanaHira", KANA_BASE, false);
+    renderKanaTable("kanaKata", KANA_BASE, true);
+    renderKanaTable("kanaDaku", KANA_DAKU, false);
+    renderKanaTable("kanaYou", KANA_YOU, false);
+  }
+
+  // ================= 发音系统（多音源 + 安卓兼容） =================
+  var speakOK = ("speechSynthesis" in window);
+  var curAudio = null;
+  var audioCtx = null;
+
+  // 多个音源，逐个尝试（安卓上单一源容易失败）
+  function buildSrcList(text) {
+    var e = encodeURIComponent(text);
+    return [
+      "https://dict.youdao.com/dictvoice?le=jap&audio=" + e,
+      "https://tts.youdao.com/fanyivoice?le=jap&keyfrom=speaker-target&word=" + e,
+      "https://fanyi.baidu.com/gettts?lan=jap&text=" + e + "&spd=3&source=web"
+    ];
+  }
+
+  function speak(text) {
+    if (curAudio) { try { curAudio.pause(); } catch (e) {} curAudio = null; }
+    // 先给用户即时反馈（哪怕还没出声）
+    setSpeakBar("🔊 " + text + " …", "#F2994A");
+
+    var srcs = buildSrcList(text);
+    trySrc(srcs, 0, text);
+  }
+
+  function trySrc(list, i, text) {
+    if (i >= list.length) {
+      // 所有在线音源都失败 → 用系统语音兜底
+      fallbackTTS(text);
+      return;
+    }
+    var a;
+    try { a = new Audio(); } catch (e) { fallbackTTS(text); return; }
+    a.preload = "auto";
+    a.volume = 1;
+
+    var settled = false;
+    var timer = setTimeout(function () {
+      if (!settled) { settled = true; trySrc(list, i + 1, text); }
+    }, 4000);   // 4秒没播出来就换下一个源
+
+    a.addEventListener("playing", function () {
+      if (settled) return;
+      settled = true; clearTimeout(timer);
+      curAudio = a;
+      setSpeakBar("🔊 " + text, "#22B573");
+    });
+    a.addEventListener("error", function () {
+      if (settled) return;
+      settled = true; clearTimeout(timer);
+      trySrc(list, i + 1, text);
+    });
+    a.addEventListener("ended", function () {
+      setSpeakBar("", null, true);
+    });
+
+    a.src = list[i];
+    var p = a.play();
+    if (p && p.catch) {
+      p.catch(function () {
+        // 播放被拦截或失败：换源；若都不行则走 TTS
+        if (!settled) { settled = true; clearTimeout(timer); trySrc(list, i + 1, text); }
+      });
+    }
+  }
+
+  // 系统语音兜底（安卓/iOS 自带，无需网络；需设备装有日语语音包）
+  function fallbackTTS(text) {
+    if (!speakOK) {
+      setSpeakBar("", null, true);
+      toast("🔇 无法发音，请检查网络或手机音量");
+      return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "ja-JP";
+      u.rate = 0.85;
+      u.volume = 1;
+      var vs = window.speechSynthesis.getVoices() || [];
+      var v = null;
+      for (var i = 0; i < vs.length; i++) {
+        var lg = (vs[i].lang || "").toLowerCase();
+        if (lg.indexOf("ja") === 0) { v = vs[i]; break; }
+      }
+      if (v) u.voice = v;
+      u.onstart = function () { setSpeakBar("🔊 " + text, "#22B573"); };
+      u.onerror = function () {
+        setSpeakBar("", null, true);
+        toast("🔇 手机无日语语音包，可在系统设置中安装");
+      };
+      window.speechSynthesis.speak(u);
+
+      // 若 300ms 后仍未开始，基本可判定没有日语语音包
+      setTimeout(function () {
+        if (!window.speechSynthesis.speaking) {
+          setSpeakBar("", null, true);
+          toast("📢 建议联网使用（在线发音更稳定）");
+        }
+      }, 800);
+    } catch (e) {
+      setSpeakBar("", null, true);
+      toast("🔇 发音不可用");
+    }
+  }
+
+  // 顶部状态条
+  var speakTimer = null, speakBar = null;
+  function setSpeakBar(msg, color, hide) {
+    if (!speakBar) {
+      speakBar = document.createElement("div");
+      speakBar.style.cssText = "position:fixed;top:0;left:0;right:0;color:#fff;" +
+        "text-align:center;font-size:13px;font-weight:700;padding:8px;z-index:300;" +
+        "transform:translateY(-100%);transition:transform .25s,background .2s;";
+      document.body.appendChild(speakBar);
+    }
+    clearTimeout(speakTimer);
+    if (hide || !msg) {
+      speakBar.style.transform = "translateY(-100%)";
+      return;
+    }
+    speakBar.textContent = msg;
+    speakBar.style.background = color || "#22B573";
+    speakBar.style.transform = "translateY(0)";
+    if (color === "#22B573") {
+      speakTimer = setTimeout(function () {
+        speakBar.style.transform = "translateY(-100%)";
+      }, 1200);
+    }
+  }
+
+  // 预加载语音列表
+  if (speakOK) {
+    try {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+      };
+    } catch (e) {}
+  }
+
+  // 预加载并缓存语音列表（部分浏览器需要异步获取）
+  if (speakOK) {
+    try {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+      };
+    } catch (e) {}
+  }
+
+  // ---------- 词汇数据 ----------
+  var VOCAB = [
+    { g: "👋 日常寒暄", items: [
+      ["おはよう", "ohayou", "早上好"],
+      ["こんにちは", "konnichiwa", "你好（白天）"],
+      ["こんばんは", "konbanwa", "晚上好"],
+      ["さようなら", "sayounara", "再见"],
+      ["ありがとう", "arigatou", "谢谢"],
+      ["すみません", "sumimasen", "对不起 / 不好意思"],
+      ["ごめんなさい", "gomen nasai", "对不起"],
+      ["はい / いいえ", "hai / iie", "是 / 不是"],
+      ["おやすみ", "oyasumi", "晚安"],
+      ["いただきます", "itadakimasu", "我开吃了"],
+      ["ごちそうさま", "gochisousama", "多谢款待"],
+      ["お願いします", "onegaishimasu", "拜托了 / 麻烦你"]
+    ]},
+    { g: "👤 人称代词", items: [
+      ["私", "watashi", "我"],
+      ["あなた", "anata", "你"],
+      ["彼", "kare", "他"],
+      ["彼女", "kanojo", "她"],
+      ["みんな", "minna", "大家"],
+      ["自分", "jibun", "自己"]
+    ]},
+    { g: "🎬 动漫高频词", items: [
+      ["やばい", "yabai", "糟了 / 太厉害了"],
+      ["すごい", "sugoi", "厉害 / 好棒"],
+      ["本当", "hontou", "真的"],
+      ["まじで", "maji de", "真的假的"],
+      ["ちょっと", "chotto", "稍微 / 等一下"],
+      ["大丈夫", "daijoubu", "没关系 / 没事吧"],
+      ["頑張って", "ganbatte", "加油"],
+      ["だめ", "dame", "不行"],
+      ["かわいい", "kawaii", "可爱"],
+      ["かっこいい", "kakkoii", "帅 / 酷"],
+      ["なるほど", "naruhodo", "原来如此"],
+      ["うそ", "uso", "骗人 / 假的吧"]
+    ]},
+    { g: "🔢 数字 1-10", items: [
+      ["一", "ichi", "1"],
+      ["二", "ni", "2"],
+      ["三", "san", "3"],
+      ["四", "yon / shi", "4"],
+      ["五", "go", "5"],
+      ["六", "roku", "6"],
+      ["七", "nana / shichi", "7"],
+      ["八", "hachi", "8"],
+      ["九", "kyuu", "9"],
+      ["十", "juu", "10"]
+    ]},
+    { g: "🕐 时间", items: [
+      ["今日", "kyou", "今天"],
+      ["明日", "ashita", "明天"],
+      ["昨日", "kinou", "昨天"],
+      ["今", "ima", "现在"],
+      ["朝", "asa", "早上"],
+      ["夜", "yoru", "晚上"],
+      ["月曜日", "getsuyoubi", "星期一"],
+      ["週末", "shuumatsu", "周末"]
+    ]},
+    { g: "🍜 生活名词", items: [
+      ["水", "mizu", "水"],
+      ["ご飯", "gohan", "饭"],
+      ["友達", "tomodachi", "朋友"],
+      ["学校", "gakkou", "学校"],
+      ["家", "ie", "家"],
+      ["仕事", "shigoto", "工作"],
+      ["お金", "okane", "钱"],
+      ["電話", "denwa", "电话"],
+      ["映画", "eiga", "电影"],
+      ["音楽", "ongaku", "音乐"]
+    ]},
+    { g: "🏃 常用动词", items: [
+      ["食べる", "taberu", "吃"],
+      ["飲む", "nomu", "喝"],
+      ["行く", "iku", "去"],
+      ["来る", "kuru", "来"],
+      ["見る", "miru", "看"],
+      ["聞く", "kiku", "听 / 问"],
+      ["話す", "hanasu", "说"],
+      ["読む", "yomu", "读"],
+      ["書く", "kaku", "写"],
+      ["分かる", "wakaru", "明白"],
+      ["知る", "shiru", "知道"],
+      ["する", "suru", "做"]
+    ]},
+    { g: "💭 常用形容词", items: [
+      ["大きい", "ookii", "大的"],
+      ["小さい", "chiisai", "小的"],
+      ["新しい", "atarashii", "新的"],
+      ["古い", "furui", "旧的"],
+      ["楽しい", "tanoshii", "开心的"],
+      ["嬉しい", "ureshii", "高兴的"],
+      ["難しい", "muzukashii", "难的"],
+      ["美味しい", "oishii", "好吃的"]
+    ]},
+    { g: "🎌 动漫台词高频", items: [
+      ["本当に", "hontou ni", "真的"],
+      ["絶対", "zettai", "绝对"],
+      ["無理", "muri", "不可能 / 不行"],
+      ["やめて", "yamete", "住手"],
+      ["待って", "matte", "等一下"],
+      ["助けて", "tasukete", "救命 / 帮帮我"],
+      ["信じられない", "shinjirarenai", "难以置信"],
+      ["仕方ない", "shikatanai", "没办法"],
+      ["ありえない", "arienai", "不可能 / 不会吧"],
+      ["すごく", "sugoku", "非常"],
+      ["ちょっと待って", "chotto matte", "稍等一下"],
+      ["どうして", "doushite", "为什么"],
+      ["なんで", "nande", "为什么（口语）"],
+      ["なぜ", "naze", "为何（书面）"],
+      ["だって", "datte", "因为嘛 / 可是"],
+      ["でも", "demo", "但是"],
+      ["しかたない", "shikatanai", "没办法"],
+      ["まさか", "masaka", "难道 / 不会吧"],
+      ["せいぜい", "seizei", "充其量"],
+      ["もちろん", "mochiron", "当然"]
+    ]},
+    { g: "💼 日常动作", items: [
+      ["起きる", "okiru", "起床"],
+      ["寝る", "neru", "睡觉"],
+      ["働く", "hataraku", "工作"],
+      ["休む", "yasumu", "休息"],
+      ["遊ぶ", "asobu", "玩"],
+      ["買う", "kau", "买"],
+      ["使う", "tsukau", "使用"],
+      ["作る", "tsukuru", "制作"],
+      ["待つ", "matsu", "等待"],
+      ["持つ", "motsu", "拿 / 拥有"],
+      ["出す", "dasu", "拿出"],
+      ["入る", "hairu", "进入"],
+      ["出る", "deru", "出去"],
+      ["立つ", "tatsu", "站立"],
+      ["座る", "suwaru", "坐下"],
+      ["歩く", "aruku", "走路"],
+      ["走る", "hashiru", "跑"],
+      ["泳ぐ", "oyogu", "游泳"]
+    ]},
+    { g: "🌤 天气与自然", items: [
+      ["天気", "tenki", "天气"],
+      ["雨", "ame", "雨"],
+      ["雪", "yuki", "雪"],
+      ["晴れ", "hare", "晴天"],
+      ["曇り", "kumori", "阴天"],
+      ["風", "kaze", "风"],
+      ["暑い", "atsui", "热的"],
+      ["寒い", "samui", "冷的"],
+      ["暖かい", "atatakai", "温暖的"],
+      ["涼しい", "suzushii", "凉爽的"]
+    ]},
+    { g: "🍣 食物饮品", items: [
+      ["ご飯", "gohan", "米饭"],
+      ["パン", "pan", "面包"],
+      ["肉", "niku", "肉"],
+      ["魚", "sakana", "鱼"],
+      ["野菜", "yasai", "蔬菜"],
+      ["果物", "kudamono", "水果"],
+      ["卵", "tamago", "鸡蛋"],
+      ["牛乳", "gyuunyuu", "牛奶"],
+      ["お茶", "ocha", "茶"],
+      ["コーヒー", "koohii", "咖啡"],
+      ["ラーメン", "raamen", "拉面"],
+      ["寿司", "sushi", "寿司"]
+    ]},
+    { g: "🏠 家中物品", items: [
+      ["机", "tsukue", "桌子"],
+      ["椅子", "isu", "椅子"],
+      ["本", "hon", "书"],
+      ["ペン", "pen", "笔"],
+      ["かばん", "kaban", "包"],
+      ["時計", "tokei", "钟表"],
+      ["テレビ", "terebi", "电视"],
+      ["電話", "denwa", "电话"],
+      ["冷蔵庫", "reizouko", "冰箱"],
+      ["窓", "mado", "窗户"],
+      ["ドア", "doa", "门"],
+      ["鍵", "kagi", "钥匙"]
+    ]},
+    { g: "🗾 地点场所", items: [
+      ["駅", "eki", "车站"],
+      ["病院", "byouin", "医院"],
+      ["銀行", "ginkou", "银行"],
+      ["公園", "kouen", "公园"],
+      ["店", "mise", "商店"],
+      ["会社", "kaisha", "公司"],
+      ["図書館", "toshokan", "图书馆"],
+      ["トイレ", "toire", "厕所"],
+      ["空港", "kuukou", "机场"],
+      ["海", "umi", "海"],
+      ["山", "yama", "山"],
+      ["道", "michi", "路"]
+    ]},
+    { g: "📅 更多时间表达", items: [
+      ["一昨日", "ototoi", "前天"],
+      ["明後日", "asatte", "后天"],
+      ["午前", "gozen", "上午"],
+      ["午後", "gogo", "下午"],
+      ["毎日", "mainichi", "每天"],
+      ["毎週", "maishuu", "每周"],
+      ["来週", "raishuu", "下周"],
+      ["先週", "senshuu", "上周"],
+      ["来月", "raigetsu", "下个月"],
+      ["今年", "kotoshi", "今年"],
+      ["去年", "kyonen", "去年"],
+      ["時々", "tokidoki", "有时"]
+    ]},
+    { g: "🔢 数量与序数", items: [
+      ["一つ", "hitotsu", "一个"],
+      ["二つ", "futatsu", "两个"],
+      ["三つ", "mittsu", "三个"],
+      ["何", "nani", "什么"],
+      ["何人", "nannin", "几个人"],
+      ["いくら", "ikura", "多少钱"],
+      ["少し", "sukoshi", "一点"],
+      ["たくさん", "takusan", "很多"],
+      ["全部", "zenbu", "全部"],
+      ["半分", "hanbun", "一半"]
+    ]},
+    { g: "💬 常用接续词", items: [
+      ["そして", "soshite", "然后"],
+      ["それから", "sorekara", "然后 / 接着"],
+      ["また", "mata", "又 / 再"],
+      ["だから", "dakara", "所以"],
+      ["それで", "sorede", "因此"],
+      ["しかし", "shikashi", "然而"],
+      ["つまり", "tsumari", "也就是说"],
+      ["たぶん", "tabun", "大概"],
+      ["きっと", "kitto", "一定"],
+      ["もし", "moshi", "如果"]
+    ]},
+    { g: "🎭 情绪表达", items: [
+      ["嬉しい", "ureshii", "开心"],
+      ["悲しい", "kanashii", "悲伤"],
+      ["寂しい", "sabishii", "寂寞"],
+      ["怖い", "kowai", "害怕"],
+      ["怒る", "okoru", "生气"],
+      ["笑う", "warau", "笑"],
+      ["泣く", "naku", "哭"],
+      ["心配", "shinpai", "担心"],
+      ["安心", "anshin", "安心"],
+      ["幸せ", "shiawase", "幸福"],
+      ["疲れる", "tsukareru", "累"],
+      ["驚く", "odoroku", "惊讶"]
+    ]}
+  ];
+
+  // ================= 闯关系统：逻辑层 =================
+
+  var curLevel = null;   // 当前打开的关卡
+  var quizState = null;  // 答题状态
+
+  // ---------- 进度存取 ----------
+  function getLv() {
+    if (!data.lv) data.lv = { passed: {}, wrong: [] };
+    if (!data.lv.passed) data.lv.passed = {};
+    if (!data.lv.wrong) data.lv.wrong = [];
+    return data.lv;
+  }
+
+  // 第 idx 关是否解锁：index 0 永远开放；其余需前一关通过
+  function isUnlocked(idx) {
+    if (idx <= 0) return true;
+    var prev = LEVELS[idx - 1];
+    return !!getLv().passed[prev.n];
+  }
+  function isPassed(id) { return !!getLv().passed[id]; }
+
+  // 当前应挑战的关卡索引（第一个未通过的）
+  function currentIdx() {
+    for (var i = 0; i < LEVELS.length; i++) {
+      if (!isPassed(LEVELS[i].n)) return i;
+    }
+    return LEVELS.length - 1;
+  }
+  function passedCount() {
+    var c = 0;
+    for (var i = 0; i < LEVELS.length; i++) if (isPassed(LEVELS[i].n)) c++;
+    return c;
+  }
+
+  // ---------- 渲染：关卡地图 ----------
+  function renderLvMap() {
+    var box = document.getElementById("lvMap");
+    if (!box) return;
+    var cur = currentIdx();
+    var done = passedCount();
+
+    // 进度文本
+    var pct = Math.round(done / LEVELS.length * 100);
+    var pt = document.getElementById("lvProgressText");
+    if (pt) {
+      pt.innerHTML = "已通关 <b style='color:var(--primary)'>" + done + "</b> / " + LEVELS.length +
+        " 关 · 完成度 " + pct + "%";
+    }
+    var pb = document.getElementById("lvProgressBar");
+    if (pb) {
+      pb.innerHTML = '<div style="height:9px;background:#EDF1F8;border-radius:6px;overflow:hidden;margin-bottom:14px">' +
+        '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#3B6FF5,#6C4DF0);' +
+        'border-radius:6px;transition:width .5s"></div></div>';
+    }
+
+    var html = "";
+    var lastUnit = "";
+    LEVELS.forEach(function (lv, i) {
+      if (lv.unit !== lastUnit) {
+        html += '<div class="lv-unit">' + lv.unit + '</div>';
+        lastUnit = lv.unit;
+      }
+      var passed = isPassed(lv.n);
+      var unlocked = isUnlocked(i);
+      var isCur = (i === cur) && !passed && unlocked;
+
+      var cls = "lv" + (passed ? " passed" : isCur ? " current" : unlocked ? "" : " locked");
+      var icon = passed ? "✓" : (unlocked ? "▶" : "🔒");
+      var badge = passed
+        ? '<span class="lv-badge ok">已通关</span>'
+        : isCur ? '<span class="lv-badge cur">当前关</span>'
+        : unlocked ? '<span class="lv-badge cur">可挑战</span>'
+        : '<span class="lv-badge lock">未解锁</span>';
+
+      html += '<div class="' + cls + '" data-lvi="' + i + '">' +
+        '<div class="lv-icon">' + icon + '</div>' +
+        '<div class="lv-info">' +
+          '<div class="lv-name">' + lv.t + '</div>' +
+          '<div class="lv-sub">' + (lv.jp ? lv.jp + " · " : "") + lv.q.length + ' 题 · 正确率 ' +
+            Math.round(PASS_RATE * 100) + '% 过关</div>' +
+        '</div>' + badge + '</div>';
+    });
+
+    // 全部通关彩蛋
+    if (done === LEVELS.length) {
+      html += '<div class="res-note" style="margin-top:14px;background:#F0FBF5;border-left-color:var(--green)">' +
+        '<b>🎉 恭喜！90 关全部通关</b><br>你已经走完《标日》初级上下册 48 课，' +
+        '具备 N4 应试能力。接下来可以做 JLPT 官网 N4 真题，冲刺 N3。</div>';
+    }
+    box.innerHTML = html;
+
+    box.querySelectorAll(".lv[data-lvi]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = parseInt(el.dataset.lvi, 10);
+        if (!isUnlocked(i)) {
+          toast("🔒 先通过上一关才能解锁");
+          return;
+        }
+        openLevel(i);
+      });
+    });
+  }
+
+  // ---------- 打开关卡 ----------
+  function openLevel(idx) {
+    curLevel = idx;
+    var lv = LEVELS[idx];
+    var quiz = document.getElementById("quizWrap");
+    var map = document.getElementById("mapWrap");
+    if (map) map.style.display = "none";
+    if (quiz) {
+      quiz.style.display = "block";
+      quiz.innerHTML = buildLevelIntro(lv);
+      bindLevelIntro(lv);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function closeLevel() {
+    curLevel = null;
+    quizState = null;
+    var quiz = document.getElementById("quizWrap");
+    var map = document.getElementById("mapWrap");
+    if (quiz) { quiz.style.display = "none"; quiz.innerHTML = ""; }
+    if (map) map.style.display = "block";
+    renderLvMap();
+  }
+
+  // ---------- 关卡知识讲解页 ----------
+  function buildLevelIntro(lv) {
+    var html = '<button class="btn btn-ghost" id="btnBack" style="margin-bottom:12px">← 返回关卡地图</button>';
+    html += '<div class="lv-head">' +
+      '<div class="k">' + lv.unit + '</div>' +
+      '<div class="n">' + lv.t + '</div>' +
+      '<div class="d">' + (lv.jp || "") + ' · 共 ' + lv.q.length + ' 题，答对 ' +
+        Math.round(lv.q.length * PASS_RATE) + ' 题以上即可过关</div></div>';
+
+    // 知识点
+    html += '<div class="kn-card"><h4><span class="bar"></span>📖 知识点讲解</h4>' +
+      '<div class="kn-list">';
+    lv.kp.forEach(function (k) {
+      html += '<div class="kn-pt"><span class="k">●</span><span>' + k + '</span></div>';
+    });
+    html += '</div>';
+
+    // 例句（可点击发音）
+    if (lv.ex && lv.ex.length) {
+      html += '<div style="margin-top:12px"><div style="font-size:12px;font-weight:800;color:var(--ink-3);margin-bottom:7px">🔊 点击例句听发音</div>';
+      lv.ex.forEach(function (e) {
+        html += '<div class="kn-eg" data-speak="' + e[0] + '">' +
+          '<div class="jp">' + e[0] + '</div>' +
+          '<div class="cn">' + e[1] + '</div></div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
+    // 开始时提示
+    html += '<div style="display:flex;gap:10px">' +
+      '<button class="btn btn-primary" id="btnStart" style="flex:2">开始答题 🚀</button>';
+    if (isPassed(lv.n)) {
+      html += '<button class="btn btn-ghost" id="btnRedo" style="flex:1">重做这关</button>';
+    }
+    html += '</div>';
+
+    return html;
+  }
+
+  function bindLevelIntro(lv) {
+    var back = document.getElementById("btnBack");
+    if (back) back.addEventListener("click", closeLevel);
+    var start = document.getElementById("btnStart");
+    if (start) start.addEventListener("click", function () { startQuiz(lv); });
+    var redo = document.getElementById("btnRedo");
+    if (redo) redo.addEventListener("click", function () { startQuiz(lv); });
+
+    var q = document.getElementById("quizWrap");
+    q.querySelectorAll(".kn-eg[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap");
+        setTimeout(function () { el.classList.remove("tap"); }, 300);
+        speak(el.dataset.speak);
+      });
+    });
+  }
+
+  // ---------- 答题 ----------
+  function startQuiz(lv) {
+    quizState = { lv: lv, i: 0, correct: 0, wrongList: [], answered: false };
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    var st = quizState, lv = st.lv;
+    var q = lv.q[st.i];
+    var box = document.getElementById("quizWrap");
+    if (!box) return;
+
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+      '<button class="btn btn-ghost" id="btnQuit" style="flex:0 0 auto;padding:9px 15px;font-size:13px">← 退出</button>' +
+      '<div style="font-size:12.5px;font-weight:700;color:var(--ink-2)">' +
+        (st.i + 1) + ' / ' + lv.q.length + '</div></div>';
+
+    // 进度条
+    var pct = Math.round(st.i / lv.q.length * 100);
+    html += '<div style="height:6px;background:#EDF1F8;border-radius:4px;overflow:hidden;margin-bottom:14px">' +
+      '<div style="height:100%;width:' + pct + '%;background:var(--primary);transition:width .3s"></div></div>';
+
+    html += '<div class="quiz-q">';
+    html += '<div class="quiz-stem"><span class="qn">Q' + (st.i + 1) + '</span>' + q.q + '</div>';
+
+    if (q.ty === "c" || q.ty === "m") {
+      // 选择题
+      q.o.forEach(function (opt, k) {
+        html += '<div class="opt" data-k="' + k + '"><span class="idx">' +
+          "ABCD"[k] + '</span><span>' + opt + '</span>' +
+          (q.ty === "m" ? '<span class="opt-audio">🔊</span>' : "") + '</div>';
+      });
+    } else if (q.ty === "f") {
+      // 填空
+      html += '<div class="fill-side"><input class="fill-ip" id="fillInput" placeholder="在这里输入答案">' +
+        '<button class="btn btn-primary" id="btnFill">确定</button></div>';
+      if (q.hint) {
+        html += '<div style="font-size:11.5px;color:var(--ink-3);margin-top:8px">💡 提示：' + q.hint + '</div>';
+      }
+      html += '<div class="fill-ans" id="fillAns"></div>';
+    } else if (q.ty === "o") {
+      // 排序
+      html += '<div class="order-line" id="orderLine"><span class="ph">点下面的词块，按正确顺序排列</span></div>';
+      html += '<div class="order-pool" id="orderPool">';
+      // 打乱（保持简单：用固定偏移打乱，确保不是原序）
+      var shuffled = shuffleIdx(q.a.length);
+      shuffled.forEach(function (k) {
+        html += '<span class="tk" data-tk="' + q.a[k] + '" data-ti="' + k + '">' + q.a[k] + '</span>';
+      });
+      html += '</div>';
+      html += '<button class="btn btn-primary" id="btnOrder" style="margin-top:12px">确定</button>';
+      html += '<div class="fill-ans" id="fillAns"></div>';
+    } else if (q.ty === "d") {
+      // 听写
+      html += '<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">' +
+        '<button class="btn btn-primary" id="btnPlay" style="flex:0 0 auto;padding:12px 20px">🔊 播放</button>' +
+        '<span style="font-size:12px;color:var(--ink-3)">可反复听，直到听清</span></div>';
+      html += '<input class="fill-ip" id="fillInput" placeholder="听写日文（可不写标点）">';
+      html += '<button class="btn btn-primary" id="btnFill" style="margin-top:12px">确定</button>';
+      if (q.hint) {
+        html += '<div style="font-size:11.5px;color:var(--ink-3);margin-top:8px">💡 罗马音提示：' + q.hint + '</div>';
+      }
+      html += '<div class="fill-ans" id="fillAns"></div>';
+    }
+
+    html += '<div class="fill-ans" id="explainBox"></div>';
+    html += '</div>';
+
+    // 下一步按钮
+    html += '<div id="nextWrap"></div>';
+
+    box.innerHTML = html;
+    st.answered = false;
+
+    var quit = document.getElementById("btnQuit");
+    if (quit) quit.addEventListener("click", function () {
+      if (st.i > 0 || st.answered) { if (!confirm("退出后本关进度不保存，确定吗？")) return; }
+      closeLevel();
+    });
+
+    // 绑定交互
+    if (q.ty === "c" || q.ty === "m") {
+      box.querySelectorAll(".opt").forEach(function (el) {
+        el.addEventListener("click", function () {
+          if (st.answered) return;
+          if (q.ty === "m") speak(el.querySelector("span:last-child").textContent);
+          checkChoice(parseInt(el.dataset.k, 10));
+        });
+      });
+    } else if (q.ty === "f" || q.ty === "d") {
+      var ip = document.getElementById("fillInput");
+      var bf = document.getElementById("btnFill");
+      if (bf) bf.addEventListener("click", function () { checkFill(ip.value); });
+      if (ip) ip.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") checkFill(ip.value);
+      });
+      if (q.ty === "d") {
+        var bp = document.getElementById("btnPlay");
+        if (bp) bp.addEventListener("click", function () { speak(q.a); });
+        setTimeout(function () { speak(q.a); }, 350);
+      }
+    } else if (q.ty === "o") {
+      bindOrder();
+    }
+  }
+
+  function shuffleIdx(n) {
+    var arr = [], i;
+    for (i = 0; i < n; i++) arr.push(i);
+    // Fisher-Yates
+    for (i = n - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    // 若恰好等于原序，交换前两个
+    var same = true;
+    for (i = 0; i < n; i++) if (arr[i] !== i) { same = false; break; }
+    if (same && n > 1) { var tmp = arr[0]; arr[0] = arr[1]; arr[1] = tmp; }
+    return arr;
+  }
+
+  // ---------- 判定：选择题 ----------
+  function checkChoice(k) {
+    var st = quizState, q = st.lv.q[st.i];
+    if (st.answered) return;
+    st.answered = true;
+    var ok = (k === q.a);
+
+    document.querySelectorAll(".opt").forEach(function (el) {
+      var kk = parseInt(el.dataset.k, 10);
+      el.classList.add("disabled");
+      if (kk === q.a) el.classList.add("right");
+      else if (kk === k) el.classList.add("wrong");
+    });
+
+    finishOne(ok);
+  }
+
+  // ---------- 判定：填空 / 听写 ----------
+  function checkFill(val) {
+    var st = quizState, q = st.lv.q[st.i];
+    if (st.answered) return;
+    var v = (val || "").trim();
+    if (!v) { toast("请先输入答案"); return; }
+    st.answered = true;
+
+    var ans = q.a, ok = fillMatch(v, ans);
+
+    var box = document.getElementById("fillAns");
+    if (box) {
+      box.classList.add("show");
+      box.innerHTML = ok
+        ? '<span class="ok">✓ 正确！</span> 答案：' + ans
+        : '<span class="no">✗ 不对。</span> 你写的：「' + v + '」，正确答案：<b>' + ans + '</b>';
+    }
+    finishOne(ok);
+  }
+
+  // 容错匹配：忽略标点、空格、大小写差异
+  function fillMatch(input, ans) {
+    var norm = function (s) {
+      return s.replace(/[。．\.、，,\s　？！?!]/g, "").replace(/[Ａ-Ｚａ-ｚ]/g, function (c) {
+        return String.fromCharCode(c.charCodeAt(0) - 65248);
+      }).toLowerCase();
+    };
+    var a = norm(input), b = norm(ans);
+    if (a === b) return true;
+    // 允许斜杠分隔的多答案（如 "たり / たり"）
+    if (b.indexOf("/") >= 0) {
+      var parts = b.split("/").map(function (s) { return s.trim(); }).filter(Boolean);
+      var ok = true;
+      parts.forEach(function (p) { if (a.indexOf(p) < 0) ok = false; });
+      if (ok && parts.length) return true;
+    }
+    return false;
+  }
+
+  // ---------- 判定：排序 ----------
+  function bindOrder() {
+    var st = quizState, q = st.lv.q[st.i];
+    var line = document.getElementById("orderLine");
+    var pool = document.getElementById("orderPool");
+    var picked = [];
+
+    function redraw() {
+      if (picked.length === 0) {
+        line.innerHTML = '<span class="ph">点下面的词块，按正确顺序排列</span>';
+      } else {
+        line.innerHTML = picked.map(function (p, i) {
+          return '<span class="tk" data-pi="' + i + '">' + p + '</span>';
+        }).join("");
+        line.querySelectorAll(".tk").forEach(function (el) {
+          el.addEventListener("click", function () {
+            if (st.answered) return;
+            var pi = parseInt(el.dataset.pi, 10);
+            var w = picked.splice(pi, 1)[0];
+            pool.querySelectorAll(".tk").forEach(function (t) {
+              if (t.dataset.tk === w && t.classList.contains("picked")) {
+                t.classList.remove("picked");
+              }
+            });
+            redraw();
+          });
+        });
+      }
+    }
+
+    pool.querySelectorAll(".tk").forEach(function (el) {
+      el.addEventListener("click", function () {
+        if (st.answered) return;
+        if (el.classList.contains("picked")) return;
+        el.classList.add("picked");
+        picked.push(el.dataset.tk);
+        redraw();
+      });
+    });
+
+    var bo = document.getElementById("btnOrder");
+    if (bo) bo.addEventListener("click", function () {
+      if (st.answered) return;
+      if (picked.length !== q.a.length) { toast("请把所有词块都排上"); return; }
+      st.answered = true;
+      var ok = picked.join("") === q.a.join("");
+      var box = document.getElementById("fillAns");
+      if (box) {
+        box.classList.add("show");
+        box.innerHTML = ok
+          ? '<span class="ok">✓ 正确！</span> ' + q.a.join("")
+          : '<span class="no">✗ 顺序不对。</span> 你排的：' + picked.join("") +
+            '<br>正确答案：<b>' + q.a.join("") + '</b>';
+      }
+      finishOne(ok);
+    });
+  }
+
+  // ---------- 单题结算 ----------
+  function finishOne(ok) {
+    var st = quizState, q = st.lv.q[st.i];
+    if (ok) st.correct++;
+    else st.wrongList.push({ lv: st.lv.n, lvName: st.lv.t, qi: st.i, q: q });
+
+    // 显示解析
+    var ex = document.getElementById("explainBox");
+    if (ex && q.e2) {
+      ex.classList.add("show");
+      ex.innerHTML = (ok ? '💡 ' : '📌 ') + q.e2;
+    }
+
+    // 下一步
+    var nw = document.getElementById("nextWrap");
+    var last = (st.i === st.lv.q.length - 1);
+    if (nw) {
+      nw.innerHTML = '<button class="btn btn-primary" id="btnNext" style="margin-top:4px">' +
+        (last ? "查看结果 🏁" : "下一题 →") + '</button>';
+      document.getElementById("btnNext").addEventListener("click", function () {
+        if (last) showResult();
+        else { st.i++; renderQuestion(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      });
+    }
+  }
+
+  // ---------- 结果页 ----------
+  function showResult() {
+    var st = quizState, lv = st.lv;
+    var total = lv.q.length;
+    var rate = st.correct / total;
+    var pass = rate >= PASS_RATE;
+    var box = document.getElementById("quizWrap");
+
+    var html = '<div class="result ' + (pass ? "pass" : "fail") + '">' +
+      '<div class="ico">' + (pass ? "🎉" : "💪") + '</div>' +
+      '<div class="ttl">' + (pass ? "过关！" : "差一点") + '</div>' +
+      '<div class="sc">答对 ' + st.correct + ' / ' + total + ' 题，正确率 ' + Math.round(rate * 100) + '%</div>' +
+      '<div class="rs-bar"><div class="rs-in" style="width:' + Math.round(rate * 100) + '%;background:' +
+        (pass ? "var(--green)" : "var(--orange)") + '"></div></div>' +
+      '<div class="rs-stat">' +
+        '<span>✓ 正确 ' + st.correct + '</span>' +
+        '<span>✗ 错误 ' + st.wrongList.length + '</span>' +
+        '<span>过关线 ' + Math.round(PASS_RATE * 100) + '%</span>' +
+      '</div></div>';
+
+    if (pass) {
+      // 记录通关
+      var L = getLv();
+      if (!L.passed[lv.n]) {
+        L.passed[lv.n] = { date: todayKey(), score: Math.round(rate * 100) };
+        save();
+      }
+      var nextLv = LEVELS[curLevel + 1];
+      html += '<div class="kn-card" style="background:#F0FBF5;border-color:#A8E6C8">' +
+        '<h4><span class="bar" style="background:var(--green)"></span>✅ 已记录通关</h4>' +
+        '<div class="kn-text">' +
+        (nextLv
+          ? '下一关已解锁：<b>' + nextLv.t + '</b>'
+          : '🏆 恭喜！你已通关全部 90 关，达到 N4 水平！') +
+        '</div></div>';
+    } else {
+      html += '<div class="kn-card" style="background:#FFF8F0;border-color:#F2C99B">' +
+        '<h4><span class="bar" style="background:var(--orange)"></span>📖 建议再看一遍知识点</h4>' +
+        '<div class="kn-text">正确率需要达到 ' + Math.round(PASS_RATE * 100) + '% 才算过关。' +
+        '回到知识点讲解页复习一遍，再重做本关——这很正常，**重复三次就记住了**。</div></div>';
+    }
+
+    // 错题展示
+    if (st.wrongList.length) {
+      html += '<div class="kn-card"><h4><span class="bar" style="background:var(--red)"></span>' +
+        '❌ 本次错题（' + st.wrongList.length + '）</h4><div class="kn-list">';
+      st.wrongList.forEach(function (w) {
+        var q = w.q;
+        var rightAns = q.ty === "c" || q.ty === "m" ? q.o[q.a]
+          : q.ty === "o" ? q.a.join("") : q.a;
+        html += '<div class="kn-pt"><span class="k" style="color:var(--red)">✗</span><span>' +
+          q.q + '<br><b style="color:var(--green)">正确答案：' + rightAns + '</b>' +
+          (q.e2 ? '<br><span style="color:var(--ink-3)">' + q.e2 + '</span>' : "") +
+          '</span></div>';
+      });
+      html += '</div></div>';
+    }
+
+    html += '<div style="display:flex;gap:10px">';
+    if (!pass) {
+      html += '<button class="btn btn-primary" id="btnAgain" style="flex:1">重做本关</button>';
+    }
+    html += '<button class="btn btn-ghost" id="btnBackMap" style="flex:1">返回地图</button></div>';
+
+    box.innerHTML = html;
+
+    // 保存错题到错题本
+    st.wrongList.forEach(function (w) { addWrong(w); });
+
+    var ba = document.getElementById("btnAgain");
+    if (ba) ba.addEventListener("click", function () { startQuiz(lv); window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var bm = document.getElementById("btnBackMap");
+    if (bm) bm.addEventListener("click", function () { closeLevel(); });
+  }
+
+  // ---------- 错题本 ----------
+  function addWrong(w) {
+    var L = getLv();
+    var q = w.q;
+    // 去重：同一题干只留一条最新
+    L.wrong = L.wrong.filter(function (x) { return x.q.q !== q.q; });
+    L.wrong.unshift({
+      lv: w.lv, lvName: w.lvName, q: q.q, ty: q.ty,
+      o: q.o || null, a: q.a, e2: q.e2 || "", hint: q.hint || "",
+      date: todayKey(), times: 1
+    });
+    if (L.wrong.length > 200) L.wrong = L.wrong.slice(0, 200);
+    save();
+  }
+
+  function renderWrongBook() {
+    var box = document.getElementById("wrongBox");
+    if (!box) return;
+    var L = getLv();
+    if (!L.wrong.length) {
+      box.innerHTML = '<div class="empty-tip"><span class="e">🎯</span>' +
+        '还没有错题。<br>去「闯关学习」挑战几关，答错的题会自动收录在这里。</div>';
+      return;
+    }
+
+    var html = '<div class="res-note" style="margin-bottom:14px">' +
+      '<b>共 ' + L.wrong.length + ' 道错题</b> · 建议每天重做一次，连续 3 天做对就可以从心里划掉了。</div>';
+
+    // 按关卡分组
+    var byLv = {};
+    L.wrong.forEach(function (w) { (byLv[w.lvName] = byLv[w.lvName] || []).push(w); });
+
+    Object.keys(byLv).forEach(function (k) {
+      var arr = byLv[k];
+      var idx = -1;
+      for (var i = 0; i < LEVELS.length; i++) if (LEVELS[i].t === k) { idx = i; break; }
+      html += '<div style="font-size:12px;font-weight:800;color:var(--ink-3);margin:14px 0 8px;' +
+        'display:flex;align-items:center;gap:7px">📌 ' + k +
+        '<span style="flex:1;height:1px;background:var(--line)"></span></div>';
+
+      arr.forEach(function (w) {
+        var rightAns = (w.ty === "c" || w.ty === "m") ? w.o[w.a]
+          : w.ty === "o" ? w.a.join("") : w.a;
+        html += '<div class="wrong-item">' +
+          '<div class="wq">' + w.q + '</div>' +
+          '<div class="wa"><span class="right">✓ ' + rightAns + '</span>' +
+          (w.e2 ? '<br><span style="color:var(--ink-3)">' + w.e2 + '</span>' : "") +
+          '<br><span style="font-size:11px;color:var(--ink-3)">记录于 ' + w.date + '</span></div>' +
+          '</div>';
+      });
+
+      if (idx >= 0 && isUnlocked(idx)) {
+        html += '<button class="btn btn-ghost" data-redo="' + idx +
+          '" style="margin-bottom:6px;font-size:13px">重做「' + k + '」</button>';
+      }
+    });
+
+    if (L.wrong.length) {
+      html += '<div class="btn-row"><button class="btn btn-ghost" id="btnClearWrong">清空错题本</button></div>';
+    }
+    box.innerHTML = html;
+
+    box.querySelectorAll("[data-redo]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = parseInt(el.dataset.redo, 10);
+        document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
+        document.getElementById("view-content").classList.add("active");
+        document.querySelectorAll(".tab").forEach(function (b) {
+          b.classList.toggle("active", b.dataset.view === "content");
+        });
+        openLevel(i);
+      });
+    });
+
+    var bc = document.getElementById("btnClearWrong");
+    if (bc) bc.addEventListener("click", function () {
+      if (!confirm("确定清空所有错题吗？此操作不可恢复。")) return;
+      getLv().wrong = [];
+      save();
+      renderWrongBook();
+      toast("已清空错题本");
+    });
+  }
+
+  function renderVocab() {
+    var box = document.getElementById("vocabBox");
+    if (!box) return;
+    var html = "";
+    VOCAB.forEach(function (grp) {
+      html += '<div class="vocab-group"><h4><span class="bar"></span>' + grp.g + '</h4>';
+      grp.items.forEach(function (it) {
+        html += '<div class="vrow" data-speak="' + it[0] + '">' +
+          '<div class="jp">' + it[0] + '</div>' +
+          '<div class="rd">' + it[1] + '</div>' +
+          '<div class="cn">' + it[2] + '</div></div>';
+      });
+      html += '</div>';
+    });
+    box.innerHTML = html;
+    box.querySelectorAll(".vrow[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap");
+        setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+  }
+
+  // ---------- 句型数据（每个例句可点击发音） ----------
+  var PATTERNS = [
+    { t: "〜は〜です", m: "「A 是 B」——最基础的判断句。は是主题助词，读作 wa。",
+      e: [["私は学生です。","我是学生。"],["これは本です。","这是书。"]] },
+    { t: "〜は〜じゃありません", m: "「A 不是 B」——否定形式。口语常用 じゃない。",
+      e: [["私は先生じゃありません。","我不是老师。"],["これはペンじゃない。","这不是笔。"]] },
+    { t: "〜が〜です", m: "「A 有/存在 B」——表示存在。人或动物用 います，物用 あります。",
+      e: [["猫がいます。","有猫。"],["机の上に本があります。","桌上有书。"]] },
+    { t: "〜を〜ます", m: "「做某事」——を是宾语助词，标记动作对象。",
+      e: [["ご飯を食べます。","吃饭。"],["日本語を勉強します。","学日语。"]] },
+    { t: "〜に行きます", m: "「去某地」——に 表示目的地。",
+      e: [["学校に行きます。","去学校。"],["日本に行きたい。","想去日本。"]] },
+    { t: "〜が好きです", m: "「喜欢〜」——好き是形容动词，对象用 が 标记。",
+      e: [["アニメが好きです。","喜欢动漫。"],["猫が大好き！","超喜欢猫！"]] },
+    { t: "〜が上手／下手", m: "「擅长／不擅长〜」",
+      e: [["彼は日本語が上手です。","他日语很好。"],["私は料理が下手です。","我不擅长做饭。"]] },
+    { t: "〜ください", m: "「请给我〜」——点单、请求时最常用。",
+      e: [["水をください。","请给我水。"],["これをください。","请给我这个。"]] },
+    { t: "〜たいです", m: "「想要做〜」——表达自己的愿望。",
+      e: [["日本に行きたいです。","想去日本。"],["アニメを見たい。","想看动漫。"]] },
+    { t: "〜ています", m: "「正在做〜」——动作进行中，也表示状态持续。",
+      e: [["今、勉強しています。","现在正在学习。"],["何をしていますか。","你在做什么？"]] },
+    { t: "〜てもいいですか", m: "「可以〜吗？」——请求许可。",
+      e: [["写真を撮ってもいいですか。","可以拍照吗？"],["入ってもいいですか。","可以进去吗？"]] },
+    { t: "〜てはいけません", m: "「不可以〜」——表示禁止。",
+      e: [["ここに入ってはいけません。","不可以进这里。"],["触ってはいけない。","不能碰。"]] },
+    { t: "〜から", m: "「因为〜」——表示原因、理由。",
+      e: [["忙しいから、行きません。","因为忙，所以不去。"],["寒いから、コートを着ます。","因为冷，所以穿大衣。"]] },
+    { t: "〜ながら", m: "「一边〜一边〜」——两个动作同时进行。",
+      e: [["音楽を聞きながら、勉強します。","一边听音乐一边学习。"],["歩きながら食べる。","边走边吃。"]] },
+    { t: "〜たことがあります", m: "「曾经做过〜」——谈经验。",
+      e: [["日本に行ったことがあります。","我去过日本。"],["このアニメを見たことがあります。","看过这部动漫。"]] },
+    { t: "〜ましょう", m: "「我们〜吧」——提议、邀约。",
+      e: [["一緒に行きましょう。","一起去吧。"],["始めましょう。","开始吧。"]] },
+    { t: "〜ませんか", m: "「要不要一起〜？」——比 ましょう 更委婉的邀约。",
+      e: [["一緒に食べませんか。","要不要一起吃？"],["映画を見ませんか。","要不要看电影？"]] },
+    { t: "〜と思う", m: "「我认为〜」——表达看法，动漫里超高频。",
+      e: [["それはいいと思います。","我觉得那不错。"],["彼は来ると思います。","我想他会来。"]] },
+    { t: "〜と言いました", m: "「说了〜」——转述别人的话。",
+      e: [["彼は行くと言いました。","他说他会去。"],["「好き」と言って。","说「喜欢」。"]] },
+    { t: "〜ので", m: "「因为〜」——比 から 更客观、更礼貌的原因表达。",
+      e: [["雨なので、行きません。","因为下雨，所以不去。"],["忙しいので、後で電話します。","因为忙，待会儿再打电话。"]] },
+    { t: "〜たら", m: "「如果〜的话」——假定条件。",
+      e: [["雨が降ったら、行きません。","如果下雨就不去。"],["時間があったら、見てください。","有时间的话请看看。"]] },
+    { t: "〜ことができます", m: "「能够〜」——表示能力或可能性。",
+      e: [["日本語が話せます。","会说日语。"],["ここで写真が撮れます。","这里可以拍照。"]] },
+    { t: "〜しか〜ない", m: "「只有〜」——强调数量少。",
+      e: [["水しかありません。","只有水。"],["一人しかいません。","只有一个人。"]] },
+    { t: "〜すぎる", m: "「太〜了」——程度过头。",
+      e: [["美味しすぎる！","太好吃了！"],["高すぎます。","太贵了。"]] },
+    { t: "〜そうだ", m: "「听说〜／看起来〜」——传闻或样态。",
+      e: [["明日は雨だそうです。","听说明天下雨。"],["美味しそうだね。","看起来很好吃。"]] },
+    { t: "〜かもしれない", m: "「也许〜」——表示不确定的推测。",
+      e: [["彼は来ないかもしれない。","他也许不来。"],["明日は雨かもしれない。","明天也许会下雨。"]] },
+    { t: "〜つもりです", m: "「打算〜」——表示计划、意图。",
+      e: [["日本に行くつもりです。","打算去日本。"],["毎日勉強するつもりだ。","打算每天学习。"]] },
+    { t: "〜ようにする", m: "「尽量做到〜」——表示努力养成习惯。",
+      e: [["毎日日本語を聞くようにしています。","我尽量每天听日语。"],["早く寝るようにする。","尽量早点睡。"]] },
+    { t: "〜ばかり", m: "「净是〜／刚〜」——表示反复或刚刚。",
+      e: [["遊んでばかりいる。","净是玩。"],["今、来たばかりです。","我刚到。"]] },
+    { t: "〜なくてもいい", m: "「不〜也可以」——表示没必要。",
+      e: [["来なくてもいいですよ。","不来也可以哦。"],["急がなくてもいい。","不用着急。"]] },
+    { t: "〜られる（被动）", m: "【N4】「被〜」——被动语态，N4/N3 高频。",
+      e: [["先生に褒められました。","被老师表扬了。"],["財布を盗まれました。","钱包被偷了。"]] },
+    { t: "〜させる（使役）", m: "【N4】「让/使〜做」——使役语态。",
+      e: [["子供に野菜を食べさせる。","让孩子吃蔬菜。"],["母は私を買い物に行かせた。","妈妈让我去买东西。"]] },
+    { t: "〜させられる（使役被动）", m: "【选学·N3】「被迫做〜」——使役+被动，表不情愿。",
+      e: [["毎日残業させられます。","每天被迫加班。"],["弟に泣かされた。","被弟弟弄哭了。"]] },
+    { t: "〜てくれる／てもらう", m: "【N4】「（别人为我）做〜」——授受表达，日语的灵魂。",
+      e: [["彼が手伝ってくれました。","他帮了我。"],["先生に教えてもらいました。","请老师教了我。"]] },
+    { t: "〜あげる／てあげる", m: "【N4】「（我给别人）做〜」。注意：对长辈用错会失礼。",
+      e: [["友達に本をあげました。","给了朋友一本书。"],["妹に教えてあげた。","教了妹妹。"]] },
+    { t: "〜ば／〜なら", m: "【N4】「如果〜的话」——假定条件，与 たら 并列必学。",
+      e: [["安ければ、買います。","便宜的话就买。"],["行くなら、私も行く。","你要去的话我也去。"]] },
+    { t: "〜と（必然条件）", m: "【N4】「一〜就〜」——表示必然结果或自然规律。",
+      e: [["春になると、桜が咲きます。","一到春天樱花就开。"],["このボタンを押すと、ドアが開く。","按这个按钮门就开。"]] },
+    { t: "〜ながら／〜つつ", m: "【N4】「一边〜一边〜」，つつ形式更书面（选学）。",
+      e: [["音楽を聞きながら歩く。","一边听音乐一边走。"],["考えつつ、行動する。","边思考边行动。"]] },
+    { t: "〜てしまう", m: "【N4】「不小心〜了／完全〜了」——表遗憾或完成，口语常缩成 ちゃう。",
+      e: [["財布を忘れてしまった。","把钱包忘了。"],["全部食べちゃった。","全吃光了。"]] },
+    { t: "〜ておく", m: "【N4】「预先做好〜」——为将来做准备，口语常缩成 とく。",
+      e: [["先に予約しておきます。","事先预约好。"],["窓を閉めておいて。","把窗户关好（备用）。"]] },
+    { t: "〜てある", m: "【N4】「（已被）~着」——表示有意做好的状态。",
+      e: [["窓が開けてあります。","窗户开着（是特意开的）。"],["予約してあります。","已经预约好了（状态）。"]] },
+    { t: "〜ところだ", m: "【N4】「正好在〜」——ところ 表时间点：正要/正在/刚。",
+      e: [["今から出かけるところです。","正要出门。"],["今、食べているところだ。","正在吃。"]] },
+    { t: "〜ばかりだ／〜たばかり", m: "【N4】「刚〜／净是〜」",
+      e: [["今、帰ってきたばかりです。","刚回来。"],["文句ばかり言う。","净是抱怨。"]] },
+    { t: "〜はずだ", m: "【选学·N3】「应该〜」——基于逻辑的推断，语气较肯定。",
+      e: [["彼はもう着いたはずです。","他应该已经到了。"],["そんなはずはない。","不该是这样的。"]] },
+    { t: "〜わけだ／〜わけではない", m: "【选学·N3】「难怪〜／并非〜」——わけ 表逻辑结论。",
+      e: [["だから嫌われたわけだ。","难怪被讨厌了。"],["行きたくないわけではない。","也不是不想去。"]] },
+    { t: "〜ようになる", m: "【选学·N3】「变得能〜了」——表能力或习惯的变化。",
+      e: [["日本語が話せるようになりました。","变得会说日语了。"],["毎日走るようになった。","变得每天跑步了。"]] },
+    { t: "〜ことにする／ことになる", m: "【选学·N3】「决定〜／（被）决定〜」——自己决定 vs 客观决定。",
+      e: [["日本に行くことにしました。","决定去日本。"],["来月転勤することになった。","下个月要调职了。"]] },
+    { t: "〜ために／〜ように", m: "【选学·N3】「为了〜」——ために 主客观皆可，ように 常接非意志动词。",
+      e: [["N2に合格するために勉強する。","为了过N2而学习。"],["聞こえるように大きい声で。","为了让听得见，大声点。"]] },
+    { t: "〜に対して", m: "【选学·N3】「针对〜／相对于〜」",
+      e: [["先生に対して失礼だ。","对老师失礼。"],["去年に対して、今年は良い。","相比去年，今年不错。"]] },
+    { t: "〜について", m: "【N4】「关于〜」",
+      e: [["日本の文化について話す。","谈论日本文化。"],["この件について聞きたい。","想了解这件事。"]] },
+    { t: "〜という", m: "【N4】「叫做〜／据说〜」——名词说明或引用。",
+      e: [["「桜」という花。","叫「樱」的花。"],["彼は行くという。","他说要去。"]] },
+    { t: "〜らしい／〜みたいだ", m: "【N4】「好像〜」——らしい 基于传闻，みたい 基于感觉。",
+      e: [["明日は雨らしい。","听说明天会下雨。"],["彼は疲れているみたいだ。","他好像很累。"]] },
+    { t: "〜たびに", m: "【选学·N3】「每当〜就〜」",
+      e: [["この歌を聞くたびに、思い出す。","每当听这首歌就会想起。"],["会うたびに、綺麗になる。","每次见面都变更漂亮。"]] },
+    { t: "〜にかけて／〜にわたって", m: "【选学·N3】「从〜到〜／历经〜」——时间范围的书面表达。",
+      e: [["春から夏にかけて、雨が多い。","从春到夏雨很多。"],["10年にわたって研究した。","研究了十年。"]] },
+    { t: "〜ざるを得ない", m: "【选学·N3】「不得不〜」——书面、正式表达。",
+      e: [["行かざるを得ない。","不得不去。"],["認めざるを得ません。","不得不承认。"]] },
+    { t: "〜に違いない", m: "【选学·N3】「一定是〜」——强推断。",
+      e: [["彼がやったに違いない。","一定是他做的。"],["きっと成功するに違いない。","一定会成功。"]] },
+    { t: "〜ばかりか〜も", m: "【选学·N3】「不仅〜而且〜」",
+      e: [["英語ばかりか、日本語も話せる。","不仅英语，日语也会说。"],["雨ばかりか、雪も降った。","不仅下雨，还下雪了。"]] },
+    { t: "〜おかげで／〜せいで", m: "【选学·N3】「多亏〜／都怪〜」——正面 vs 负面原因。",
+      e: [["先生のおかげで合格しました。","多亏老师才合格。"],["雨のせいで遅れました。","因为下雨迟到了。"]] },
+    { t: "〜わけにはいかない", m: "【选学·N3】「不能〜」——出于情理无法做。",
+      e: [["休むわけにはいかない。","不能休息（有责任）。"],["黙っているわけにはいかない。","不能沉默。"]] }
+  ];
+
+  function renderPatterns() {
+    var box = document.getElementById("patternBox");
+    if (!box) return;
+    var html = "";
+    PATTERNS.forEach(function (p, i) {
+      var exHtml = "";
+      p.e.forEach(function (ex) {
+        // 每条例句的日文部分可点击发音
+        exHtml += '<div class="ex-line" data-speak="' + ex[0] + '">' +
+          '<span class="ex-jp">' + ex[0] + '</span>' +
+          '<span class="ex-cn">' + ex[1] + '</span>' +
+          '<span class="ex-btn">🔊</span></div>';
+      });
+      // 选学内容（超出N4）标记不同样式
+      var isOptional = p.m.indexOf("选学") >= 0;
+      var cls = isOptional ? "pat pat-opt" : "pat";
+      // 去掉标题里的【】标记，让代码整洁
+      var title = p.t;
+      html += '<div class="' + cls + '">' +
+        '<div class="pt">' + (i + 1) + '. ' + title + '</div>' +
+        '<div class="pm">' + p.m + '</div>' +
+        '<div class="pe">' + exHtml + '</div></div>';
+    });
+    box.innerHTML = html;
+    box.querySelectorAll(".ex-line[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap");
+        setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+  }
+
+  // ---------- 计划表数据 ----------
+  // ---------- 90天计划：N5 → N4 → 冲 N3 ----------
+  var PLAN = [
+    { w: 1, tag: "第 1 周", goal: "五十音全清音（N5 基石）",
+      detail: "<b>目标：</b>平假名 + 片假名 46+46 全部认读。<br>" +
+        "<b>每天：</b>多邻国 20′ + Anki 五十音 20′ + 抄写跟读 20′。<br>" +
+        "<b>过关：</b>随机指认假名 3 秒内读出，正确率 90%。" },
+    { w: 1, tag: "第 2 周", goal: "浊音・拗音 + 长促拨音",
+      detail: "<b>目标：</b>浊音 25 个、拗音 33 个全部掌握，能读简单单词。<br>" +
+        "<b>每天：</b>Anki 复习 20′ + 拗音专练 20′ + NHK Easy 第1-3课 20′。<br>" +
+        "<b>过关：</b>能拼读「きょう」「がっこう」这类词。" },
+    { w: 2, tag: "第 3-4 周", goal: "N5 核心语法（判断句/存在句）",
+      detail: "<b>目标：</b>掌握 は/が/を/に/で 助词，名词句、存在句、形容词句。<br>" +
+        "<b>每天：</b>Anki 单词 20′ + 语法学习 25′ + NHK Easy 跟读 15′。<br>" +
+        "<b>进度：</b>NHK Easy 完成第 1-12 课，词汇累计 300+。" },
+    { w: 2, tag: "第 5-6 周", goal: "动词变形（N5→N4 关键）",
+      detail: "<b>目标：</b>ます形、て形、た形、ない形，三类动词变形全通。<br>" +
+        "<b>每天：</b>Anki 单词 20′ + 变形练习 25′ + 短文朗读 15′。<br>" +
+        "<b>进度：</b>NHK Easy 完成第 13-24 课，词汇累计 600+。" },
+    { w: 3, tag: "第 7-8 周", goal: "N4 语法（条件/意愿/授受）",
+      detail: "<b>目标：</b>たら/ば/と、たい/つもり、あげる/もらう/くれる、敬语入门。<br>" +
+        "<b>每天：</b>Anki 单词 20′ + 语法 25′ + 会话跟读 15′。<br>" +
+        "<b>进度：</b>NHK Easy 完成第 25-36 课，词汇累计 900+。" },
+    { w: 3, tag: "第 9-10 周", goal: "N4 进阶语法 + 阅读理解",
+      detail: "<b>目标：</b>被动、使役、使役被动、敬语进阶、句尾表达。<br>" +
+        "<b>每天：</b>Anki 单词 20′ + 语法 20′ + 短文精读 20′。<br>" +
+        "<b>进度：</b>NHK Easy 完成 37-48 课，词汇累计 1200+。" },
+    { w: 4, tag: "第 11 周", goal: "N5/N4 真题模考",
+      detail: "<b>目标：</b>做 N5 官网样题 + N4 部分真题，熟悉题型。<br>" +
+        "<b>每天：</b>真题 40′ + 错题复盘 20′。<br>" +
+        "<b>重点：</b>听力部分反复听，直到听懂每个词。" },
+    { w: 4, tag: "第 12 周", goal: "查漏补缺 + N3 过渡",
+      detail: "<b>目标：</b>巩固 N4 薄弱点，接触 N3 语法框架。<br>" +
+        "<b>每天：</b>错题复习 20′ + N3 语法预习 20′ + 动漫精听 20′。<br>" +
+        "<b>成果：</b>具备 N4 应试能力，已站在 N3 起点。" }
+  ];
+
+  function renderPlan() {
+    var box = document.getElementById("planBox");
+    if (!box) return;
+    var html = "";
+    PLAN.forEach(function (p, i) {
+      // 按周数决定颜色档
+      var wcls = "w" + (p.w === 1 ? 1 : p.w === 2 ? 2 : p.w === 3 ? 3 : 4);
+      html += '<div class="plan-wk ' + wcls + '"' + (i === 0 ? ' style="margin-top:0"' : '') + '>' +
+        '<span class="wk-tag">' + p.tag + '</span>' +
+        '<div class="goal">🎯 ' + p.goal + '</div>' +
+        '<div class="detail">' + p.detail + '</div></div>';
+    });
+    // 底部说明
+    html += '<div class="res-note" style="margin-top:14px">' +
+      '<b>📌 关于目标：</b>这套计划 90 天带你从零到 <b>N4 水平</b>（词汇 1200+，语法体系完整），' +
+      '并踏入 N3 门槛。<br><br>' +
+      '<b>为什么不是 90 天到 N3？</b> N3 需要约 600-900 学时、3750+ 词汇。' +
+      '每天 1 小时 × 90 天 = 90 小时，连 N4 都需要 300 小时以上。' +
+      '所以这里把 N4 作为 90 天的现实目标——<b>走完这 90 天，你已经超过大多数自学放弃的人</b>，' +
+      '之后再花 1-2 年继续冲 N3/N2 才有意义。<br><br>' +
+      '<b>💡 若某天时间不够：</b>优先保 Anki（记忆不能断），其余可压缩。' +
+      '</div>';
+    box.innerHTML = html;
+  }
+
+  // ---------- 资源数据 ----------
+  var RESOURCES = [
+    { ico: "📱", n: "多邻国 Duolingo", d: "游戏化入门，刷五十音和基础句型", l: "免费", u: "https://www.duolingo.com" },
+    { ico: "🃏", n: "Anki 牌组库", d: "间隔重复记忆，搜 Nihonki / Core 2k 牌组", l: "免费", u: "https://ankiweb.net/shared/decks" },
+    { ico: "📖", n: "NHK 简明日语", d: "48 课官方课程，中文界面，可下载音频", l: "免费", u: "https://www3.nhk.or.jp/nhkworld/lesson/zh/" },
+    { ico: "📰", n: "NHK News Web Easy", d: "真实新闻简化版，带假名注音和音频", l: "免费", u: "https://www3.nhk.or.jp/news/easy/" },
+    { ico: "💬", n: "HelloTalk", d: "语言交换社区，找日本人免费练口语", l: "免费", u: "https://www.hellotalk.com" },
+    { ico: "🗣️", n: "Tandem", d: "另一个语言交换平台，可语音通话", l: "免费", u: "https://tandem.net" },
+    { ico: "📚", n: "Tae Kim 语法指南", d: "经典免费语法教程，讲得比课本清楚", l: "免费", u: "https://guidetojapanese.org" },
+    { ico: "🎧", n: "Nihongo con Teppei", d: "日本人做的播客，全日语自然语速", l: "免费", u: "https://nihongoconteppei.com" },
+    { ico: "📕", n: "Tadoku 分级读物", d: "免费分级阅读，初学者也能读", l: "免费", u: "https://tadoku.org/japanese/en/free-books-en/" },
+    { ico: "📝", n: "JLPT 官网样题", d: "官方 N5-N1 真题样卷，必做", l: "免费", u: "https://www.jlpt.jp/samples/forlearners.html" },
+    { ico: "🎯", n: "JLPT Sensei", d: "按等级整理的语法/词汇清单，备考神器", l: "免费", u: "https://jlptsensei.com" },
+    { ico: "📊", n: "Bunpro", d: "语法 SRS 系统，N5-N3 语法全覆盖", l: "免费试用", u: "https://bunpro.jp" },
+    { ico: "🈶", n: "Jisho 在线词典", d: "最好用的日英词典，查词必备", l: "免费", u: "https://jisho.org" }
+  ];
+
+  // ---------- 常用对话数据 ----------
+  var DIALOGS = [
+    { t: "👋 初次见面", lines: [
+      ["はじめまして。","初次见面。"],
+      ["はじめまして。よろしくお願いします。","初次见面，请多关照。"],
+      ["こちらこそ、よろしくお願いします。","彼此彼此，请多关照。"],
+      ["お名前は何ですか。","您叫什么名字？"],
+      ["田中と申します。","我叫田中。"]
+    ]},
+    { t: "🍜 在餐厅", lines: [
+      ["いらっしゃいませ。何名様ですか。","欢迎光临，请问几位？"],
+      ["一人です。","一位。"],
+      ["ご注文は何ですか。","您要点什么？"],
+      ["これをください。","请给我这个。"],
+      ["お会計をお願いします。","请结账。"],
+      ["ごちそうさまでした。","谢谢招待（吃完后说）。"]
+    ]},
+    { t: "🛒 买东西", lines: [
+      ["すみません、これはいくらですか。","不好意思，这个多少钱？"],
+      ["千円です。","1000日元。"],
+      ["ちょっと高いですね。","有点贵呢。"],
+      ["もう少し安くなりませんか。","能便宜一点吗？"],
+      ["これをください。","我要这个。"],
+      ["カードでいいですか。","可以刷卡吗？"]
+    ]},
+    { t: "🚉 问路", lines: [
+      ["すみません、駅はどこですか。","不好意思，车站在哪里？"],
+      ["まっすぐ行ってください。","请直走。"],
+      ["右に曲がってください。","请右转。"],
+      ["ここからどのくらいかかりますか。","从这里要多久？"],
+      ["十分ぐらいです。","大约十分钟。"],
+      ["ありがとうございます。","谢谢。"]
+    ]},
+    { t: "🙇 道歉与请求", lines: [
+      ["すみません。","不好意思 / 对不起。"],
+      ["大丈夫ですか。","你没事吧？"],
+      ["大丈夫です。","没事。"],
+      ["ごめんなさい。遅れました。","对不起，我迟到了。"],
+      ["もう一度言ってください。","请再说一遍。"],
+      ["ゆっくり話してください。","请说慢一点。"]
+    ]},
+    { t: "🤝 日常寒暄", lines: [
+      ["おはようございます。","早上好。"],
+      ["お元気ですか。","你好吗？"],
+      ["おかげさまで元気です。","托您的福，很好。"],
+      ["お久しぶりです。","好久不见。"],
+      ["また会いましょう。","下次再见吧。"],
+      ["お気をつけて。","路上小心。"]
+    ]}
+  ];
+
+  function renderDialogs() {
+    var box = document.getElementById("dialogBox");
+    if (!box) return;
+    var html = "";
+    DIALOGS.forEach(function (d) {
+      html += '<div class="vocab-group"><h4><span class="bar"></span>' + d.t + '</h4>';
+      d.lines.forEach(function (l) {
+        html += '<div class="vrow" data-speak="' + l[0] + '">' +
+          '<div class="jp" style="min-width:auto;flex:1;font-size:14px">' + l[0] + '</div>' +
+          '<div class="cn">' + l[1] + '</div></div>';
+      });
+      html += '</div>';
+    });
+    box.innerHTML = html;
+    box.querySelectorAll(".vrow[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap");
+        setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+  }
+
+  function renderResources() {
+    var box = document.getElementById("resBox");
+    if (!box) return;
+    var html = "";
+    RESOURCES.forEach(function (r) {
+      html += '<a class="res" href="' + r.u + '" target="_blank" rel="noopener">' +
+        '<div class="ico">' + r.ico + '</div>' +
+        '<div class="ri"><div class="rn">' + r.n + '</div><div class="rd">' + r.d + '</div></div>' +
+        '<div class="rl">' + r.l + '</div></a>';
+    });
+    html += '<div class="res-note"><b>使用建议：</b>前 2 周只用「多邻国 + Anki」，别贪多。' +
+      '第 3 周再加「NHK」。第 2 个月起再找语言交换伙伴——顺序错了容易半途而废。</div>';
+    box.innerHTML = html;
+  }
+
+  // ---------- 内容页 Tab 切换 ----------
+  function initContentTabs() {
+    var stabs = document.querySelectorAll(".stab");
+    stabs.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        stabs.forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        // 全部面板隐藏，再显示当前
+        ["map", "kana", "vocab", "plan", "res"].forEach(function (k) {
+          var el = document.getElementById("kv-" + k);
+          if (el) el.style.display = (k === btn.dataset.lv) ? "block" : "none";
+        });
+        // 切到非地图页时，关闭关卡详情
+        if (btn.dataset.lv !== "map") {
+          var q = document.getElementById("quizWrap");
+          var m = document.getElementById("mapWrap");
+          if (q && q.style.display !== "none") {
+            q.style.display = "none"; q.innerHTML = "";
+            if (m) m.style.display = "block";
+            curLevel = null; quizState = null;
+          }
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  function renderContent() {
+    renderKana();
+    renderVocab();
+    renderPatterns();
+    renderDialogs();
+    renderPlan();
+    renderResources();
+  }
+  function initTabs() {
+    var tabs = document.querySelectorAll(".tab");
+    tabs.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        tabs.forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
+        document.getElementById("view-" + btn.dataset.view).classList.add("active");
+        // 进入闯关/错题本时刷新
+        if (btn.dataset.view === "content") { renderLvMap(); }
+        if (btn.dataset.view === "wrong") { renderWrongBook(); }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  // ---------- Toast ----------
+  var toastTimer = null;
+  function toast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove("show"); }, 1900);
+  }
+
+  // ---------- 导入导出 ----------
+  function exportData() {
+    var str = JSON.stringify(data);
+    // 复制到剪贴板
+    var done = function () { toast("已复制备份，请粘贴保存到备忘录"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(str).then(done, function () { fallbackCopy(str, done); });
+    } else {
+      fallbackCopy(str, done);
+    }
+    // 同时弹窗展示，方便手动复制
+    document.getElementById("importBox").value = str;
+    document.querySelector(".modal h3").textContent = "备份已生成";
+    document.querySelector(".modal p").textContent = "已复制到剪贴板，也可手动全选复制保存。";
+    document.getElementById("mask").classList.add("show");
+    document.getElementById("btnConfirm").style.display = "none";
+  }
+
+  function fallbackCopy(str, cb) {
+    var ta = document.createElement("textarea");
+    ta.value = str;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); cb(); } catch (e) { toast("请手动复制"); }
+    document.body.removeChild(ta);
+  }
+
+  // ---------- 保存到本机（离线永久版）----------
+  function saveLocal() {
+    var btn = document.getElementById("btnSaveLocal");
+    var doDownload = function (htmlText) {
+      var blob = new Blob([htmlText], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "日语学习打卡.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      btn.textContent = "✓ 已保存";
+      btn.disabled = true;
+      toast("已下载到手机「下载」文件夹 · 之后离线可用");
+    };
+    // 优先用 fetch 取原始字节（网址打开时最准确）
+    if (location.protocol.indexOf("http") === 0) {
+      btn.textContent = "保存中…";
+      fetch(location.href).then(function (r) { return r.text(); }).then(function (t) {
+        doDownload(t);
+      }).catch(function () {
+        doDownload("<!DOCTYPE html>\n" + document.documentElement.outerHTML);
+      });
+    } else {
+      // file:// 下 fetch 受限，用当前 DOM 重建
+      doDownload("<!DOCTYPE html>\n" + document.documentElement.outerHTML);
+    }
+  }
+
+  function openImport() {
+    document.querySelector(".modal h3").textContent = "导入数据";
+    document.querySelector(".modal p").textContent = "粘贴之前导出的备份内容，点确定恢复。";
+    document.getElementById("importBox").value = "";
+    document.getElementById("btnConfirm").style.display = "";
+    document.getElementById("mask").classList.add("show");
+  }
+
+  function confirmImport() {
+    var raw = document.getElementById("importBox").value.trim();
+    if (!raw) { toast("内容为空"); return; }
+    try {
+      var d = JSON.parse(raw);
+      if (!d || !d.logs) throw new Error("格式不对");
+      data = d;
+      if (!data.created) data.created = todayKey();
+      save();
+      closeModal();
+      renderAll();
+      toast("✓ 导入成功");
+    } catch (e) {
+      toast("格式错误，请检查内容");
+    }
+  }
+
+  function closeModal() { document.getElementById("mask").classList.remove("show"); }
+
+  // ---------- 事件绑定 ----------
+  document.getElementById("btnAll").addEventListener("click", function () { setAll(true); });
+  document.getElementById("btnReset").addEventListener("click", function () { setAll(false); });
+  document.getElementById("btnExport").addEventListener("click", exportData);
+  document.getElementById("btnImport").addEventListener("click", openImport);
+  document.getElementById("btnSaveLocal").addEventListener("click", saveLocal);
+  document.getElementById("btnConfirm").addEventListener("click", confirmImport);
+  document.getElementById("btnCancel").addEventListener("click", closeModal);
+  document.getElementById("mask").addEventListener("click", function (e) {
+    if (e.target.id === "mask") closeModal();
+  });
+
+  // 跨天自动刷新
+  setInterval(function () {
+    if (renderAll._day !== todayKey()) { renderAll._day = todayKey(); renderAll(); }
+  }, 60000);
+
+  // ---------- 启动 ----------
+  if (!data.created) { data.created = todayKey(); save(); }
+  initTabs();
+  initAll();
+  renderAll._day = todayKey();
+  renderAll();
+
+  // 本地文件打开时提示离线模式，并隐藏"保存到本机"条（已是离线）
+  if (location.protocol === "file:") {
+    var ot = document.getElementById("offlineTip");
+    if (ot) { ot.style.display = "block"; setTimeout(function(){ ot.style.display = "none"; }, 8000); }
+    var sb = document.getElementById("saveBar");
+    if (sb) sb.style.display = "none";
+  }
+
+  // 调试/自动化句柄（只读）
+  window.__JP__ = {
+    LEVELS: LEVELS,
+    get state() { return quizState; },
+    get cur() { return curLevel; },
+    get lv() { return getLv(); },
+    passedCount: passedCount,
+    currentIdx: currentIdx,
+    openLevel: openLevel,
+    closeLevel: closeLevel,
+    renderAll: renderAll
+  };
+})();
+</script>
+</body>
+</html>
