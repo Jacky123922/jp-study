@@ -705,6 +705,43 @@
     padding: 6px 10px; cursor: pointer; color: var(--ink-2); font-weight: 600;
   }
   .weak-item .wbtn:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* 背诵库 */
+  .ph-card { background:#fff; border:1.5px solid var(--line); border-radius:13px; padding:12px 13px; margin-bottom:10px; }
+  .ph-card .ph-title { font-size:15px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .ph-card .ph-acts { display:flex; gap:8px; flex:0 0 auto; }
+  .ph-line { display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px dashed #eee; cursor:pointer; }
+  .ph-line:first-of-type { border-top:0; }
+  .ph-line .pj { font-size:15px; font-weight:600; flex:1; }
+  .ph-line .pr { font-size:12px; color:var(--ink-3); flex:0 0 auto; }
+  .ph-line .pc { font-size:13px; color:var(--ink-2); flex:0 0 auto; max-width:44%; text-align:right; }
+  .ph-line:hover .pj { color:var(--primary); }
+  .who-badge { font-size:11px; font-weight:700; border-radius:6px; padding:2px 6px; margin-right:6px; }
+  .who-a { background:#E3ECFB; color:#3b6fd4; }
+  .who-b { background:#FDE9D9; color:#d9731f; }
+  .ph-flash { background:linear-gradient(135deg,#eef3ff,#fff); border:2px solid var(--primary); border-radius:16px; padding:28px 22px; text-align:center; margin-bottom:14px; }
+  .ph-flash .fjp { font-size:25px; font-weight:800; color:var(--ink-1); margin-bottom:6px; }
+  .ph-flash .from { font-size:15px; color:var(--primary); }
+  .ph-flash .fback { font-size:19px; color:var(--ink-2); margin-top:12px; }
+  .ph-flash .fhint { font-size:12px; color:var(--ink-3); margin-top:12px; }
+  .ph-flash .fspeak { margin-top:14px; }
+  .ph-prog { height:8px; background:#eef0f5; border-radius:6px; overflow:hidden; margin:4px 0 14px; }
+  .ph-prog > i { display:block; height:100%; background:var(--primary); border-radius:6px; transition:width .25s; }
+  .ph-row { display:flex; gap:10px; }
+  .ph-row > * { flex:1; }
+  .pq-item { background:#fff; border:1.5px solid var(--line); border-radius:13px; padding:14px; margin-bottom:12px; }
+  .pq-q { font-size:15px; font-weight:700; margin-bottom:6px; }
+  .pq-sub { font-size:13px; color:var(--ink-3); margin-bottom:10px; }
+  .pq-opt { display:block; width:100%; text-align:left; border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:11px 13px; margin-bottom:8px; font-size:14px; cursor:pointer; font-weight:600; }
+  .pq-opt:hover:not(:disabled) { border-color:var(--primary); }
+  .pq-opt.ok { background:#eafaf0; border-color:var(--green); color:#1c7a3e; }
+  .pq-opt.no { background:#fdeaea; border-color:var(--red); color:#c0392b; }
+  .pq-opt:disabled { cursor:default; }
+  .ph-stat { text-align:center; padding:26px 16px; }
+  .ph-stat .big { font-size:40px; font-weight:800; color:var(--primary); }
+  .ph-mini-btn { font-size:12px; padding:6px 11px; border-radius:9px; border:1.5px solid var(--line); background:#fff; cursor:pointer; font-weight:600; color:var(--ink-2); }
+  .ph-mini-btn:hover { border-color:var(--primary); color:var(--primary); }
+  .ph-empty { text-align:center; color:var(--ink-3); padding:30px 10px; font-size:14px; }
 </style>
 </head>
 <body>
@@ -833,6 +870,7 @@
         <button class="stab active" data-lv="map">关卡地图</button>
         <button class="stab" data-lv="kana">五十音表</button>
         <button class="stab" data-lv="vocab">词汇库</button>
+        <button class="stab" data-lv="phrase">背诵库</button>
         <button class="stab" data-lv="plan">学习计划</button>
         <button class="stab" data-lv="res">资源</button>
       </div>
@@ -881,6 +919,27 @@
           <div class="card-title"><span class="dot"></span>免费学习资源</div>
           <p class="card-desc">按阶段使用 · 全部免费</p>
           <div id="resBox"></div>
+        </div>
+      </div>
+      <div id="kv-phrase" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>背诵库</div>
+          <p class="card-desc">句子 · 短文 · 对话 三类，可跟读背诵，也能过关考核</p>
+          <div class="vhub-tabs" id="phCats">
+            <button class="vht active" data-pc="sentence">💬 句子 <span class="vht-badge" id="phSenBadge">0</span></button>
+            <button class="vht" data-pc="passage">📄 短文</button>
+            <button class="vht" data-pc="dialog">🎭 对话</button>
+            <button class="vht" data-pc="weak">📕 生句本 <span class="vht-badge" id="phraseWeakBadge">0</span></button>
+          </div>
+          <div class="vhub-tabs" id="phActs" style="display:none">
+            <button class="vht active" data-pa="browse">📖 浏览</button>
+            <button class="vht" data-pa="learn">📚 背诵</button>
+            <button class="vht" data-pa="quiz">🎯 过关</button>
+          </div>
+          <div id="phraseBox"></div>
+          <div id="phraseLearn" style="display:none"></div>
+          <div id="phraseQuiz" style="display:none"></div>
+          <div id="phraseWeak" style="display:none"></div>
         </div>
       </div>
     </div>
@@ -4172,6 +4231,289 @@
     });
   }
 
+  // ---------- 背诵库模块（句子 / 短文 / 对话） ----------
+  var curPhraseCat = "sentence";
+  var curPhraseAct = "browse";
+
+  function phraseData() {
+    if (!data.phrase) data.phrase = { known: {}, weak: {} };
+    if (!data.phrase.known) data.phrase.known = {};
+    if (!data.phrase.weak) data.phrase.weak = {};
+    return data.phrase;
+  }
+  function phraseMarkKnown(u) {
+    var d = phraseData(); var k = phraseUnitKey(u);
+    d.known[k] = (d.known[k] || 0) + 1;
+    if (d.known[k] >= 2 && d.weak[k]) delete d.weak[k];
+    save(); updatePhraseBadges();
+  }
+  function phraseMarkWeak(u) {
+    var d = phraseData(); var k = phraseUnitKey(u);
+    d.weak[k] = { jp: u.jp, rom: u.rom, cn: u.cn };
+    save(); updatePhraseBadges();
+  }
+  function updatePhraseBadges() {
+    var d = phraseData();
+    var sb = document.getElementById("phSenBadge");
+    if (sb) sb.textContent = Object.keys(d.known).length;
+    var wb = document.getElementById("phraseWeakBadge");
+    if (wb) wb.textContent = Object.keys(d.weak).length;
+  }
+
+  function initPhraseHub() {
+    document.querySelectorAll("#phCats .vht").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var c = btn.dataset.pc;
+        document.querySelectorAll("#phCats .vht").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        var acts = document.getElementById("phActs");
+        if (c === "weak") {
+          acts.style.display = "none";
+          renderPhraseWeak();
+        } else {
+          curPhraseCat = c; curPhraseAct = "browse";
+          acts.style.display = "";
+          document.querySelectorAll("#phActs .vht").forEach(function (b, i) { b.classList.toggle("active", i === 0); });
+          renderPhraseBrowse(c);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+    document.querySelectorAll("#phActs .vht").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var a = btn.dataset.pa;
+        document.querySelectorAll("#phActs .vht").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        curPhraseAct = a;
+        if (a === "browse") renderPhraseBrowse(curPhraseCat);
+        else if (a === "learn") renderPhraseLearn(curPhraseCat);
+        else if (a === "quiz") renderPhraseQuiz(curPhraseCat);
+      });
+    });
+    document.getElementById("phActs").style.display = "";
+    renderPhraseBrowse(curPhraseCat);
+  }
+
+  function phraseSpeakBtn(jp) {
+    return '<button class="pbtn ph-mini-btn" data-speak="' + jp + '">🔊</button>';
+  }
+
+  function renderPhraseBrowse(cat) {
+    document.getElementById("phraseBox").style.display = "";
+    document.getElementById("phraseLearn").style.display = "none";
+    document.getElementById("phraseQuiz").style.display = "none";
+    document.getElementById("phraseWeak").style.display = "none";
+    var box = document.getElementById("phraseBox");
+    var html = "";
+    if (cat === "sentence") {
+      html += '<div class="ph-card"><div class="ph-title"><span>💬 常用句子（' + PHRASE_LIB.sentences.length + '）</span></div>';
+      PHRASE_LIB.sentences.forEach(function (s) {
+        html += '<div class="ph-line" data-speak="' + s.jp + '">' +
+          '<span class="pj">' + s.jp + '</span>' +
+          '<span class="pr">' + s.rom + '</span>' +
+          '<span class="pc">' + s.cn + '</span>' + phraseSpeakBtn(s.jp) + '</div>';
+      });
+      html += '</div>';
+    } else if (cat === "passage") {
+      PHRASE_LIB.passages.forEach(function (p) {
+        html += '<div class="ph-card"><div class="ph-title"><span>' + p.title + '</span></div>';
+        p.lines.forEach(function (s) {
+          html += '<div class="ph-line" data-speak="' + s.jp + '">' +
+            '<span class="pj">' + s.jp + '</span>' +
+            '<span class="pr">' + s.rom + '</span>' +
+            '<span class="pc">' + s.cn + '</span>' + phraseSpeakBtn(s.jp) + '</div>';
+        });
+        html += '</div>';
+      });
+    } else if (cat === "dialog") {
+      PHRASE_LIB.dialogs.forEach(function (d) {
+        html += '<div class="ph-card"><div class="ph-title"><span>' + d.title + '</span></div>';
+        d.lines.forEach(function (s) {
+          var whoCls = s.who === "A" ? "who-a" : "who-b";
+          html += '<div class="ph-line" data-speak="' + s.jp + '">' +
+            '<span class="pj"><span class="who-badge ' + whoCls + '">' + s.who + '</span>' + s.jp + '</span>' +
+            '<span class="pr">' + s.rom + '</span>' +
+            '<span class="pc">' + s.cn + '</span>' + phraseSpeakBtn(s.jp) + '</div>';
+        });
+        html += '</div>';
+      });
+    }
+    box.innerHTML = html;
+    box.querySelectorAll(".ph-line[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        el.classList.add("tap"); setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+    box.querySelectorAll(".pbtn[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function (e) { e.stopPropagation(); speak(el.dataset.speak); });
+    });
+  }
+
+  function renderPhraseLearn(cat) {
+    document.getElementById("phraseBox").style.display = "none";
+    document.getElementById("phraseLearn").style.display = "";
+    document.getElementById("phraseQuiz").style.display = "none";
+    document.getElementById("phraseWeak").style.display = "none";
+    var units = phraseUnits(cat);
+    var box = document.getElementById("phraseLearn");
+    if (!units.length) { box.innerHTML = '<div class="ph-empty">暂无内容</div>'; return; }
+    var idx = 0;
+    function show() {
+      var u = units[idx];
+      var pct = Math.round(idx / units.length * 100);
+      box.innerHTML =
+        '<div class="ph-prog"><i style="width:' + pct + '%"></i></div>' +
+        '<div style="font-size:12px;color:var(--ink-3);text-align:center;margin-bottom:8px">第 ' + (idx + 1) + ' / ' + units.length + ' 句 · 听发音，回想意思</div>' +
+        '<div class="ph-flash" id="flash">' +
+          '<div class="fjp">' + u.jp + '</div>' +
+          '<div class="from">' + u.rom + '</div>' +
+          '<div class="fback" id="fback" style="display:none">' + u.cn + '</div>' +
+          '<div class="fspeak"><button class="ph-mini-btn" id="speakBtn">🔊 听发音</button></div>' +
+          '<div class="fhint">点卡片看中文意思</div>' +
+        '</div>' +
+        '<div class="ph-row">' +
+          '<button class="btn-ghost" id="noBtn">✗ 不会</button>' +
+          '<button class="btn-primary" id="yesBtn">✓ 会了</button>' +
+        '</div>';
+      var flash = document.getElementById("flash");
+      var fback = document.getElementById("fback");
+      flash.onclick = function () {
+        fback.style.display = "";
+        flash.querySelector(".fhint").textContent = "想起来了？选下方按钮";
+      };
+      document.getElementById("speakBtn").onclick = function (e) { e.stopPropagation(); speak(u.jp); };
+      document.getElementById("yesBtn").onclick = function () { phraseMarkKnown(u); next(); };
+      document.getElementById("noBtn").onclick = function () { phraseMarkWeak(u); next(); };
+    }
+    function next() {
+      idx++;
+      if (idx >= units.length) {
+        var d = phraseData();
+        box.innerHTML = '<div class="ph-stat"><div class="big">✅</div>' +
+          '<div style="font-size:15px;font-weight:700;margin:8px 0">本组背完啦</div>' +
+          '<div style="color:var(--ink-3);font-size:13px">已掌握 ' + Object.keys(d.known).length + ' 句 · 生句本 ' + Object.keys(d.weak).length + ' 句</div>' +
+          '<button class="btn-primary" style="margin-top:16px" id="againBtn">🔁 再背一遍</button></div>';
+        document.getElementById("againBtn").onclick = function () { idx = 0; show(); };
+        return;
+      }
+      show();
+    }
+    show();
+  }
+
+  function renderPhraseQuiz(cat) {
+    document.getElementById("phraseBox").style.display = "none";
+    document.getElementById("phraseLearn").style.display = "none";
+    document.getElementById("phraseQuiz").style.display = "";
+    document.getElementById("phraseWeak").style.display = "none";
+    var pool = phraseUnits(cat);
+    var box = document.getElementById("phraseQuiz");
+    if (pool.length < 2) { box.innerHTML = '<div class="ph-empty">内容太少，无法出题</div>'; return; }
+    var n = Math.min(12, pool.length);
+    var picked = [];
+    var copy = pool.slice();
+    for (var i = 0; i < n; i++) {
+      var r = Math.floor(Math.random() * copy.length);
+      picked.push(copy.splice(r, 1)[0]);
+    }
+    var qidx = 0, correct = 0;
+    function buildQuestion() {
+      var u = picked[qidx];
+      var opts = [u];
+      var c2 = pool.slice();
+      while (opts.length < 4 && c2.length) {
+        var r2 = Math.floor(Math.random() * c2.length);
+        var cand = c2.splice(r2, 1)[0];
+        if (cand.jp !== u.jp && !opts.some(function (o) { return o.jp === cand.jp; })) opts.push(cand);
+      }
+      opts.sort(function () { return Math.random() - 0.5; });
+      var correctIdx = opts.indexOf(u);
+      var pct = Math.round(qidx / picked.length * 100);
+      box.innerHTML =
+        '<div class="ph-prog"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="pq-item"><div class="pq-q">第 ' + (qidx + 1) + ' / ' + picked.length + ' 题</div>' +
+        '<div class="pq-sub">中文「' + u.cn + '」对应的日语是？ <button class="ph-mini-btn" data-sp="1">🔊 听</button></div>' +
+        opts.map(function (o, oi) {
+          return '<button class="pq-opt" data-correct="' + (oi === correctIdx ? 1 : 0) + '">' + o.jp +
+            '<br><span style="font-size:12px;color:var(--ink-3);font-weight:400">' + o.rom + '</span></button>';
+        }).join("") + '</div>';
+      box.querySelector("[data-sp]").onclick = function (e) { e.stopPropagation(); speak(u.jp); };
+      box.querySelectorAll(".pq-opt").forEach(function (ob) {
+        ob.onclick = function () {
+          if (ob.disabled) return;
+          var ok = ob.dataset.correct === "1";
+          box.querySelectorAll(".pq-opt").forEach(function (x) {
+            x.disabled = true;
+            if (x.dataset.correct === "1") x.classList.add("ok");
+          });
+          if (ok) { ob.classList.add("ok"); correct++; }
+          else { ob.classList.add("no"); phraseMarkWeak(u); }
+          qidx++;
+          setTimeout(function () {
+            if (qidx >= picked.length) finishQuiz(correct, picked.length);
+            else buildQuestion();
+          }, 750);
+        };
+      });
+    }
+    function finishQuiz(c, total) {
+      var rate = Math.round(c / total * 100);
+      var pass = rate >= 70;
+      box.innerHTML = '<div class="ph-stat">' +
+        '<div class="big" style="color:' + (pass ? "var(--green)" : "var(--red)") + '">' + rate + '%</div>' +
+        '<div style="font-size:15px;font-weight:700;margin:6px 0">' + (pass ? "🎉 过关！" : "再练练～") + '</div>' +
+        '<div style="color:var(--ink-3);font-size:13px">答对 ' + c + ' / ' + total + ' · 合格线 70%</div>' +
+        '<button class="btn-primary" style="margin-top:16px" id="retryBtn">🔁 再来一次</button></div>';
+      document.getElementById("retryBtn").onclick = function () { qidx = 0; correct = 0; buildQuestion(); };
+    }
+    buildQuestion();
+  }
+
+  function renderPhraseWeak() {
+    document.getElementById("phraseBox").style.display = "none";
+    document.getElementById("phraseLearn").style.display = "none";
+    document.getElementById("phraseQuiz").style.display = "none";
+    document.getElementById("phraseWeak").style.display = "";
+    var d = phraseData();
+    var box = document.getElementById("phraseWeak");
+    var keys = Object.keys(d.weak);
+    if (!keys.length) {
+      box.innerHTML = '<div class="ph-empty">📕 生句本还是空的<br>背诵时选「✗ 不会」、或过关答错的句子会自动进来</div>';
+      return;
+    }
+    var html = '<div class="ph-card" style="border-color:#F5D5D5">';
+    keys.forEach(function (k) {
+      var u = d.weak[k];
+      html += '<div class="ph-line" data-speak="' + u.jp + '">' +
+        '<span class="pj">' + u.jp + '</span>' +
+        '<span class="pr">' + u.rom + '</span>' +
+        '<span class="pc">' + u.cn + '</span>' +
+        '<button class="ph-mini-btn" data-rm="' + k + '" style="margin-left:6px">移除</button>' +
+        phraseSpeakBtn(u.jp) + '</div>';
+    });
+    html += '</div>';
+    box.innerHTML = html;
+    box.querySelectorAll(".ph-line[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        if (e.target.dataset.rm) return;
+        el.classList.add("tap"); setTimeout(function () { el.classList.remove("tap"); }, 260);
+        speak(el.dataset.speak);
+      });
+    });
+    box.querySelectorAll("[data-rm]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var d2 = phraseData();
+        delete d2.weak[el.dataset.rm];
+        save(); updatePhraseBadges(); renderPhraseWeak();
+      });
+    });
+    box.querySelectorAll(".pbtn[data-speak]").forEach(function (el) {
+      el.addEventListener("click", function (e) { e.stopPropagation(); speak(el.dataset.speak); });
+    });
+  }
+
   // ---------- 句型数据（每个例句可点击发音） ----------
   var PATTERNS = [
     { t: "〜は〜です", m: "「A 是 B」——最基础的判断句。は是主题助词，读作 wa。",
@@ -4457,6 +4799,166 @@
     ]}
   ];
 
+  // ---------- 背诵库数据（句子 / 短文 / 对话，每句含罗马音与中文） ----------
+  // 单元统一结构: { jp, rom, cn }；对话单元额外有 who（A/B 角色）
+  var PHRASE_LIB = {
+    sentences: [
+      { jp: "こんにちは", rom: "konnichiwa", cn: "你好" },
+      { jp: "おはようございます", rom: "ohayou gozaimasu", cn: "早上好" },
+      { jp: "こんばんは", rom: "konbanwa", cn: "晚上好" },
+      { jp: "おやすみなさい", rom: "oyasuminasai", cn: "晚安" },
+      { jp: "ありがとうございます", rom: "arigatou gozaimasu", cn: "谢谢你" },
+      { jp: "すみません", rom: "sumimasen", cn: "不好意思 / 打扰了" },
+      { jp: "ごめんなさい", rom: "gomennasai", cn: "对不起" },
+      { jp: "お願いします", rom: "onegaishimasu", cn: "拜托了 / 请" },
+      { jp: "大丈夫ですか", rom: "daijoubu desuka", cn: "你还好吗" },
+      { jp: "大丈夫です", rom: "daijoubu desu", cn: "我没事 / 没问题" },
+      { jp: "分かりました", rom: "wakarimashita", cn: "我明白了" },
+      { jp: "分かりません", rom: "wakarimasen", cn: "我不明白" },
+      { jp: "行きます", rom: "ikimasu", cn: "去" },
+      { jp: "食べます", rom: "tabemasu", cn: "吃" },
+      { jp: "飲みます", rom: "nomimasu", cn: "喝" },
+      { jp: "見ます", rom: "mimasu", cn: "看" },
+      { jp: "聞きます", rom: "kikimasu", cn: "听" },
+      { jp: "好きです", rom: "sukidesu", cn: "喜欢" },
+      { jp: "嫌いです", rom: "kiraidesu", cn: "讨厌" },
+      { jp: "疲れました", rom: "tsukaremashita", cn: "累了" },
+      { jp: "お腹が空きました", rom: "onaka ga sukimashita", cn: "肚子饿了" },
+      { jp: "喉が渇きました", rom: "nodo ga kawakimashita", cn: "口渴了" },
+      { jp: "いくらですか", rom: "ikura desuka", cn: "多少钱" },
+      { jp: "どこですか", rom: "doko desuka", cn: "在哪里" },
+      { jp: "何ですか", rom: "nan desuka", cn: "是什么" },
+      { jp: "誰ですか", rom: "dare desuka", cn: "是谁" },
+      { jp: "いつですか", rom: "itsu desuka", cn: "什么时候" },
+      { jp: "一緒に行きましょう", rom: "issho ni ikimashou", cn: "一起去吧" },
+      { jp: "頑張ってください", rom: "ganbatte kudasai", cn: "请加油" },
+      { jp: "気をつけて", rom: "ki wo tsukete", cn: "小心 / 路上小心" },
+      { jp: "すごい", rom: "sugoi", cn: "好厉害" },
+      { jp: "本当ですか", rom: "hontou desuka", cn: "真的吗" },
+      { jp: "ちょっと待って", rom: "chotto matte", cn: "等一下" },
+      { jp: "また明日", rom: "mata ashita", cn: "明天见" },
+      { jp: "さようなら", rom: "sayounara", cn: "再见" }
+    ],
+    passages: [
+      { title: "🪪 自我介绍", lines: [
+        { jp: "はじめまして。", rom: "hajimemashite", cn: "初次见面。" },
+        { jp: "私の名前はリイです。", rom: "watashi no namae wa rii desu", cn: "我的名字是李。" },
+        { jp: "中国から来ました。", rom: "chuugoku kara kimashita", cn: "我来自中国。" },
+        { jp: "よろしくお願いします。", rom: "yoroshiku onegaishimasu", cn: "请多关照。" }
+      ]},
+      { title: "🌅 我的一天", lines: [
+        { jp: "毎朝七時に起きます。", rom: "maiasa shichi-ji ni okimasu", cn: "每天早上七点起床。" },
+        { jp: "八時に朝ご飯を食べます。", rom: "hachi-ji ni asagohan wo tabemasu", cn: "八点吃早饭。" },
+        { jp: "会社へ行きます。", rom: "kaisha e ikimasu", cn: "去公司。" },
+        { jp: "夜十一時に寝ます。", rom: "yoru juuichi-ji ni nemasu", cn: "晚上十一点睡觉。" }
+      ]},
+      { title: "☀️ 好天气", lines: [
+        { jp: "今日はいい天気ですね。", rom: "kyou wa ii tenki desu ne", cn: "今天天气真好啊。" },
+        { jp: "晴れていて、暖かいです。", rom: "harete ite, atatakai desu", cn: "晴朗又暖和。" },
+        { jp: "散歩に行きませんか。", rom: "sanpo ni ikimasen ka", cn: "不去散散步吗？" },
+        { jp: "いいですね、行きましょう。", rom: "ii desu ne, ikimashou", cn: "好啊，走吧。" }
+      ]},
+      { title: "☕ 在咖啡店", lines: [
+        { jp: "すみません、メニューをください。", rom: "sumimasen, menyuu wo kudasai", cn: "麻烦给我菜单。" },
+        { jp: "コーヒーとケーキをお願いします。", rom: "koohii to keeki wo onegaishimasu", cn: "我要咖啡和蛋糕。" },
+        { jp: "ここで食べます。", rom: "koko de tabemasu", cn: "在这吃。" },
+        { jp: "ごちそうさまでした。", rom: "gochisousama deshita", cn: "谢谢款待（吃完说）。" }
+      ]},
+      { title: "📺 喜欢的动漫", lines: [
+        { jp: "私はアニメが大好きです。", rom: "watashi wa anime ga daisukidesu", cn: "我超喜欢动漫。" },
+        { jp: "特に少年漫画を見ます。", rom: "tokuni shounen manga wo mimasu", cn: "特别看少年漫画。" },
+        { jp: "週末によく見ます。", rom: "shuumatsu ni yoku mimasu", cn: "周末经常看。" },
+        { jp: "おすすめを教えてください。", rom: "osusume wo oshiete kudasai", cn: "请告诉我你推荐的。" }
+      ]},
+      { title: "🎬 周末计划", lines: [
+        { jp: "今度の週末は忙しいです。", rom: "kondo no shuumatsu wa isogashii desu", cn: "这个周末很忙。" },
+        { jp: "友達と映画を見ます。", rom: "tomodachi to eiga wo mimasu", cn: "和朋友看电影。" },
+        { jp: "それから買い物に行きます。", rom: "sorekara kaimono ni ikimasu", cn: "然后去购物。" },
+        { jp: "とても楽しみです。", rom: "totemo tanoshimi desu", cn: "非常期待。" }
+      ]},
+      { title: "🙇 道歉与解释", lines: [
+        { jp: "遅れてすみません。", rom: "okurete sumimasen", cn: "迟到了，不好意思。" },
+        { jp: "電車が遅れました。", rom: "densha ga okuremashita", cn: "电车晚点了。" },
+        { jp: "次は早く来ます。", rom: "tsugi wa hayaku kimasu", cn: "下次早点来。" },
+        { jp: "気にしないでください。", rom: "ki ni shinaide kudasai", cn: "请别在意。" }
+      ]},
+      { title: "⭐ 谈角色（动漫）", lines: [
+        { jp: "あのキャラクターは強いです。", rom: "ano kyarakutaa wa tsuyoi desu", cn: "那个角色很强。" },
+        { jp: "性格が優しいです。", rom: "seikaku ga yasashii desu", cn: "性格很温柔。" },
+        { jp: "みんなに人気があります。", rom: "minna ni ninki ga arimasu", cn: "大家都很喜欢他。" },
+        { jp: "私の推しです。", rom: "watashi no oshi desu", cn: "是我的本命。" }
+      ]}
+    ],
+    dialogs: [
+      { title: "👋 初次见面", lines: [
+        { who: "A", jp: "はじめまして。", rom: "hajimemashite", cn: "初次见面。" },
+        { who: "B", jp: "はじめまして。", rom: "hajimemashite", cn: "初次见面。" },
+        { who: "A", jp: "名前は何ですか。", rom: "namae wa nan desuka", cn: "你叫什么名字？" },
+        { who: "B", jp: "タナカです。", rom: "tanaka desu", cn: "我是田中。" },
+        { who: "A", jp: "よろしくお願いします。", rom: "yoroshiku onegaishimasu", cn: "请多关照。" }
+      ]},
+      { title: "🍜 在餐厅", lines: [
+        { who: "A", jp: "いらっしゃいませ。", rom: "irasshaimase", cn: "欢迎光临。" },
+        { who: "B", jp: "一人です。", rom: "hitori desu", cn: "一位。" },
+        { who: "A", jp: "ご注文は？", rom: "gochuumon wa", cn: "您点什么？" },
+        { who: "B", jp: "ラーメンをください。", rom: "raamen wo kudasai", cn: "请给我拉面。" },
+        { who: "A", jp: "かしこまりました。", rom: "kashikomarimashita", cn: "明白了（马上为您准备）。" }
+      ]},
+      { title: "🛒 买东西", lines: [
+        { who: "A", jp: "いくらですか。", rom: "ikura desuka", cn: "多少钱？" },
+        { who: "B", jp: "二千円です。", rom: "nisen-en desu", cn: "2000日元。" },
+        { who: "A", jp: "安くなりませんか。", rom: "yasuku narimasen ka", cn: "能便宜点吗？" },
+        { who: "B", jp: "では、千八百円にします。", rom: "dewa, sen happyaku-en ni shimasu", cn: "那就1800日元吧。" },
+        { who: "A", jp: "これをください。", rom: "kore wo kudasai", cn: "我要这个。" }
+      ]},
+      { title: "🚉 问路", lines: [
+        { who: "A", jp: "すみません、駅はどこですか。", rom: "sumimasen, eki wa doko desuka", cn: "不好意思，车站在哪？" },
+        { who: "B", jp: "まっすぐ行ってください。", rom: "massugu itte kudasai", cn: "请直走。" },
+        { who: "A", jp: "右ですか、左ですか。", rom: "migi desuka, hidari desuka", cn: "是右还是左？" },
+        { who: "B", jp: "右に曲がってください。", rom: "migi ni magatte kudasai", cn: "请右转。" },
+        { who: "A", jp: "ありがとうございます。", rom: "arigatou gozaimasu", cn: "谢谢。" }
+      ]},
+      { title: "📞 打电话", lines: [
+        { who: "A", jp: "もしもし、タナカです。", rom: "moshi moshi, tanaka desu", cn: "喂，我是田中。" },
+        { who: "B", jp: "こんばんは、元気ですか。", rom: "konbanwa, genki desuka", cn: "晚上好，还好吗？" },
+        { who: "A", jp: "はい、元気です。", rom: "hai, genki desu", cn: "嗯，很好。" },
+        { who: "B", jp: "明日会いましょう。", rom: "ashita aimashou", cn: "明天见一面吧。" }
+      ]},
+      { title: "📺 聊动漫", lines: [
+        { who: "A", jp: "このアニメ見ましたか。", rom: "kono anime mimashitaka", cn: "这部动漫看了吗？" },
+        { who: "B", jp: "はい、面白かったです。", rom: "hai, omoshirokatta desu", cn: "看了，很有趣。" },
+        { who: "A", jp: "私も好きです。", rom: "watashi mo sukidesu", cn: "我也喜欢。" },
+        { who: "B", jp: "次の話が楽しみです。", rom: "tsugi no hanashi ga tanoshimi desu", cn: "很期待下一集。" }
+      ]},
+      { title: "✏️ 借东西", lines: [
+        { who: "A", jp: "ペンを貸してくれますか。", rom: "pen wo kashite kuremasuka", cn: "能借我支笔吗？" },
+        { who: "B", jp: "はい、どうぞ。", rom: "hai, douzo", cn: "好的，请拿。" },
+        { who: "A", jp: "ありがとう。", rom: "arigatou", cn: "谢谢。" },
+        { who: "B", jp: "いいえ。", rom: "ie", cn: "不客气。" }
+      ]},
+      { title: "👋 道别", lines: [
+        { who: "A", jp: "もう行きます。", rom: "mou ikimasu", cn: "我要走了。" },
+        { who: "B", jp: "気をつけて。", rom: "ki wo tsukete", cn: "路上小心。" },
+        { who: "A", jp: "また明日。", rom: "mata ashita", cn: "明天见。" },
+        { who: "B", jp: "さようなら。", rom: "sayounara", cn: "再见。" }
+      ]}
+    ]
+  };
+
+  // 取某类别下的全部句子单元（用于背诵/考核），key 用日文原文
+  function phraseUnits(cat) {
+    var out = [];
+    if (cat === "sentence") {
+      PHRASE_LIB.sentences.forEach(function (s) { out.push(s); });
+    } else if (cat === "passage") {
+      PHRASE_LIB.passages.forEach(function (p) { p.lines.forEach(function (s) { out.push(s); }); });
+    } else if (cat === "dialog") {
+      PHRASE_LIB.dialogs.forEach(function (d) { d.lines.forEach(function (s) { out.push(s); }); });
+    }
+    return out;
+  }
+  function phraseUnitKey(u) { return u.jp; }
+
   function renderDialogs() {
     var box = document.getElementById("dialogBox");
     if (!box) return;
@@ -4503,7 +5005,7 @@
         stabs.forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
         // 全部面板隐藏，再显示当前
-        ["map", "kana", "vocab", "plan", "res"].forEach(function (k) {
+        ["map", "kana", "vocab", "phrase", "plan", "res"].forEach(function (k) {
           var el = document.getElementById("kv-" + k);
           if (el) el.style.display = (k === btn.dataset.lv) ? "block" : "none";
         });
@@ -4664,6 +5166,8 @@
   initTabs();
   initAll();
   initVocabHub();
+  initPhraseHub();
+  updatePhraseBadges();
   renderAll._day = todayKey();
   renderAll();
 
@@ -4698,6 +5202,16 @@
       learn: startVocabLearn,
       quiz: startVocabQuiz,
       weak: renderVocabWeak
+    },
+    phrase: {
+      lib: PHRASE_LIB,
+      units: phraseUnits,
+      browse: renderPhraseBrowse,
+      learn: renderPhraseLearn,
+      quiz: renderPhraseQuiz,
+      weak: renderPhraseWeak,
+      markKnown: phraseMarkKnown,
+      markWeak: phraseMarkWeak
     }
   };
 })();
