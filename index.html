@@ -2673,6 +2673,119 @@
     renderKanaTable("kanaYou", KANA_YOU, false);
   }
 
+  // ================= 50音图题库生成器（补足每关题量 + 循环记忆素材） =================
+  // 各关练习的假名范围（从 KANA_* 表提取）
+  function kanaScope(n) {
+    var out = [];
+    function add(rows) { if (!rows) return; rows.forEach(function (r) { r.forEach(function (c) { if (c[1]) out.push(c); }); }); }
+    if (n === "0-1") add([KANA_BASE[0]]);
+    else if (n === "0-2") add([KANA_BASE[1]]);
+    else if (n === "0-3") add([KANA_BASE[2]]);
+    else if (n === "0-4") add([KANA_BASE[3]]);
+    else if (n === "0-5") add([KANA_BASE[4]]);
+    else if (n === "0-6") add([KANA_BASE[5]]);
+    else if (n === "0-7") add([KANA_BASE[6], KANA_BASE[7], KANA_BASE[8]]);
+    else if (n === "0-8") add([KANA_BASE[9], KANA_BASE[10]]);
+    else if (n === "0-9") add(KANA_BASE);
+    else if (n === "0-10") { add(KANA_DAKU); add(KANA_YOU); }
+    return out;
+  }
+
+  // 为某正确答案生成 4 选 1（kind: roma/hira/kata 决定干扰项取自哪个字段）
+  function kanaChoices(ks, correctText, kind) {
+    var idx = kind === "roma" ? 0 : kind === "kata" ? 2 : 1;
+    var pool = [];
+    ks.forEach(function (c) {
+      var t = c[idx];
+      if (t && t !== correctText && pool.indexOf(t) < 0) pool.push(t);
+    });
+    var wrongs = [], p = 0;
+    while (wrongs.length < 3 && pool.length) {
+      wrongs.push(pool[p % pool.length]); p++;
+      if (p >= pool.length) break;
+    }
+    while (wrongs.length < 3) wrongs.push(kind === "roma" ? "?" : "？");
+    var opts = wrongs.slice(0, 3);
+    var ci = Math.floor(Math.random() * 4);
+    opts.splice(ci, 0, correctText);
+    return { o: opts, a: ci };
+  }
+
+  // 单词级选择题（例句互作干扰项）
+  function wordChoices(ex, jp) {
+    var others = ex.filter(function (e) { return e[0] !== jp; }).map(function (e) { return e[0]; });
+    var wrongs = others.slice(0, 3);
+    while (wrongs.length < 3) wrongs.push("？");
+    var opts = wrongs.slice(0, 3);
+    var ci = Math.floor(Math.random() * 4);
+    opts.splice(ci, 0, jp);
+    return { o: opts, a: ci };
+  }
+
+  // 程序化生成某关题目，补足到 30~45 题，并保留原手工精华题
+  function buildKanaQuestions(lv) {
+    var ks = kanaScope(lv.n);
+    var manual = (lv.q || []).slice();
+    if (!ks.length) return manual;
+    var isKata = (lv.n === "0-9");
+    var faceKind = isKata ? "kata" : "hira";
+    var gen = [];
+
+    // 生成单个假名的多种题型（便于基础轮 + 补足轮复用）
+    function pushKanaItems(c) {
+      var rom = c[0], hira = c[1], kata = c[2];
+      var face = isKata ? kata : hira;
+      var ch1 = kanaChoices(ks, rom, "roma");
+      gen.push({ ty: "c", q: "「" + face + "」的读音（罗马字）是？", o: ch1.o, a: ch1.a, e2: face + "＝" + rom + "。" });
+      var ch2 = kanaChoices(ks, face, faceKind);
+      gen.push({ ty: "c", q: "罗马音「" + rom + "」对应的假名是？", o: ch2.o, a: ch2.a, e2: rom + "＝" + face + "。" });
+      var ch3 = kanaChoices(ks, face, faceKind);
+      gen.push({ ty: "c", q: "🔊 听发音，选出听到的假名", o: ch3.o, a: ch3.a, audio: hira, e2: hira + "＝" + rom + "。" });
+      gen.push({ ty: "f", q: "罗马音「" + rom + "」写作什么假名？", a: face, hint: rom, e2: rom + "＝" + face + "。" });
+      if (isKata) {
+        var ch5 = kanaChoices(ks, hira, "hira");
+        gen.push({ ty: "c", q: "片假名「" + kata + "」的平假名是？", o: ch5.o, a: ch5.a, e2: kata + "＝" + hira + "。" });
+      } else if (kata && kata !== hira) {
+        if (Math.random() < 0.5) {
+          var ch5b = kanaChoices(ks, kata, "kata");
+          gen.push({ ty: "c", q: "平假名「" + hira + "」的片假名是？", o: ch5b.o, a: ch5b.a, e2: hira + "＝" + kata + "。" });
+        } else {
+          var ch5c = kanaChoices(ks, hira, "hira");
+          gen.push({ ty: "c", q: "片假名「" + kata + "」的平假名是？", o: ch5c.o, a: ch5c.a, e2: kata + "＝" + hira + "。" });
+        }
+      }
+    }
+
+    // 基础轮：每个假名生成一组题型
+    ks.forEach(pushKanaItems);
+    // 例句：中译日选择题
+    (lv.ex || []).forEach(function (e) {
+      var wc = wordChoices(lv.ex, e[0]);
+      gen.push({ ty: "m", q: "「" + e[1] + "」用日语说是？", o: wc.o, a: wc.a, e2: e[0] + "＝" + e[1] + "。" });
+    });
+    // 补足到至少 30 题（小关卡如 わ・を・ん 假名少，循环补充强化记忆）
+    var TARGET_MIN = 30, guard = 0;
+    while (gen.length < TARGET_MIN - manual.length && guard < 10) {
+      ks.forEach(pushKanaItems); guard++;
+    }
+
+    // 合并：手工题必留，生成题截取上限
+    var CAP = 45;
+    var pool = gen.slice(); shuffleArr(pool);
+    var need = CAP - manual.length;
+    if (need < 0) need = 0;
+    var chosen = pool.slice(0, need);
+    var all = manual.concat(chosen);
+    return shuffleArr(all);
+  }
+
+  function isKanaFaceKind(isKata) { return isKata ? "kata" : "hira"; }
+
+  // 页面加载时一次性生成 50音图各关题目
+  function prepareKanaLevels() {
+    KANA_LEVELS.forEach(function (lv) { lv.q = buildKanaQuestions(lv); });
+  }
+
   // ================= 发音系统（多音源 + 安卓兼容） =================
   var speakOK = ("speechSynthesis" in window);
   var curAudio = null;
@@ -3316,8 +3429,7 @@
     html += '<div class="lv-head">' +
       '<div class="k">' + lv.unit + '</div>' +
       '<div class="n">' + lv.t + '</div>' +
-      '<div class="d">' + (lv.jp || "") + ' · 共 ' + lv.q.length + ' 题，答对 ' +
-        Math.round(lv.q.length * PASS_RATE) + ' 题以上即可过关</div></div>';
+      '<div class="d">' + (lv.jp || "") + ' · 共 ' + lv.q.length + ' 题 · 答对即过、答错循环重现，直到全部掌握</div></div>';
 
     // 知识点
     html += '<div class="kn-card"><h4><span class="bar"></span>📖 知识点讲解</h4>' +
@@ -3368,25 +3480,38 @@
     });
   }
 
-  // ---------- 答题 ----------
+  // ---------- 答题（多邻国式循环记忆：答对出队、答错移尾） ----------
   function startQuiz(lv) {
-    quizState = { lv: lv, i: 0, correct: 0, wrongList: [], answered: false };
+    var all = (lv.q || []).slice();
+    var queue = shuffleArr(all.slice());
+    quizState = {
+      lv: lv,
+      queue: queue,
+      cur: queue[0] || null,
+      correct: 0, wrong: 0, mastered: 0,
+      attempts: 0,
+      maxAttempts: Math.max(all.length, Math.ceil(all.length * 3)),
+      answered: false,
+      wrongSet: {}
+    };
     renderQuestion();
   }
 
   function renderQuestion() {
     var st = quizState, lv = st.lv;
-    var q = lv.q[st.i];
+    var q = st.cur;
+    if (!q) { showResult(); return; }
+    var totalQ = lv.q.length;
     var box = document.getElementById("quizWrap");
     if (!box) return;
 
     var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
       '<button class="btn btn-ghost" id="btnQuit" style="flex:0 0 auto;padding:9px 15px;font-size:13px">← 退出</button>' +
       '<div style="font-size:12.5px;font-weight:700;color:var(--ink-2)">' +
-        (st.i + 1) + ' / ' + lv.q.length + '</div></div>';
+        '已掌握 ' + st.mastered + ' / ' + totalQ + ' · 循环练</div></div>';
 
-    // 进度条
-    var pct = Math.round(st.i / lv.q.length * 100);
+    // 进度条（掌握进度）
+    var pct = totalQ ? Math.round(st.mastered / totalQ * 100) : 0;
     html += '<div style="height:6px;background:#EDF1F8;border-radius:4px;overflow:hidden;margin-bottom:14px">' +
       '<div style="height:100%;width:' + pct + '%;background:var(--primary);transition:width .3s"></div></div>';
 
@@ -3394,6 +3519,9 @@
     html += '<div class="quiz-stem"><span class="qn">Q' + (st.i + 1) + '</span>' + q.q + '</div>';
 
     if (q.ty === "c" || q.ty === "m") {
+      if (q.audio) {
+        html += '<div style="margin-bottom:10px"><button class="btn btn-primary" id="btnHear" style="padding:11px 18px">🔊 听发音</button></div>';
+      }
       // 选择题
       q.o.forEach(function (opt, k) {
         html += '<div class="opt" data-k="' + k + '"><span class="idx">' +
@@ -3444,7 +3572,7 @@
 
     var quit = document.getElementById("btnQuit");
     if (quit) quit.addEventListener("click", function () {
-      if (st.i > 0 || st.answered) { if (!confirm("退出后本关进度不保存，确定吗？")) return; }
+      if (st.attempts > 0 || st.answered) { if (!confirm("退出后本关进度不保存，确定吗？")) return; }
       closeLevel();
     });
 
@@ -3472,6 +3600,13 @@
     } else if (q.ty === "o") {
       bindOrder();
     }
+
+    // 听音选择题：自动播放一次 + 按钮重听
+    if (q.audio) {
+      var bh = document.getElementById("btnHear");
+      if (bh) bh.addEventListener("click", function () { speak(q.audio); });
+      setTimeout(function () { speak(q.audio); }, 350);
+    }
   }
 
   function shuffleIdx(n) {
@@ -3491,7 +3626,7 @@
 
   // ---------- 判定：选择题 ----------
   function checkChoice(k) {
-    var st = quizState, q = st.lv.q[st.i];
+    var st = quizState, q = st.cur;
     if (st.answered) return;
     st.answered = true;
     var ok = (k === q.a);
@@ -3508,7 +3643,7 @@
 
   // ---------- 判定：填空 / 听写 ----------
   function checkFill(val) {
-    var st = quizState, q = st.lv.q[st.i];
+    var st = quizState, q = st.cur;
     if (st.answered) return;
     var v = (val || "").trim();
     if (!v) { toast("请先输入答案"); return; }
@@ -3547,7 +3682,7 @@
 
   // ---------- 判定：排序 ----------
   function bindOrder() {
-    var st = quizState, q = st.lv.q[st.i];
+    var st = quizState, q = st.cur;
     var line = document.getElementById("orderLine");
     var pool = document.getElementById("orderPool");
     var picked = [];
@@ -3605,9 +3740,18 @@
 
   // ---------- 单题结算 ----------
   function finishOne(ok) {
-    var st = quizState, q = st.lv.q[st.i];
-    if (ok) st.correct++;
-    else st.wrongList.push({ lv: st.lv.n, lvName: st.lv.t, qi: st.i, q: q });
+    var st = quizState, q = st.cur;
+    if (ok) {
+      st.correct++;
+      st.queue.shift();          // 答对：移出队列（已掌握）
+      st.mastered++;
+      if (st.wrongSet[q.q]) delete st.wrongSet[q.q];  // 最终掌握则移出未掌握集
+    } else {
+      st.wrong++;
+      st.wrongSet[q.q] = { lv: st.lv.n, lvName: st.lv.t, q: q };  // 未掌握（按题干去重）
+      st.queue.push(st.queue.shift());  // 答错：移到队尾，稍后再出现
+    }
+    st.attempts++;
 
     // 显示解析
     var ex = document.getElementById("explainBox");
@@ -3616,15 +3760,15 @@
       ex.innerHTML = (ok ? '💡 ' : '📌 ') + q.e2;
     }
 
-    // 下一步
+    // 结束条件：队列清空（全部掌握）或达到循环上限
     var nw = document.getElementById("nextWrap");
-    var last = (st.i === st.lv.q.length - 1);
+    var finished = (st.queue.length === 0) || (st.attempts >= st.maxAttempts);
     if (nw) {
       nw.innerHTML = '<button class="btn btn-primary" id="btnNext" style="margin-top:4px">' +
-        (last ? "查看结果 🏁" : "下一题 →") + '</button>';
+        (finished ? "查看结果 🏁" : "下一题 →") + '</button>';
       document.getElementById("btnNext").addEventListener("click", function () {
-        if (last) showResult();
-        else { st.i++; renderQuestion(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+        if (finished) showResult();
+        else { st.cur = st.queue[0]; renderQuestion(); window.scrollTo({ top: 0, behavior: "smooth" }); }
       });
     }
   }
@@ -3633,19 +3777,20 @@
   function showResult() {
     var st = quizState, lv = st.lv;
     var total = lv.q.length;
-    var rate = st.correct / total;
-    var pass = rate >= PASS_RATE;
+    var done = st.correct + st.wrong;
+    var rate = done ? st.correct / done : 1;
+    var pass = (st.queue.length === 0) || (rate >= PASS_RATE);
     var box = document.getElementById("quizWrap");
 
     var html = '<div class="result ' + (pass ? "pass" : "fail") + '">' +
       '<div class="ico">' + (pass ? "🎉" : "💪") + '</div>' +
       '<div class="ttl">' + (pass ? "过关！" : "差一点") + '</div>' +
-      '<div class="sc">答对 ' + st.correct + ' / ' + total + ' 题，正确率 ' + Math.round(rate * 100) + '%</div>' +
+      '<div class="sc">练习 ' + st.attempts + ' 次 · 掌握 ' + st.mastered + ' / ' + total + ' · 正确率 ' + Math.round(rate * 100) + '%</div>' +
       '<div class="rs-bar"><div class="rs-in" style="width:' + Math.round(rate * 100) + '%;background:' +
         (pass ? "var(--green)" : "var(--orange)") + '"></div></div>' +
       '<div class="rs-stat">' +
         '<span>✓ 正确 ' + st.correct + '</span>' +
-        '<span>✗ 错误 ' + st.wrongList.length + '</span>' +
+        '<span>✗ 未掌握 ' + Object.keys(st.wrongSet).length + '</span>' +
         '<span>过关线 ' + Math.round(PASS_RATE * 100) + '%</span>' +
       '</div></div>';
 
@@ -3667,15 +3812,17 @@
     } else {
       html += '<div class="kn-card" style="background:#FFF8F0;border-color:#F2C99B">' +
         '<h4><span class="bar" style="background:var(--orange)"></span>📖 建议再看一遍知识点</h4>' +
-        '<div class="kn-text">正确率需要达到 ' + Math.round(PASS_RATE * 100) + '% 才算过关。' +
-        '回到知识点讲解页复习一遍，再重做本关——这很正常，**重复三次就记住了**。</div></div>';
+        '<div class="kn-text">本关用「答对即过、答错循环重现」的方式练习——' +
+        '没掌握的会反复出现，直到你全部答对。正确率需达 ' + Math.round(PASS_RATE * 100) + '% 或过完全部题。' +
+        '回去复习一遍再挑战，重复就记住了。</div></div>';
     }
 
-    // 错题展示
-    if (st.wrongList.length) {
+    // 最终未掌握题展示
+    var wrongArr = Object.keys(st.wrongSet).map(function (k) { return st.wrongSet[k]; });
+    if (wrongArr.length) {
       html += '<div class="kn-card"><h4><span class="bar" style="background:var(--red)"></span>' +
-        '❌ 本次错题（' + st.wrongList.length + '）</h4><div class="kn-list">';
-      st.wrongList.forEach(function (w) {
+        '❌ 仍需巩固（' + wrongArr.length + '）</h4><div class="kn-list">';
+      wrongArr.forEach(function (w) {
         var q = w.q;
         var rightAns = q.ty === "c" || q.ty === "m" ? q.o[q.a]
           : q.ty === "o" ? q.a.join("") : q.a;
@@ -3695,8 +3842,8 @@
 
     box.innerHTML = html;
 
-    // 保存错题到错题本
-    st.wrongList.forEach(function (w) { addWrong(w); });
+    // 保存最终未掌握题到错题本
+    Object.keys(st.wrongSet).forEach(function (k) { addWrong(st.wrongSet[k]); });
 
     var ba = document.getElementById("btnAgain");
     if (ba) ba.addEventListener("click", function () { startQuiz(lv); window.scrollTo({ top: 0, behavior: "smooth" }); });
@@ -5167,6 +5314,7 @@
   initVocabHub();
   initPhraseHub();
   updatePhraseBadges();
+  prepareKanaLevels();
   renderAll._day = todayKey();
   renderAll();
 
@@ -5186,6 +5334,9 @@
   // 调试/自动化句柄（只读）
   window.__JP__ = {
     LEVELS: LEVELS,
+    KANA_LEVELS: KANA_LEVELS,
+    buildKanaQuestions: buildKanaQuestions,
+    prepareKanaLevels: prepareKanaLevels,
     get state() { return quizState; },
     get cur() { return curLevel; },
     get lv() { return getLv(); },
