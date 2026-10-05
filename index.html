@@ -533,7 +533,7 @@
   .opt.wrong { background: #FDECEC; border-color: #F2A9A9; }
   .opt.wrong .idx { background: var(--red); color: #fff; }
   .opt.disabled { pointer-events: none; }
-  .opt-audio { font-size: 12px; color: var(--primary); margin-left: auto; }
+  .opt-audio { font-size: 12px; color: var(--primary); margin-left: auto; padding: 10px; cursor: pointer; }
 
   /* --- 结果 --- */
   .result {
@@ -3525,7 +3525,7 @@
       // 选择题
       q.o.forEach(function (opt, k) {
         html += '<div class="opt" data-k="' + k + '"><span class="idx">' +
-          "ABCD"[k] + '</span><span>' + opt + '</span>' +
+          "ABCD"[k] + '</span><span class="opt-txt">' + opt + '</span>' +
           (q.ty === "m" ? '<span class="opt-audio">🔊</span>' : "") + '</div>';
       });
     } else if (q.ty === "f") {
@@ -3579,10 +3579,22 @@
     // 绑定交互
     if (q.ty === "c" || q.ty === "m") {
       box.querySelectorAll(".opt").forEach(function (el) {
-        el.addEventListener("click", function () {
+        el.addEventListener("click", function (e) {
           if (st.answered) return;
-          if (q.ty === "m") speak(el.querySelector("span:last-child").textContent);
+          if (e.target.classList.contains("opt-audio")) return;
+          if (q.ty === "m") {
+            var content = el.querySelector(".opt-txt");
+            if (content) speak(content.textContent);
+          }
           checkChoice(parseInt(el.dataset.k, 10));
+        });
+      });
+      box.querySelectorAll(".opt-audio").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var opt = el.closest(".opt");
+          var content = opt ? opt.querySelector(".opt-txt") : null;
+          if (content) speak(content.textContent);
         });
       });
     } else if (q.ty === "f" || q.ty === "d") {
