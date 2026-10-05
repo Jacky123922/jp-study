@@ -2800,6 +2800,9 @@
     ];
   }
 
+  // 发音播放速度（1=原速，<1 放慢，便于初学者听清语调）
+  var JP_PLAY_RATE = 0.82;
+
   function speak(text) {
     if (curAudio) { try { curAudio.pause(); } catch (e) {} curAudio = null; }
     // 先给用户即时反馈（哪怕还没出声）
@@ -2819,6 +2822,7 @@
     try { a = new Audio(); } catch (e) { fallbackTTS(text); return; }
     a.preload = "auto";
     a.volume = 1;
+    a.playbackRate = JP_PLAY_RATE;
 
     var settled = false;
     var timer = setTimeout(function () {
@@ -2861,7 +2865,7 @@
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
       u.lang = "ja-JP";
-      u.rate = 0.85;
+      u.rate = JP_PLAY_RATE;
       u.volume = 1;
       var vs = window.speechSynthesis.getVoices() || [];
       var v = null;
